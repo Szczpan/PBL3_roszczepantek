@@ -7,6 +7,61 @@ info:
 servers:
   - url: "/api-v1"
 
+
+components:
+  schemas:
+    device:
+      type: "object"
+      required:
+        - main-id
+      properties:
+        main-id:
+          type: "integer"
+        sensor-nodes:
+          type: "array"
+          items:
+            $ref: '#/components/schemas/sensor-node'
+        valve-nodes:
+          type: "array"
+          items:
+            $ref: '#/components/schemas/valve-node'
+
+
+    sensor-node:
+      type: "object"
+      required:
+        - sensor-id
+      properties:
+        sensor-id:
+          type: "integer"
+        air-humidity:
+          type: "integer"
+        soil-moisture:
+          type: "integer"
+        air-temperature:
+          type: "integer"
+        battery-level:
+          type: "integer"
+
+
+    valve-node:
+      type: "object"
+      required:
+        - valve-id
+      properties:
+        valve-id:
+          type: "integer"
+        state:
+          type: "boolean"
+        time-left:
+          type: "integer"
+
+
+
+
+
+
+
 paths:
   /devices:
     post:

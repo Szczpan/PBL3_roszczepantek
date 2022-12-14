@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: "PBL3 project"
+  description: "Watering control based on weather forecast"
+  version: 1.0.0
+
+servers:
+  - url: "/api-v1"
+
+paths:
+  /devices:
+    post:
+      operationId: operations.main_post
+      responses:
+        200:
+          description: Successfully added new main node
+    get:
+      operationId: operations.get_all
+      responses:
+        200:
+          description: Successfully listed all main node IDs
+
+  /devices/{main-id}:
+    get:
+      operationId: operations.main_get
+      responses:
+        200:
+          description: Successfully sent info about whole system attached to this main node
+    post:
+      operationId: operations.slave_node_post
+      responses:
+        200:
+          description: Successfully added new slave node
+
+  /devices/{main-id}/{sensor-id}:
+    get:
+      operationId: operations.sensor_get
+      responses:
+        200:
+          description: Successfully listed info from all sensors from given sensor node
+
+  /devices/{main-id}/{valve-id}:
+    get:
+      operationId: operations.valve_get
+      responses:
+        200:
+          description: Successfully listed info from given valve node
+  

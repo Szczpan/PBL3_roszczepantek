@@ -1,0 +1,10 @@
+{
+  "devices":
+  [
+    {
+      "main_id": 1,
+      "sensors": [],
+      "valves": []
+    }
+  ]
+}

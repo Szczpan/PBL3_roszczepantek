@@ -26,7 +26,6 @@ components:
           items:
             $ref: '#/components/schemas/valve-node'
 
-
     sensor-node:
       type: "object"
       required:
@@ -43,7 +42,6 @@ components:
         battery-level:
           type: "integer"
 
-
     valve-node:
       type: "object"
       required:
@@ -57,6 +55,27 @@ components:
           type: "integer"
 
 
+  parameters:
+    main-id:
+      name: "main-id"
+      in: path
+      required: true
+      schema:
+        type: "integer"
+
+    sensor-id:
+      name: "sensor-id"
+      in: path
+      required: true
+      schema:
+        type: "integer"
+
+    valve-id:
+      name: "valve-id"
+      in: path
+      required: true
+      schema:
+        type: "integer"
 
 
 
@@ -76,6 +95,8 @@ paths:
           description: Successfully listed all main node IDs
 
   /devices/{main-id}:
+    parameters:
+      - $ref: "#/components/parameters/main-id"
     get:
       operationId: operations.getSingleMainNode
       responses:
@@ -88,6 +109,8 @@ paths:
           description: Successfully deleted single main node
 
   /devices/{main-id}/sensors:
+    parameters:
+      - $ref: "#/components/parameters/main-id"
     post:
       operationId: operations.addSensor
       responses:
@@ -95,6 +118,8 @@ paths:
           description: Successfully added new sensor node
 
   /devices/{main-id}/valves:
+    parameters:
+      - $ref: "#/components/parameters/main-id"
     post:
       operationId: operations.addValve
       responses:
@@ -102,6 +127,9 @@ paths:
           description: Successfully added new valve node
 
   /devices/{main-id}/sensors/{sensor-id}:
+    parameters:
+      - $ref: "#/components/parameters/main-id"
+      - $ref: "#/components/parameters/sensor-id"
     get:
       operationId: operations.getSensor
       responses:
@@ -114,6 +142,9 @@ paths:
           description: Deleted single sensor node
 
   /devices/{main-id}/valves/{valve-id}:
+    parameters:
+      - $ref: "#/components/parameters/main-id"
+      - $ref: "#/components/parameters/valve-id"
     get:
       operationId: operations.getValve
       responses:

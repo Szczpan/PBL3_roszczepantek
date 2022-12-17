@@ -1,3 +1,7 @@
+import json
+from flask import abort
+
+
 class MainDevice:
     def __init__(self, main_id, sensor_nodes, valve_nodes):
         self.main_id = main_id
@@ -20,17 +24,67 @@ class ValveNode:
         self.state = state
         self.time_left = time_left
 
-def main_post():
+
+def addMainNode():
     pass
 
 
-def get_all():
+def getAllMainNodes():
+    f = open("data.json", 'r')
+    data_json = json.loads(f.read())
+    f.close()
+
+    for device in data_json["devices"]:
+        print(device)
+
+    return data_json["devices"]
+
+def getSingleMainNode(main_id):
+    print(main_id)
+    f = open("data.json", 'r')
+    data_json = json.loads(f.read())
+    f.close()
+
+    for device in data_json["devices"]:
+        if main_id in device.values():
+            print(device)
+            return device
+
+    abort(404, f"Device with ID {main_id} not found")
+
+
+
+def deleteSingleMainNode(main_id):
+    with open("data.json", 'r') as f:
+        data_json = json.loads(f.read())
+
+    for device in data_json["devices"]:
+        if main_id in device.values():
+            data_json["devices"].remove(device)
+
+
+
+
+def addSensor():
     pass
 
 
-def main_get():
+def addValve():
     pass
 
 
-def slave_node_post():
+def getSensor(main_id, sensor_id):
+    print(main_id)
+    print(sensor_id)
+
+
+def deleteSensor():
+    pass
+
+
+def getValve():
+    pass
+
+
+def deleteValve():
     pass

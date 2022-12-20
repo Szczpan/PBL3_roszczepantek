@@ -52,17 +52,11 @@ def dataProcess (msg):
     s_nodeID = f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}'
     s_temperature_meas = f'0x{msg[4]}{msg[5]}'
     s_moisture_meas = f'0x{msg[6]}{msg[7]}'
-    print(s_nodeID, s_temperature_meas, s_moisture_meas)
-    h_nodeID = int(s_nodeID,16)
-    h_temperature_meas = int(s_temperature_meas,16)
-    h_moisture_meas = int(s_moisture_meas,16)
-    print(h_nodeID, h_temperature_meas, h_moisture_meas)
-    #nodeID = [int(x,base=16)]
-    #temperature_meas = [int(x,base=16) for x in h_temperature_meas]
-    #moisture_meas = [int(x,base=16) for x in h_moisture_meas]
-    
-    #processed_data = [nodeID, temperature_meas, moisture_meas]
-    #return processed_data
+    nodeID = int(s_nodeID,16)
+    temperature_meas = int(s_temperature_meas,16)
+    moisture_meas = int(s_moisture_meas,16)
+    processed_data = [nodeID, temperature_meas, moisture_meas]
+    return processed_data
     
         
     

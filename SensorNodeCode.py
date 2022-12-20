@@ -12,7 +12,7 @@ timer = Timer()
 moisureMeas=0
 temperatureMeas=0
 head=0
-nodeID=hex(0).lstrip("0x")
+nodeID=hex(0).lstrip("0x").zfill(2)
 battery=0
 
 # def makeCRC(code):
@@ -24,11 +24,11 @@ def measureNsend(timer):
     global temperature
     global uart
     global nodeID
-    moisureMeas=hex(moisure.read()).lstrip("0x")
+    moisureMeas=hex(moisure.read()).lstrip("0x").zfill(2)
     time.sleep(1)
-    temperatureMeas=hex(temperature.read()).lstrip("0x")
+    temperatureMeas=hex(temperature.read()).lstrip("0x").zfill(2)
     time.sleep(1)
-    msg=f'1{"%02d" % (nodeID,)}{"%02d" % (temperatureMeas,)}{"%02d" % (moisureMeas,)}'
+    msg=f'{nodeID}{temperatureMeas}{moisureMeas}'
     uart.write(f'AT+MSGHEX="{msg}"')
 
 def configLora():

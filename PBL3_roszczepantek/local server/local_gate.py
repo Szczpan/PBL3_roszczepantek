@@ -42,15 +42,14 @@ def loraConf(id, port):
     sendAT('AT+MODE=TEST')
     last_response = sendAT('AT+MODE')
     print(f'Changing LoRa module mode to TEST: {last_response}')
-    #sendAT('AT+CH=1-3')
-    #sendAT(f'AT+ID=DevAddr, "{id}"')
-    #sendAT('AT+PORT={port}')
     return 1
     
     
 
 def main():
-    receiveData()
+    last_response = receiveData()
+    print(f'Received data: {last_response}')
+    
     
 
 

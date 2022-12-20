@@ -36,7 +36,7 @@ def receiveData():
     return readData()
 
 def loraConf(id, port):
-    if connectTest() != '+AT: OK': 
+    if connectTest() != '+AT: OK\r\n': 
         return 0
     sendAT('AT+RESET')
     sendAT('AT+MODE=TEST')

@@ -9,7 +9,7 @@ sreadlen = 1024 # max number of chars to read from serial in one try
 
 def readData():
     received_data = ''
-    if uart.inWaiting():
+    while uart.inWaiting():
         received_data += (uart.read(uart.inWaiting())).decode('utf-8')
         sleep(0.5)
     return received_data

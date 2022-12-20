@@ -17,6 +17,8 @@ components:
       properties:
         main-id:
           type: "integer"
+          minimum: 0
+          maximum: 65536
         sensor-nodes:
           type: "array"
           items:
@@ -33,17 +35,28 @@ components:
       properties:
         sensor-id:
           type: "integer"
+          minimum: 0
+          maximum: 65536
         air-humidity:
           type: "integer"
+          minimum: 0
+          maximum: 255
         soil-moisture:
           type: "integer"
+          minimum: 0
+          maximum: 255
         air-temperature:
           type: "integer"
+          minimum: 0
+          maximum: 255
         battery-level:
           type: "integer"
+          minimum: 0
+          maximum: 255
         timestamp:
           type: "integer"
-
+          minimum: 0
+          maximum: 255
     valve-node:
       type: "object"
       required:
@@ -51,12 +64,18 @@ components:
       properties:
         valve-id:
           type: "integer"
+          minimum: 0
+          maximum: 65536
         state:
           type: "boolean"
         time-left:
           type: "integer"
+          minimum: 0
+          maximum: 255
         timestamp:
           type: "integer"
+          minimum: 0
+          maximum: 255
 
 
   parameters:
@@ -166,6 +185,14 @@ paths:
       responses:
         200:
           description: Successfully listed info from all sensors from given sensor node
+    put:
+      operationId: operations.updateSensor
+      requestBody:
+        x-body-name: "sensor_body"
+        $ref: "#/components/requestBodies/sensor-body"
+      responses:
+        200:
+          description: "Successfully updated sensor values"
     delete:
       operationId: operations.deleteSensor
       responses:
@@ -181,9 +208,18 @@ paths:
       responses:
         200:
           description: Successfully listed info from given valve node
+    put:
+      operationId: operations.updateValve
+      requestBody:
+        x-body-name: "valve_body"
+        $ref: "#/components/requestBodies/valve-body"
+      responses:
+        200:
+          description: "Successfully updated valve values"
     delete:
       operationId: operations.deleteValve
       responses:
         200:
           description: Deleted single valve node
+
   

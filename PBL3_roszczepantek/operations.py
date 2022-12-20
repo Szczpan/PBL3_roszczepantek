@@ -241,6 +241,104 @@ def deleteValve(main_id, valve_id):
     abort(404, f"Valve with ID {valve_id} not found in main node with ID {main_id}")
 
 
+def updateSensor(main_id, sensor_id, sensor_body):
+    # import json database
+    data_dict = read_from_json("data.json")
+
+    # iterate over all sensors in all main nodes to find given sensor node
+    for i, device in enumerate(data_dict["devices"]):
+        if main_id == device["main-id"]:
+            for j, sensor in enumerate(device["sensor-nodes"]):
+                if sensor_id == sensor["sensor-id"]:
+                    # after finding sensor node, make a new one based on the old one
+                    new_sensor_dict = create_sensor_dict(sensor_body, sensor)
+                    # check if new sensor node is correct
+                    if not new_sensor_dict:
+                        abort(400, "Request body doesn't contain sensor ID")
+                        return
+                    if sensor_id != new_sensor_dict["sensor-id"]:
+                        abort(400, f"ID from request body is different from url sensor ID")
+                        return
+
+                    # assign new sensor node to main node
+                    data_dict["devices"][i]["sensor-nodes"][j] = new_sensor_dict
+
+                    # write to file
+                    with open("data.json", 'w') as f:
+                        f.write(json.dumps(data_dict))
+
+                    return data_dict["devices"]
+
+    abort(404, f"Sensor node with ID {sensor_id} not found in main node with ID {main_id}")
+
+
+def create_sensor_dict(sensor_body, old_sensor_dict):
+    if "sensor-id" not in sensor_body:
+        return {}
+
+    new_sensor_dict = old_sensor_dict
+
+    if "air-humidity" in sensor_body:
+        new_sensor_dict["air-humidity"] = sensor_body["air-humidity"]
+
+    if "air-temperature" in sensor_body:
+        new_sensor_dict["air-temperature"] = sensor_body["air-temperature"]
+
+    if "soil-moisture" in sensor_body:
+        new_sensor_dict["soil-moisture"] = sensor_body["soil-moisture"]
+
+    if "battery-level" in sensor_body:
+        new_sensor_dict["battery-level"] = sensor_body["battery-level"]
+
+    new_sensor_dict["timestamp"] = get_timestamp()
+
+    return new_sensor_dict
+
+
+def updateValve(main_id, valve_id, valve_body):
+    # import from json database
+    data_dict = read_from_json("data.json")
+
+    # iterate over all sensors in all main nodes to find given valve node
+    for i, device in enumerate(data_dict["devices"]):
+        if main_id == device["main-id"]:
+            for j, valve in enumerate(device["valve-nodes"]):
+                if valve_id == valve["valve-id"]:
+                    new_valve_dict = create_valve_dict(valve_body, valve)
+
+                    if not new_valve_dict:
+                        abort(400, "Request body doesn't contain valve ID")
+
+                    if valve_id != new_valve_dict["valve-id"]:
+                        abort(400, "Valve IDs don't match")
+
+                    data_dict["devices"][i]["valve-nodes"][j] = new_valve_dict
+
+                    with open("data.json", 'w') as f:
+                        f.write(json.dumps(data_dict))
+
+                    return data_dict["devices"]
+
+    abort(404, f"Valve node with ID {valve_id} not found in main node with ID {main_id}")
+
+
+def create_valve_dict(valve_body, old_valve_dict):
+    if 'valve-id' not in valve_body:
+        return {}
+
+    new_valve_dict = old_valve_dict
+
+    if "state" in valve_body:
+        new_valve_dict["state"] = valve_body["state"]
+
+    if "time-left" in valve_body:
+        new_valve_dict["time-left"] = valve_body["time-left"]
+
+    new_valve_dict["timestamp"] = get_timestamp()
+
+    return new_valve_dict
+
+
 def get_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 

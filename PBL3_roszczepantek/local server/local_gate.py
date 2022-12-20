@@ -17,7 +17,7 @@ def readData():
 
 def connectTest():
     print('Sending test message')
-    uart.write(('AT').encode('utf-8'))
+    sendAT('AT')
     print('Test message sent')
     response = readData()
     print(f'Connection status: {response}')

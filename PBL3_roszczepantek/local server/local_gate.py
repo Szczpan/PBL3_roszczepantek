@@ -20,8 +20,6 @@ def connectTest():
     return response
 
 def sendAT(command):
-    while uart.inWaiting(): 
-        sleep(0.1)
     if not uart.inWaiting():
         uart.write((command + '\r\n').encode('utf-8'))
         sleep(0.5)
@@ -41,8 +39,7 @@ def loraConf(id, port):
         return 0
     last_response = sendAT('AT+RESET')
     print(f'Reseting LoRa module to default: {last_response}')
-    last_response = sendAT('AT+MODE=TEST')
-    sleep(0.5)
+    sendAT('AT+MODE=TEST')
     last_response = sendAT('AT+MODE')
     print(f'Changing LoRa module mode to TEST: {last_response}')
     return 1

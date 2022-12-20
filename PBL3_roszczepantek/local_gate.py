@@ -76,9 +76,12 @@ def get_lora_sensor():
         sensor = SensorNode(sensor_data[0], 0, sensor_data[2], sensor_data[1], 0)
         return 1
     return 0
-    
-    
 
+#OPENS VALVE FOR CERTAIN TIME (for time = -1 closes it)
+def open_valve(nodeID, time):
+    return 1
+
+    
 if __name__ == "__main__":
     if loraConf("00 01 0F 2C", 8) == 0:
         print("Error occured: connecting error")

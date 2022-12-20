@@ -3,7 +3,7 @@ import serial
 from time import time, sleep
 import sys
 
-uart = serial.Serial("/dev/ttyS0", baudrate=115200, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=8, timeout=1)
+uart = serial.Serial("/dev/ttyS0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=8, timeout=1)
 
 sreadlen = 1024 # max number of chars to read from serial in one try 
 

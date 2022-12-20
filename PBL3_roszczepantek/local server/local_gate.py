@@ -49,17 +49,16 @@ def loraConf(id, port):
     return 1
 
 def dataProcess (msg):
-    s_values = msg.split()
-    values = [eval(x) for x in s_values]
-    nodeID = []
-    temperature_meas = [] 
-    moisture_meas = []
-    for x in range (0,3):
-        nodeID[x] = values[x]
-    for x in range (4,4):
-        temperature_meas[x] = values[x]
-    for x in range (5,5):
-        moisture_meas[x] = values[x]
+    s_nodeID = [f'{msg[0]}{msg[1]}', f'{msg[2]}{msg[3]}']
+    s_temperature_meas = [f'{msg[4]}{msg[5]}'] 
+    s_moisture_meas = [f'{msg[6]}{msg[7]}']
+    h_nodeID = [eval(x) for x in s_nodeID]
+    h_temperature_meas = [eval(x) for x in s_temperature_meas]
+    h_moisture_meas = [eval(x) for x in s_moisture_meas]
+    nodeID = [int(x,base=16) for x in h_nodeID]
+    temperature_meas = [int(x,base=16) for x in h_temperature_meas]
+    moisture_meas = [int(x,base=16) for x in h_moisture_meas]
+    
     processed_data = [nodeID, temperature_meas, moisture_meas]
     return processed_data
     
@@ -67,7 +66,7 @@ def dataProcess (msg):
     
 
 def main():
-    sensor_data = dataProcess("12 13 14 15 16 17")
+    sensor_data = dataProcess('50F60F0A')
     print(sensor_data)
     while True:
         last_response = receiveData()

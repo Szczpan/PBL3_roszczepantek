@@ -41,6 +41,7 @@ def loraConf(id, port):
     sleep(0.5)
     print(f'Reseting LoRa module to default: {last_response}')
     sendAT('AT+MODE=TEST')
+    sleep(0.5)
     while last_response != '+MODE: TEST\r\n':
         last_response = sendAT('AT+MODE')
         sleep(0.1)

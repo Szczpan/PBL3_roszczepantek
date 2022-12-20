@@ -47,10 +47,17 @@ def loraConf(id, port):
         sleep(0.1)
         print(f'Changing LoRa module mode to TEST: {last_response}')
     return 1
+
+def data_process (msg):
+    s_values = msg.split()
+    values = [eval(x) for x in s_values]
+    print(values)
     
+        
     
 
 def main():
+    data_process("11 22 33 44 55")
     while True:
         last_response = receiveData()
         if last_response != ' ':

@@ -20,6 +20,7 @@ def connectTest():
     return response
 
 def sendAT(command):
+    while uart.inWaiting():
     if not uart.inWaiting():
         uart.write((command + '\r\n').encode('utf-8'))
         sleep(0.5)

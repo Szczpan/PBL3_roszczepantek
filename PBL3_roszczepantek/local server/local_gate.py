@@ -24,7 +24,7 @@ def connectTest():
     return response
 
 def sendAT(command):
-    uart.write((f'{command} \r\n').encode('utf-8'))
+    uart.write((command + '\r\n').encode('utf-8'))
     sleep(0.5)
     return readData()
 

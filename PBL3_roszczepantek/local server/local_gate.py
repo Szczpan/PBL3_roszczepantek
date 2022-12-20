@@ -48,20 +48,32 @@ def loraConf(id, port):
         print(f'Changing LoRa module mode to TEST: {last_response}')
     return 1
 
-def data_process (msg):
+def dataProcess (msg):
     s_values = msg.split()
     values = [eval(x) for x in s_values]
-    print(values)
+    nodeID = []
+    temperature_meas = [] 
+    moisture_meas = []
+    for x in range (0,3):
+        nodeID[x] = values[x]
+    for x in range (4,4):
+        temperature_meas[x] = values[x]
+    for x in range (5,5):
+        moisture_meas[x] = values[x]
+    processed_data = [nodeID, temperature_meas, moisture_meas]
+    return processed_data
     
         
     
 
 def main():
-    data_process("11 22 33 44 55")
+    sensor_data = dataProcess("12 13 14 15 16 17")
+    print(sensor_data)
     while True:
         last_response = receiveData()
         if last_response != ' ':
             break
+    
     
     
     

@@ -10,7 +10,7 @@ servers:
 
 components:
   schemas:
-    device:
+    main-device:
       type: "object"
       required:
         - main-id
@@ -25,7 +25,6 @@ components:
           type: "array"
           items:
             $ref: '#/components/schemas/valve-node'
-
 
     sensor-node:
       type: "object"
@@ -43,7 +42,6 @@ components:
         battery-level:
           type: "integer"
 
-
     valve-node:
       type: "object"
       required:
@@ -57,7 +55,41 @@ components:
           type: "integer"
 
 
+  parameters:
+    main-id:
+      name: "main-id"
+      in: path
+      required: true
+      schema:
+        type: "integer"
 
+    sensor-id:
+      name: "sensor-id"
+      in: path
+      required: true
+      schema:
+        type: "integer"
+
+    valve-id:
+      name: "valve-id"
+      in: path
+      required: true
+      schema:
+        type: "integer"
+
+  requestBodies:
+    main-node:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/main-device"
+    sensor-body:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/sensor-node'
 
 
 
@@ -65,39 +97,81 @@ components:
 paths:
   /devices:
     post:
-      operationId: operations.main_post
+      operationId: operations.addMainNode
+      requestBody:
+        x-body-name: "main_node_dict"
+        $ref: "#/components/requestBodies/main-node"
       responses:
         200:
           description: Successfully added new main node
     get:
-      operationId: operations.get_all
+      operationId: operations.getAllMainNodes
       responses:
         200:
           description: Successfully listed all main node IDs
 
   /devices/{main-id}:
+    parameters:
+      - $ref: "#/components/parameters/main-id"
     get:
-      operationId: operations.main_get
+      operationId: operations.getSingleMainNode
       responses:
         200:
           description: Successfully sent info about whole system attached to this main node
-    post:
-      operationId: operations.slave_node_post
+    delete:
+      operationId: operations.deleteSingleMainNode
       responses:
         200:
-          description: Successfully added new slave node
+          description: Successfully deleted single main node
 
-  /devices/{main-id}/{sensor-id}:
+  /devices/{main-id}/sensors:
+    parameters:
+      - $ref: "#/components/parameters/main-id"
+    post:
+      operationId: operations.addSensor
+      requestBody:
+        x-body-name: "sensor_body"
+        $ref: "#/components/requestBodies/sensor-body"
+      responses:
+        200:
+          description: Successfully added new sensor node
+
+  /devices/{main-id}/valves:
+    parameters:
+      - $ref: "#/components/parameters/main-id"
+    post:
+      operationId: operations.addValve
+      responses:
+        200:
+          description: Successfully added new valve node
+
+  /devices/{main-id}/sensors/{sensor-id}:
+    parameters:
+      - $ref: "#/components/parameters/main-id"
+      - $ref: "#/components/parameters/sensor-id"
     get:
-      operationId: operations.sensor_get
+      operationId: operations.getSensor
       responses:
         200:
           description: Successfully listed info from all sensors from given sensor node
+    delete:
+      operationId: operations.deleteSensor
+      responses:
+        200:
+          description: Deleted single sensor node
 
-  /devices/{main-id}/{valve-id}:
+  /devices/{main-id}/valves/{valve-id}:
+    parameters:
+      - $ref: "#/components/parameters/main-id"
+      - $ref: "#/components/parameters/valve-id"
     get:
-      operationId: operations.valve_get
+      operationId: operations.getValve
       responses:
         200:
           description: Successfully listed info from given valve node
+    delete:
+      operationId: operations.deleteValve
+      responses:
+        200:
+          description: Deleted single valve node
   

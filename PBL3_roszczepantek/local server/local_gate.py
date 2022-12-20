@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import serial
 from time import time, sleep
 import sys
+from operations import SensorNode
 
 uart = serial.Serial("/dev/ttyS0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=8, timeout=1)
 
@@ -48,7 +49,7 @@ def loraConf(id, port):
         print(f'Changing LoRa module mode to TEST: {last_response}')
     return 1
 
-def dataProcess (msg):
+def sensorDataProcess (msg):
     s_nodeID = f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}'
     s_temperature_meas = f'0x{msg[4]}{msg[5]}'
     s_moisture_meas = f'0x{msg[6]}{msg[7]}'
@@ -62,13 +63,12 @@ def dataProcess (msg):
     
 
 def main():
-    sensor_data = dataProcess('50F60F0A')
-    print(sensor_data)
     while True:
         last_response = receiveData()
         if last_response != ' ':
             break
-    
+    sensor_data = sensorDataProcess(last_response)
+    sensor = SensorNode(sensor_data[0], 0, sensor_data[2], sensor_data[1], 0)
     
     
     

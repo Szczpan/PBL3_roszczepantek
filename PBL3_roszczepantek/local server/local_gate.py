@@ -17,9 +17,8 @@ def readData():
 
 def connectTest():
     print('Sending test message')
-    sendAT('AT')
+    response = sendAT('AT')
     print('Test message sent')
-    response = readData()
     print(f'Connection status: {response}')
     return response
 

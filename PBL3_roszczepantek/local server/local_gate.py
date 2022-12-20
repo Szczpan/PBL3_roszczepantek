@@ -84,4 +84,4 @@ if __name__ == "__main__":
         print("Error occured: connecting error")
         exit()
     while True:
-        get_lora()
+        get_lora_sensor()

@@ -10,7 +10,7 @@ servers:
 
 components:
   schemas:
-    device:
+    main-device:
       type: "object"
       required:
         - main-id
@@ -77,6 +77,19 @@ components:
       schema:
         type: "integer"
 
+  requestBodies:
+    main-node:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/main-device"
+    sensor-body:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/sensor-node'
 
 
 
@@ -85,6 +98,9 @@ paths:
   /devices:
     post:
       operationId: operations.addMainNode
+      requestBody:
+        x-body-name: "main_node_dict"
+        $ref: "#/components/requestBodies/main-node"
       responses:
         200:
           description: Successfully added new main node
@@ -113,6 +129,9 @@ paths:
       - $ref: "#/components/parameters/main-id"
     post:
       operationId: operations.addSensor
+      requestBody:
+        x-body-name: "sensor_body"
+        $ref: "#/components/requestBodies/sensor-body"
       responses:
         200:
           description: Successfully added new sensor node

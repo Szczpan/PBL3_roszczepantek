@@ -1,10 +1,1 @@
-{
-  "devices":
-  [
-    {
-      "main_id": 1,
-      "sensors": [],
-      "valves": []
-    }
-  ]
-}
+{"devices": [{"main-id": 2, "sensor-nodes": [], "valve-nodes": []}, {"main-id": 1, "sensor-nodes": [], "valve-nodes": []}]}

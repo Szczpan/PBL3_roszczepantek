@@ -16,16 +16,15 @@ def readData():
     return received_data
 
 def connectTest():
-    print('Sending test message')
+    print('Lora E5 connection status:')
     response = sendAT('AT')
-    print('Test message sent')
-    print(f'Connection status: {response}')
     return response
 
 def sendAT(command):
-    uart.write((command + '\r\n').encode('utf-8'))
-    sleep(0.5)
-    return readData()
+    if not uart.inWaiting():
+        uart.write((command + '\r\n').encode('utf-8'))
+        sleep(0.5)
+        return readData()
 
 def send_data_hex(nodeID, data):
     msg = f'{nodeID}{hex(data)}'
@@ -55,7 +54,7 @@ def main():
 
 if __name__ == "__main__":
     if loraConf("00 01 0F 2C", 8) == 0:
-        print("Error occured: conf error")
+        print("Error occured: connecting error")
         exit()
     while True:
         main()

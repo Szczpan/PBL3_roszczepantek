@@ -2,6 +2,7 @@ import json
 from flask import abort
 from datetime import datetime
 
+
 class MainDevice:
     def __init__(self, main_id, sensor_nodes, valve_nodes):
         self.main_id = main_id
@@ -10,21 +11,21 @@ class MainDevice:
 
 
 class SensorNode:
-    def __init__(self, sensor_id, air_humidity, soil_moisture, air_temperature, battery_level, timestamp):
+    def __init__(self, sensor_id, air_humidity, soil_moisture, air_temperature, battery_level):
         self.sensor_id = sensor_id
         self.air_humidity = air_humidity
         self.soil_moisture = soil_moisture
         self.air_temperature = air_temperature
         self.battery_level = battery_level
-        self.timestamp = timestamp
+        self.timestamp = get_timestamp()
 
 
 class ValveNode:
-    def __init__(self, valve_id, state, time_left, timestamp):
+    def __init__(self, valve_id, state, time_left):
         self.valve_id = valve_id
         self.state = state
         self.time_left = time_left
-        self.timestamp = timestamp
+        self.timestamp = get_timestamp()
 
 
 # function to add new node to database json file
@@ -130,7 +131,7 @@ def addSensor(main_id, sensor_body):
                     abort(403, f"Sensor node with ID {sensor_node_id} already added to {main_id} main node")
                     return
 
-            new_sensor = SensorNode(sensor_node_id, -1, -1, -1, -1, get_timestamp())
+            new_sensor = SensorNode(sensor_node_id, -1, -1, -1, -1)
 
             new_sensor_dict = {"sensor-id": new_sensor.sensor_id,
                                "air-humidity": new_sensor.air_humidity,
@@ -166,7 +167,7 @@ def addValve(main_id, valve_body):
                     abort(403, f"Valve node with ID {valve_node_id} already attached to main node {main_id}")
                     return
 
-            new_valve = ValveNode(valve_node_id, -1, -1, get_timestamp())
+            new_valve = ValveNode(valve_node_id, -1, -1)
             new_valve_dict = {
                 "valve-id": new_valve.valve_id,
                 "state": new_valve.state,

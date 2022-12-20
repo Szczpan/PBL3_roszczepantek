@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import serial
 from time import time, sleep
 import sys
+from operations import SensorNode
 
 uart = serial.Serial("/dev/ttyS0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=8, timeout=1)
 
@@ -9,24 +10,22 @@ sreadlen = 1024 # max number of chars to read from serial in one try
 
 def readData():
     received_data = ''
-    if uart.inWaiting():
+    while uart.inWaiting():
         received_data += (uart.read(uart.inWaiting())).decode('utf-8')
         sleep(0.5)
-        print(received_data)
     return received_data
 
 def connectTest():
-    print('Sending test message')
-    uart.write(('AT').encode('utf-8'))
-    print('Test message sent')
-    response = readData()
-    print(f'Connection status: {response}')
+    response = sendAT('AT')
+    print(f'Lora E5 connection status: {response}')
     return response
 
 def sendAT(command):
-    uart.write((f'{command}').encode('utf-8'))
-    sleep(0.5)
-    return readData()
+    if not uart.inWaiting():
+        uart.write((command + '\r\n').encode('utf-8'))
+        sleep(0.5)
+        return readData()
+    return 0
 
 def send_data_hex(nodeID, data):
     msg = f'{nodeID}{hex(data)}'
@@ -37,26 +36,48 @@ def receiveData():
     return readData()
 
 def loraConf(id, port):
-    if connectTest() != '+AT: OK': 
+    if connectTest() != '+AT: OK\r\n': 
         return 0
-    sendAT('AT+RESET')
-    sendAT('AT+MODE=TEST')
-    #sendAT('AT+CH=1-3')
-    #sendAT(f'AT+ID=DevAddr, "{id}"')
-    #sendAT('AT+PORT={port}')
+    last_response = sendAT('AT+RESET')
+    sleep(0.5)
+    print(f'Reseting LoRa module to default: {last_response}')
+    sleep(0.5)
+    while last_response != '+MODE: TEST\r\n':
+        sendAT('AT+MODE=TEST')
+        last_response = sendAT('AT+MODE')
+        sleep(0.1)
+        print(f'Changing LoRa module mode to TEST: {last_response}')
     return 1
+
+def sensorDataProcess (msg):
+    s_nodeID = f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}'
+    s_temperature_meas = f'0x{msg[4]}{msg[5]}'
+    s_moisture_meas = f'0x{msg[6]}{msg[7]}'
+    nodeID = int(s_nodeID,16)
+    temperature_meas = int(s_temperature_meas,16)
+    moisture_meas = int(s_moisture_meas,16)
+    processed_data = [nodeID, temperature_meas, moisture_meas]
+    return processed_data
     
+        
     
 
 def main():
-    receiveData()
+    while True:
+        last_response = receiveData()
+        if last_response != ' ':
+            break
+    sensor_data = sensorDataProcess(last_response)
+    sensor = SensorNode(sensor_data[0], 0, sensor_data[2], sensor_data[1], 0)
+    
+    
     
 
 
 
 if __name__ == "__main__":
     if loraConf("00 01 0F 2C", 8) == 0:
-        print("Error occured: conf error")
+        print("Error occured: connecting error")
         exit()
     while True:
         main()

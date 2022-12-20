@@ -12,12 +12,11 @@ def readData():
     if uart.inWaiting():
         received_data += (uart.read(uart.inWaiting())).decode('utf-8')
         sleep(0.5)
-        print(received_data)
     return received_data
 
 def connectTest():
-    print('Lora E5 connection status:')
     response = sendAT('AT')
+    print(f'Lora E5 connection status: {response}')
     return response
 
 def sendAT(command):
@@ -37,8 +36,10 @@ def receiveData():
 def loraConf(id, port):
     if connectTest() != '+AT: OK\r\n': 
         return 0
-    sendAT('AT+RESET')
-    sendAT('AT+MODE=TEST')
+    last_response = sendAT('AT+RESET')
+    print(f'Reseting LoRa module to default: {last_response}')
+    last_response = sendAT('AT+MODE=TEST')
+    print(f'Changing LoRa module mode to TEST: {last_response}')
     #sendAT('AT+CH=1-3')
     #sendAT(f'AT+ID=DevAddr, "{id}"')
     #sendAT('AT+PORT={port}')

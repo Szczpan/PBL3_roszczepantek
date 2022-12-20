@@ -1,1 +1,1 @@
-{"devices": [{"main-id": 2, "sensor-nodes": [], "valve-nodes": []}, {"main-id": 1, "sensor-nodes": [], "valve-nodes": []}]}
+{"devices": [{"main-id": 2, "sensor-nodes": [{"sensor-id": 9, "air-humidity": -1, "air-temperature": -1, "soil-moisture": -1, "battery-level": -1, "timestamp": "2022-12-20 16:14:34"}], "valve-nodes": [{"valve-id": 5, "state": -1, "time-left": -1, "timestamp": "2022-12-20 16:13:53"}]}]}

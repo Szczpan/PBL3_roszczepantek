@@ -41,6 +41,8 @@ components:
           type: "integer"
         battery-level:
           type: "integer"
+        timestamp:
+          type: "integer"
 
     valve-node:
       type: "object"
@@ -52,6 +54,8 @@ components:
         state:
           type: "boolean"
         time-left:
+          type: "integer"
+        timestamp:
           type: "integer"
 
 
@@ -90,7 +94,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/sensor-node'
-
+    valve-body:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/valve-node"
 
 
 
@@ -141,6 +150,9 @@ paths:
       - $ref: "#/components/parameters/main-id"
     post:
       operationId: operations.addValve
+      requestBody:
+        x-body-name: "valve_body"
+        $ref: "#/components/requestBodies/valve-body"
       responses:
         200:
           description: Successfully added new valve node

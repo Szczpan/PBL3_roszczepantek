@@ -1,6 +1,6 @@
 import json
 from flask import abort
-
+from datetime import datetime
 
 class MainDevice:
     def __init__(self, main_id, sensor_nodes, valve_nodes):
@@ -10,19 +10,21 @@ class MainDevice:
 
 
 class SensorNode:
-    def __init__(self, sensor_id, air_humidity, soil_moisture, air_temperature, battery_level):
+    def __init__(self, sensor_id, air_humidity, soil_moisture, air_temperature, battery_level, timestamp):
         self.sensor_id = sensor_id
         self.air_humidity = air_humidity
         self.soil_moisture = soil_moisture
         self.air_temperature = air_temperature
         self.battery_level = battery_level
+        self.timestamp = timestamp
 
 
 class ValveNode:
-    def __init__(self, valve_id, state, time_left):
+    def __init__(self, valve_id, state, time_left, timestamp):
         self.valve_id = valve_id
         self.state = state
         self.time_left = time_left
+        self.timestamp = timestamp
 
 
 # function to add new node to database json file
@@ -110,7 +112,7 @@ def deleteSingleMainNode(main_id):
 # returns whole json database
 def addSensor(main_id, sensor_body):
     # get sensor node id from request body
-    if "main-id" in sensor_body:
+    if "sensor-id" in sensor_body:
         sensor_node_id = sensor_body["sensor-id"]
     else:
         abort(400, "Request body doesn't contain sensor-id field")
@@ -120,26 +122,129 @@ def addSensor(main_id, sensor_body):
     with open("data.json", 'r') as f:
         data_dict = json.loads(f.read())
 
-    # check if main-id exists
+    # add new sensor to list if main node exists and doesn't have sensor with given node already attached to it
+    for device in data_dict["devices"]:
+        if device["main-id"] == main_id:
+            for sensor in device["sensor-nodes"]:
+                if sensor["sensor-id"] == sensor_node_id:
+                    abort(403, f"Sensor node with ID {sensor_node_id} already added to {main_id} main node")
+                    return
+
+            new_sensor = SensorNode(sensor_node_id, -1, -1, -1, -1, get_timestamp())
+
+            new_sensor_dict = {"sensor-id": new_sensor.sensor_id,
+                               "air-humidity": new_sensor.air_humidity,
+                               "air-temperature": new_sensor.air_temperature,
+                               "soil-moisture": new_sensor.soil_moisture,
+                               "battery-level": new_sensor.battery_level,
+                               "timestamp": new_sensor.timestamp}
+            device["sensor-nodes"].append(new_sensor_dict)
+
+            with open("data.json", 'w') as f:
+                f.write(json.dumps(data_dict))
+            return data_dict["devices"]
+
+    abort(400, f"Unable to add new sensor with ID {sensor_node_id}")
+
+def addValve(main_id, valve_body):
+    # get valve id from request body
+    if "valve-id" in valve_body:
+        valve_node_id = valve_body["valve-id"]
+    else:
+        abort(400, "Request body doesn't contain valve-id field")
+        return
+
+    # load data from database file to dictionary
+    with open("data.json", 'r') as f:
+        data_dict = json.loads(f.read())
+
+    # add new valve node to given main node if it exists and doesn't already have this valve node attached
+    for device in data_dict["devices"]:
+        if main_id == device["main-id"]:
+            for valve in device["valve-nodes"]:
+                if valve["valve-id"] == valve_node_id:
+                    abort(403, f"Valve node with ID {valve_node_id} already attached to main node {main_id}")
+                    return
+
+            new_valve = ValveNode(valve_node_id, -1, -1, get_timestamp())
+            new_valve_dict = {
+                "valve-id": new_valve.valve_id,
+                "state": new_valve.state,
+                "time-left": new_valve.time_left,
+                "timestamp": new_valve.timestamp
+            }
+            device["valve-nodes"].append(new_valve_dict)
+
+            with open("data.json", 'w') as f:
+                f.write(json.dumps(data_dict))
+
+            return data_dict["devices"]
+
+    abort(400, "Unable to add new valve node")
 
 
-
-def addValve():
-    pass
-
-
+# return info about sensor attached to given main node
 def getSensor(main_id, sensor_id):
-    print(main_id)
-    print(sensor_id)
+    data_dict = read_from_json("data.json")
+
+    for device in data_dict["devices"]:
+        if main_id == device["main-id"]:
+            for sensor in device["sensor-nodes"]:
+                if sensor_id == sensor["sensor-id"]:
+                    return sensor
+
+    abort(404, f"Device with ID {sensor_id} sensor in ID {main_id} main node not found")
 
 
-def deleteSensor():
-    pass
+# delete sensor from given main node
+def deleteSensor(main_id, sensor_id):
+    data_dict = read_from_json("data.json")
+
+    for device in data_dict["devices"]:
+        if main_id == device["main-id"]:
+            for sensor in device["sensor-nodes"]:
+                if sensor_id == sensor["sensor-id"]:
+                    device["sensor-nodes"].remove(sensor)
+                    with open("data.json", "w") as f:
+                        f.write(json.dumps(data_dict))
+                    return data_dict["devices"]
+
+    abort(404, f"Sensor with ID {sensor_id} not found in main node with ID {main_id}")
 
 
-def getValve():
-    pass
+# return all info about valve connected to given main node
+def getValve(main_id, valve_id):
+    data_dict = read_from_json("data.json")
+
+    for device in data_dict["devices"]:
+        if main_id == device["main-id"]:
+            for valve in device["valve-nodes"]:
+                if valve_id == valve["valve-id"]:
+                    return valve
+
+    abort(404, f"Valve with ID {valve_id} not found in main node with ID {main_id}")
 
 
-def deleteValve():
-    pass
+# delete valve attached to given main node
+def deleteValve(main_id, valve_id):
+    data_dict = read_from_json("data.json")
+
+    for device in data_dict["devices"]:
+        if main_id == device["main-id"]:
+            for valve in device["valve-nodes"]:
+                if valve_id == valve["valve-id"]:
+                    device["valve-nodes"].remove(valve)
+                    with open("data.json", 'w') as f:
+                        f.write(json.dumps(data_dict))
+                    return data_dict["devices"]
+
+    abort(404, f"Valve with ID {valve_id} not found in main node with ID {main_id}")
+
+
+def get_timestamp():
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+def read_from_json(file):
+    with open(file, 'r') as f:
+        return json.loads(f.read())

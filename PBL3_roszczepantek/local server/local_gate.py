@@ -51,9 +51,10 @@ def loraConf(id, port):
     
 
 def main():
-    last_response = receiveData()
-    if last_response != '':
-        print(f'Received data: {last_response}')
+    do:
+        last_response = receiveData()
+    while last_response == ''
+    
     
 
 

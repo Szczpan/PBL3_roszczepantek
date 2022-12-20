@@ -20,10 +20,11 @@ def connectTest():
     return response
 
 def sendAT(command):
-    #if not uart.inWaiting():
-    uart.write((command + '\r\n').encode('utf-8'))
-    sleep(0.5)
-    return readData()
+    if not uart.inWaiting():
+        uart.write((command + '\r\n').encode('utf-8'))
+        sleep(0.5)
+        return readData()
+    return 0
 
 def send_data_hex(nodeID, data):
     msg = f'{nodeID}{hex(data)}'

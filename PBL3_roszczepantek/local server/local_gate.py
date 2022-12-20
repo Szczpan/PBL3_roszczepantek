@@ -53,10 +53,6 @@ def loraConf(id, port):
 def main():
     last_response = receiveData()
     print(f'Received data: {last_response}')
-    sendAT('AT+MODE=TEST')
-    last_response = sendAT('AT+MODE')
-    print(f'Changing LoRa module mode to TEST: {last_response}')
-    
     
 
 

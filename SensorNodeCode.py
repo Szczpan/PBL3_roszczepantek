@@ -14,7 +14,6 @@ temperatureMeas=0
 head=0
 nodeID=hex(0).lstrip("0x")
 battery=0
-messageHead=f'AT+MSGHEX="{hex(head).lstrip("0x")}{hex(nodeID).lstrip("0x")}'
 
 # def makeCRC(code):
 #     binarycode=bin(code)
@@ -23,6 +22,8 @@ messageHead=f'AT+MSGHEX="{hex(head).lstrip("0x")}{hex(nodeID).lstrip("0x")}'
 def measureNsend(timer):
     global moisure
     global temperature
+    global uart
+    global nodeID
     moisureMeas=hex(moisure.read()).lstrip("0x")
     time.sleep(1)
     temperatureMeas=hex(temperature.read()).lstrip("0x")

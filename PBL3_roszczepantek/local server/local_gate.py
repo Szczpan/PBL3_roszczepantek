@@ -49,11 +49,11 @@ def loraConf(id, port):
     return 1
 
 def dataProcess (msg):
-    s_nodeID = [f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}']
+    s_nodeID = f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}'
     s_temperature_meas = f'0x{msg[4]}{msg[5]}'
     s_moisture_meas = f'0x{msg[6]}{msg[7]}'
     print(s_nodeID, s_temperature_meas, s_moisture_meas)
-    h_nodeID = [int(s_nodeID[0], 16), int(s_nodeID[1], 16)]
+    h_nodeID = int(s_nodeID,16)
     h_temperature_meas = int(s_temperature_meas,16)
     h_moisture_meas = int(s_moisture_meas,16)
     print(h_nodeID, h_temperature_meas, h_moisture_meas)

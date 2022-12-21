@@ -35,9 +35,8 @@ def sendAT(command):
     return 0
 
 #SEND DATA IN HEX FORMAT
-def send_data_hex(nodeID, data):
-    msg = f'{nodeID}{hex(data)}'
-    uart.write((f'AT+TEST=TXLRPKT, "{msg}"'))
+def send_data_hex(hex_data):
+    sendAT(f'AT+TEST=TXLRPKT, "{hex_data}"')
     
 #CAPTURE DATA
 def receiveData():

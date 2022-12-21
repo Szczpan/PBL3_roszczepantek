@@ -25,7 +25,7 @@ def sendAT(command):
 
 #SEND DATA IN HEX FORMAT
 def send_data_hex(hex_data):
-    uart.write((f'AT+TEST=TXLRPKT, "{hex_data}"'))
+    sendAT(f'AT+TEST=TXLRPKT, "{hex_data}"')
     
 #TEST CONNECTION WITH LORA E5 MODULE
 def connectTest():

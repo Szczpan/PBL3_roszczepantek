@@ -63,6 +63,7 @@ def loraConf():
 def sensorDataProcess (RAW_msg):
     msg_index = RAW_msg.find('"') + 1
     msg = RAW_msg[msg_index:]
+    print(msg)
     s_nodeID = f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}'
     s_temperature_meas = f'0x{msg[4]}{msg[5]}'
     s_moisture_meas = f'0x{msg[6]}{msg[7]}'
@@ -126,9 +127,6 @@ def get_sensor_soil():
                 soil_list.append(sensor["soil-moisture"])
 
     return sum(soil_list)/len(soil_list)
-
-
-
 
 
 if __name__ == "__main__":

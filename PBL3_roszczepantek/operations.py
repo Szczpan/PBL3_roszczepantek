@@ -62,7 +62,7 @@ def addMainNode(main_node_dict):
     with open("data.json", 'w') as f:
         f.write(json.dumps(data_dict))
 
-    return data_dict["devices"]
+    return data_dict
 
 
 # returns whole json database

@@ -126,7 +126,7 @@ def get_sensor_soil():
                 soil_list.append(sensor["soil-moisture"])
 
 
-    return sum(soil_list)/len(soil_list)
+    return int(sum(soil_list))/int(len(soil_list))
 
 
 

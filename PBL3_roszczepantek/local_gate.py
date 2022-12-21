@@ -111,13 +111,14 @@ if __name__ == "__main__":
         
         # if have something to send chceck if sensor id is in sensors attached to me
         sensor = get_lora_sensor()
+        print(sensor.soil_moisture)
+        #sensor = SensorNode(9, 100, 50, 20, 50)
         
-        sensor = SensorNode(9, 100, 50, 20, 50)
-
-        if sensor != 0:
-            # put to server if true
-            if sensor.sensor_id in sensor_id_list:
-                update_sensor(MY_ID, sensor)
+                
+        #if sensor != 0:
+        #    # put to server if true
+        #    if sensor.sensor_id in sensor_id_list:
+        #        update_sensor(MY_ID, sensor)
             
-        get_lora_sensor()
+        #get_lora_sensor()
         sleep(0.5)

@@ -58,6 +58,7 @@ if __name__ == "__main__":
     hex_temperatureMeas = '0A'
     hex_moisureMeas = '0B'
     msg=f'{hex_nodeID}{hex_temperatureMeas}{hex_moisureMeas}'
+    print(msg)
     send_data_hex(msg)
     
     

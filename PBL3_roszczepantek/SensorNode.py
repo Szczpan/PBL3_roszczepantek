@@ -60,7 +60,7 @@ if __name__ == "__main__":
     if loraConf() == 0:
         print("Error occured: connecting error")
         exit()
-    while True
+    while True:
         sensor_data = getSensorData()
         hex_nodeID = hex(NODE_ID).lstrip("0x").zfill(4)
         hex_temperatureMeas = hex(sensor_data[0]).lstrip("0x").zfill(2)

@@ -3,7 +3,10 @@ import serial
 from time import time, sleep
 import sys
 from operations import SensorNode
-from operations import getAllMainNodes, getSingleMainNode
+from rpi_server_comm import update_sensor
+import requests
+import json
+
 
 uart = serial.Serial("/dev/ttyS0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=8, timeout=1)
 
@@ -75,7 +78,7 @@ def get_lora_sensor():
     if last_response != ' ':
         sensor_data = sensorDataProcess(last_response)
         sensor = SensorNode(sensor_data[0], 0, sensor_data[2], sensor_data[1], 0)
-        return 1
+        return sensor
     return 0
 
 #OPENS VALVE FOR CERTAIN TIME (for time = -1 closes it)
@@ -84,15 +87,36 @@ def open_valve(nodeID, time):
 
 
 MY_ID = 10
+SERVER_IP = "http://10.140.123.3:8000/api-v1/devices"
+
+def create_sensor_list():
+    data = requests.get(SERVER_IP)
+    data = json.loads(data.text)
+    sensor_list = []
+    for device in data["devices"]:
+        if MY_ID == device["main-id"]:
+            for sensor in device["sensor-nodes"]:
+                sensor_list.append(sensor["node-id"])
+    
+    return sensor_list
+
 
 if __name__ == "__main__":
-    if loraConf("00 01 0F 2C", 8) == 0:
-        print("Error occured: connecting error")
-        exit()
+    #if loraConf("00 01 0F 2C", 8) == 0:
+    #    print("Error occured: connecting error")
+    #    exit()
     while True:
-        # get from server
-        # check if I am in main nodes
-        # if true then get all sensors attached to me
+        sensor_id_list = create_sensor_list()
+        
         # if have something to send chceck if sensor id is in sensors attached to me
-        # put to server if true
+        #sensor = get_lora_sensor()
+        
+        sensor = SensorNode(9, 100, 50, 20, 50)
+
+        if sensor != 0:
+            # put to server if true
+            if sensor.sensor_id in sensor_id_list:
+                update_sensor(MY_ID, sensor)
+            
         get_lora_sensor()
+        sleep(0.5)

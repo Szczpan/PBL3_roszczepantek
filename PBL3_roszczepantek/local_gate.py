@@ -134,25 +134,25 @@ if __name__ == "__main__":
         print("Error occured: connecting error")
         exit()
     while True:
-        sensor_id_list = create_sensor_list()
-        print("test")
+        # sensor_id_list = create_sensor_list()
+        #print("test")
         # if have something to send chceck if sensor id is in sensors attached to me
         sensor = get_lora_sensor()
         if sensor != 0:
             print(sensor.soil_moisture)
 
-        forecast_rain = get_rain_sum()
-        soil_avg = get_sensor_soil()
-        valve_list = create_valve_list()
+        # forecast_rain = get_rain_sum()
+        # soil_avg = get_sensor_soil()
+        # valve_list = create_valve_list()
 
-        if soil_avg*forecast_rain > 150:
-            for valve in valve_list:
-                valve_obj = ValveNode(valve, True, 100)
-                update_valve(MY_ID, valve_obj)
-        else:
-            for valve in valve_list:
-                valve_obj = ValveNode(valve, False, 100)
-                update_valve(MY_ID, valve_obj)
+        # if soil_avg*forecast_rain > 150:
+        #     for valve in valve_list:
+        #         valve_obj = ValveNode(valve, True, 100)
+        #         update_valve(MY_ID, valve_obj)
+        # else:
+        #     for valve in valve_list:
+        #         valve_obj = ValveNode(valve, False, 100)
+        #         update_valve(MY_ID, valve_obj)
 
         if sensor != 0:
             # put to server if true

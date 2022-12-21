@@ -146,7 +146,7 @@ if __name__ == "__main__":
 
         sensor = SensorNode(9, 10, 120, 20, 50)
 
-        forecast_rain = get_rain_sum()
+        forecast_rain = int(get_rain_sum())
         soil_avg = get_sensor_soil()
         valve_list = create_valve_list()
         print(soil_avg)

@@ -3,6 +3,7 @@ import serial
 from time import time, sleep
 import sys
 from operations import SensorNode
+from operations import getAllMainNodes, getSingleMainNode
 
 uart = serial.Serial("/dev/ttyS0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=8, timeout=1)
 
@@ -81,10 +82,17 @@ def get_lora_sensor():
 def open_valve(nodeID, time):
     return 1
 
-    
+
+MY_ID = 10
+
 if __name__ == "__main__":
     if loraConf("00 01 0F 2C", 8) == 0:
         print("Error occured: connecting error")
         exit()
     while True:
+        # get from server
+        # check if I am in main nodes
+        # if true then get all sensors attached to me
+        # if have something to send chceck if sensor id is in sensors attached to me
+        # put to server if true
         get_lora_sensor()

@@ -50,8 +50,8 @@ def loraConf():
     return 1
 
 def getSensorData():
-    temperatureMeas = randrange(20, 25, 0.1)
-    moistureMeas = randrange(20, 60, 0.5)
+    temperatureMeas = randrange(200, 250, 1)/10
+    moistureMeas = randrange(200, 600, 5)/10
     return [temperatureMeas, moistureMeas]
 
 NODE_ID = 9

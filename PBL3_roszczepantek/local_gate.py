@@ -157,9 +157,9 @@ if __name__ == "__main__":
         #         valve_obj = ValveNode(valve, False, 100)
         #         update_valve(MY_ID, valve_obj)
 
-        if sensor != 0:
-            # put to server if true
-            if sensor.sensor_id in sensor_id_list:
-                update_sensor(MY_ID, sensor)
+        # if sensor != 0:
+        #     # put to server if true
+        #     if sensor.sensor_id in sensor_id_list:
+        #         update_sensor(MY_ID, sensor)
         
         sleep(0.5)

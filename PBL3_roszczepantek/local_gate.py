@@ -75,7 +75,7 @@ def sensorDataProcess (msg):
 #GET DATA FROM SENSOR NODE AND UPLOAD TO ITS CLASS
 def get_lora_sensor():
     last_response = receiveData()
-    if last_response != ' ':
+    if last_response != ' ' and last_response != '':
         sensor_data = sensorDataProcess(last_response)
         sensor = SensorNode(sensor_data[0], 0, sensor_data[2], sensor_data[1], 0)
         return sensor
@@ -93,10 +93,10 @@ def create_sensor_list():
     data = requests.get(SERVER_IP)
     data = json.loads(data.text)
     sensor_list = []
-    for device in data["main-id"]:
+    for device in data["devices"]:
         if MY_ID == device["main-id"]:
             for sensor in device["sensor-nodes"]:
-                sensor_list.append(sensor["node-id"])
+                sensor_list.append(sensor["sensor-id"])
     
     return sensor_list
 
@@ -118,5 +118,5 @@ if __name__ == "__main__":
             if sensor.sensor_id in sensor_id_list:
                 update_sensor(MY_ID, sensor)
             
-        get_lora_sensor()
+        #get_lora_sensor()
         sleep(0.5)

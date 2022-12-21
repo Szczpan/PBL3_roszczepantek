@@ -141,7 +141,8 @@ if __name__ == "__main__":
         # if have something to send chceck if sensor id is in sensors attached to me
         sensor = get_lora_sensor()
         if sensor != 0:
-            print(sensor.soil_moisture)
+            print(f'wilgotnosc: {sensor.soil_moisture}')
+            print(f'temperatura: {sensor.air_temperature}')
 
         # forecast_rain = get_rain_sum()
         # soil_avg = get_sensor_soil()

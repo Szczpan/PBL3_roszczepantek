@@ -43,7 +43,7 @@ mode = 'default'
 
 #CAPTURE DATA
 def receiveData():
-    if mode == default:
+    if mode == 'default':
         sendAT('AT+TEST=RXLRPKT')
         mode = 'RXLRPKT'
     return readData()

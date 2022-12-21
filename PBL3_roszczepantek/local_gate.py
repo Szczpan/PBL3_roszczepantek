@@ -44,7 +44,7 @@ def receiveData():
     return readData()
 
 #CONFIG FUNCTION FOR MODULE
-def loraConf(id, port):
+def loraConf():
     if connectTest() != '+AT: OK\r\n': 
         return 0
     last_response = sendAT('AT+RESET')
@@ -101,7 +101,7 @@ def create_sensor_list():
 
 
 if __name__ == "__main__":
-    #if loraConf("00 01 0F 2C", 8) == 0:
+    #if loraConf() == 0:
     #    print("Error occured: connecting error")
     #    exit()
     while True:

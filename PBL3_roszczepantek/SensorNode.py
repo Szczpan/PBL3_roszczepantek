@@ -7,6 +7,14 @@ uart = serial.Serial("/dev/ttyS0", baudrate=9600, parity=serial.PARITY_NONE, sto
 
 sreadlen = 1024 # max number of chars to read from serial in one try 
 
+#GET DATA FROM UART
+def readData():
+    received_data = ''
+    while uart.inWaiting():
+        received_data += (uart.read(uart.inWaiting())).decode('utf-8')
+        sleep(0.5)
+    return received_data
+
 #SEND AT COMMANDS
 def sendAT(command):
     if not uart.inWaiting():
@@ -15,12 +23,19 @@ def sendAT(command):
         return readData()
     return 0
 
-def send_data_hex(nodeID, data):
-    msg = f'{nodeID}{hex(data)}'
+#SEND DATA IN HEX FORMAT
+def send_data_hex(hex_data):
+    msg = f'{hex_data}'
     uart.write((f'AT+TEST=TXLRPKT, "{msg}"'))
     
+#TEST CONNECTION WITH LORA E5 MODULE
+def connectTest():
+    response = sendAT('AT')
+    print(f'Lora E5 connection status: {response}')
+    return response
+    
 #CONFIG FUNCTION FOR MODULE
-def loraConf(id, port):
+def loraConf():
     if connectTest() != '+AT: OK\r\n': 
         return 0
     last_response = sendAT('AT+RESET')
@@ -34,9 +49,17 @@ def loraConf(id, port):
         print(f'Changing LoRa module mode to TEST: {last_response}')
     return 1
 
+NODE_ID = 9
+
 if __name__ == "__main__":
-    if loraConf("00 01 0F 2C", 8) == 0:
+    if loraConf() == 0:
         print("Error occured: connecting error")
         exit()
+    hex_nodeID = hex(NODE_ID).lstrip("0x").zfill(4)
+    hex_temperatureMeas = '0A'
+    hex_moisureMeas = '0B'
+    msg=f'{hex_nodeID}{hex_temperatureMeas}{hex_moisureMeas}'
+    send_data_hex()
+    
     
     

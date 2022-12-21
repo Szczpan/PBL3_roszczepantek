@@ -2,10 +2,11 @@ import RPi.GPIO as GPIO
 import serial
 from time import time, sleep
 import sys
-from operations import SensorNode
-from rpi_server_comm import update_sensor
+from operations import SensorNode, ValveNode
+from rpi_server_comm import update_sensor, update_valve
 import requests
 import json
+from get_weather import get_rain_sum
 
 
 uart = serial.Serial("/dev/ttyS0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=8, timeout=1)
@@ -90,6 +91,7 @@ def open_valve(nodeID, time):
 MY_ID = 10
 SERVER_IP = "http://10.140.123.3:8000/api-v1/devices"
 
+
 def create_sensor_list():
     data = requests.get(SERVER_IP)
     data = json.loads(data.text)
@@ -100,6 +102,33 @@ def create_sensor_list():
                 sensor_list.append(sensor["sensor-id"])
     
     return sensor_list
+
+
+def create_valve_list():
+    data = requests.get(SERVER_IP)
+    data = json.loads(data.text)
+    valve_list = []
+    for device in data["devices"]:
+        if MY_ID == device["main-id"]:
+            for valve in device["valve-nodes"]:
+                valve_list.append((valve["valve-id"]))
+
+    return valve_list
+
+
+def get_sensor_soil():
+    data = requests.get(SERVER_IP)
+    data = json.loads(data.text)
+    soil_list = []
+    for device in data["devices"]:
+        if MY_ID == device["main-id"]:
+            for sensor in device["sensor-nodes"]:
+                soil_list.append(sensor["soil-moisture"])
+
+    return sum(soil_list)/len(soil_list)
+
+
+
 
 
 if __name__ == "__main__":
@@ -114,10 +143,22 @@ if __name__ == "__main__":
         print(sensor.soil_moisture)
         #sensor = SensorNode(9, 100, 50, 20, 50)
         
-                
-        if sensor != 0:
+        #forecast_rain = get_rain_sum()
+        #soil_avg = get_sensor_soil()
+        #valve_list = create_valve_list()
+
+        #if soil_avg*forecast_rain > 150:
+        #    for valve in valve_list:
+        #        valve_obj = ValveNode(valve, True, 100)
+        #        update_valve(MY_ID, valve_obj)
+        #else:
+        #    for valve in valve_list:
+        #        valve_obj = ValveNode(valve, False, 100)
+        #        update_valve(MY_ID, valve_obj)
+
+        #if sensor != 0:
             # put to server if true
-            if sensor.sensor_id in sensor_id_list:
-                update_sensor(MY_ID, sensor)
+        #    if sensor.sensor_id in sensor_id_list:
+        #        update_sensor(MY_ID, sensor)
         
         sleep(0.5)

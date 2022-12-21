@@ -118,5 +118,5 @@ if __name__ == "__main__":
             if sensor.sensor_id in sensor_id_list:
                 update_sensor(MY_ID, sensor)
             
-        get_lora_sensor()
+        #get_lora_sensor()
         sleep(0.5)

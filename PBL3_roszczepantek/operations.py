@@ -62,7 +62,7 @@ def addMainNode(main_node_dict):
     with open("data.json", 'w') as f:
         f.write(json.dumps(data_dict))
 
-    return data_dict
+    return data_dict["devices"]
 
 
 # returns whole json database
@@ -74,7 +74,7 @@ def getAllMainNodes():
     for device in data_json["devices"]:
         print(device)
 
-    return data_json["devices"]
+    return data_json
 
 
 # returns single main node with given main-id if exists

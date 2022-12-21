@@ -78,7 +78,7 @@ def sensorDataProcess (RAW_msg):
 #GET DATA FROM SENSOR NODE AND UPLOAD TO ITS CLASS
 def get_lora_sensor():
     last_response = receiveData()
-    #print(f'Odebrane dane: {last_response}')
+    print(f'Odebrane dane: {last_response}')
     if last_response != ' ' and last_response != '':
         sensor_data = sensorDataProcess(last_response)
         sensor = SensorNode(sensor_data[0], 0, sensor_data[2], sensor_data[1], 0)
@@ -161,5 +161,4 @@ if __name__ == "__main__":
         #     # put to server if true
         #     if sensor.sensor_id in sensor_id_list:
         #         update_sensor(MY_ID, sensor)
-        
         sleep(0.5)

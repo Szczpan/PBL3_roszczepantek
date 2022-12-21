@@ -132,16 +132,18 @@ def get_sensor_soil():
 
 
 if __name__ == "__main__":
-    if loraConf() == 0:
-        print("Error occured: connecting error")
-        exit()
+    # if loraConf() == 0:
+    #     print("Error occured: connecting error")
+    #     exit()
     while True:
         sensor_id_list = create_sensor_list()
-        print("test")
-        # if have something to send chceck if sensor id is in sensors attached to me
-        sensor = get_lora_sensor()
-        if sensor != 0:
-            print(sensor.soil_moisture)
+
+        # if have something to send check if sensor id is in sensors attached to me
+        # sensor = get_lora_sensor()
+        # if sensor != 0:
+        #     print(sensor.soil_moisture)
+
+        sensor = SensorNode(9, 10, 120, 20, 50)
 
         forecast_rain = get_rain_sum()
         soil_avg = get_sensor_soil()

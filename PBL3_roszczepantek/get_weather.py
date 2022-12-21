@@ -34,8 +34,8 @@ def parse_weather(weather_dict):
         # print(day["weather"][0]["main"])
         if day["weather"][0]["id"] == 500:
             rain_sum += 1
-
-    return rain_sum
+        print(rain_sum)
+    return int(rain_sum)
 
 def parse_location(json_location):
     location = Location(json_location["latitude"], json_location["longitude"])

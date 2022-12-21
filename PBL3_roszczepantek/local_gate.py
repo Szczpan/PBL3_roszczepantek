@@ -128,7 +128,8 @@ def get_sensor_soil():
             for sensor in device["sensor-nodes"]:
                 soil_list.append(sensor["soil-moisture"])
 
-    return sum(soil_list)/len(soil_list)
+
+    return int(sum(soil_list))/int(len(soil_list))
 
 
 if __name__ == "__main__":
@@ -145,7 +146,7 @@ if __name__ == "__main__":
             print(f'wilgotnosc: {sensor.soil_moisture}')
             print(f'temperatura: {sensor.air_temperature}')
 
-        forecast_rain = 2 #get_rain_sum()
+        forecast_rain = 2 # get_rain_sum()
         soil_avg = get_sensor_soil()
         valve_list = create_valve_list()
 
@@ -162,4 +163,5 @@ if __name__ == "__main__":
             # put to server if true
             if sensor.sensor_id in sensor_id_list:
                 update_sensor(MY_ID, sensor)
+
         sleep(0.5)

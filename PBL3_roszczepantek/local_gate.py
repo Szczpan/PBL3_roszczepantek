@@ -46,7 +46,7 @@ def receiveData():
 
 #CONFIG FUNCTION FOR MODULE
 def loraConf():
-    if connectTest() != '+AT: OK\r\n': 
+    if connectTest() != '+AT: OK\r\n':
         return 0
     last_response = sendAT('AT+RESET')
     sleep(0.5)
@@ -63,6 +63,7 @@ def loraConf():
 def sensorDataProcess (RAW_msg):
     msg_index = RAW_msg.find('"') + 1
     msg = RAW_msg[msg_index:]
+    print(msg)
     s_nodeID = f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}'
     s_temperature_meas = f'0x{msg[4]}{msg[5]}'
     s_moisture_meas = f'0x{msg[6]}{msg[7]}'
@@ -128,37 +129,34 @@ def get_sensor_soil():
     return sum(soil_list)/len(soil_list)
 
 
-
-
-
 if __name__ == "__main__":
     if loraConf() == 0:
         print("Error occured: connecting error")
         exit()
     while True:
         sensor_id_list = create_sensor_list()
-        
+        print("test")
         # if have something to send chceck if sensor id is in sensors attached to me
         sensor = get_lora_sensor()
-        print(sensor.soil_moisture)
-        #sensor = SensorNode(9, 100, 50, 20, 50)
-        
-        #forecast_rain = get_rain_sum()
-        #soil_avg = get_sensor_soil()
-        #valve_list = create_valve_list()
+        if sensor != 0:
+            print(sensor.soil_moisture)
 
-        #if soil_avg*forecast_rain > 150:
-        #    for valve in valve_list:
-        #        valve_obj = ValveNode(valve, True, 100)
-        #        update_valve(MY_ID, valve_obj)
-        #else:
-        #    for valve in valve_list:
-        #        valve_obj = ValveNode(valve, False, 100)
-        #        update_valve(MY_ID, valve_obj)
+        forecast_rain = get_rain_sum()
+        soil_avg = get_sensor_soil()
+        valve_list = create_valve_list()
 
-        #if sensor != 0:
+        if soil_avg*forecast_rain > 150:
+            for valve in valve_list:
+                valve_obj = ValveNode(valve, True, 100)
+                update_valve(MY_ID, valve_obj)
+        else:
+            for valve in valve_list:
+                valve_obj = ValveNode(valve, False, 100)
+                update_valve(MY_ID, valve_obj)
+
+        if sensor != 0:
             # put to server if true
-        #    if sensor.sensor_id in sensor_id_list:
-        #        update_sensor(MY_ID, sensor)
+            if sensor.sensor_id in sensor_id_list:
+                update_sensor(MY_ID, sensor)
         
         sleep(0.5)

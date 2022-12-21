@@ -93,7 +93,7 @@ def create_sensor_list():
     data = requests.get(SERVER_IP)
     data = json.loads(data.text)
     sensor_list = []
-    for device in data["main-id"]:
+    for device in data["devices"]:
         if MY_ID == device["main-id"]:
             for sensor in device["sensor-nodes"]:
                 sensor_list.append(sensor["node-id"])

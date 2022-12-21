@@ -101,14 +101,14 @@ def create_sensor_list():
 
 
 if __name__ == "__main__":
-    #if loraConf() == 0:
-    #    print("Error occured: connecting error")
-    #    exit()
+    if loraConf() == 0:
+        print("Error occured: connecting error")
+        exit()
     while True:
         sensor_id_list = create_sensor_list()
         
         # if have something to send chceck if sensor id is in sensors attached to me
-        #sensor = get_lora_sensor()
+        sensor = get_lora_sensor()
         
         sensor = SensorNode(9, 100, 50, 20, 50)
 
@@ -117,5 +117,5 @@ if __name__ == "__main__":
             if sensor.sensor_id in sensor_id_list:
                 update_sensor(MY_ID, sensor)
             
-        #get_lora_sensor()
+        get_lora_sensor()
         sleep(0.5)

@@ -145,7 +145,7 @@ if __name__ == "__main__":
             print(f'wilgotnosc: {sensor.soil_moisture}')
             print(f'temperatura: {sensor.air_temperature}')
 
-        forecast_rain = get_rain_sum()
+        forecast_rain = 2 #get_rain_sum()
         soil_avg = get_sensor_soil()
         valve_list = create_valve_list()
 

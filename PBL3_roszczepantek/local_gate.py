@@ -63,7 +63,7 @@ def loraConf():
 def sensorDataProcess (RAW_msg):
     msg_index = RAW_msg.find('"') + 1
     msg = RAW_msg[msg_index:]
-    print(msg)
+    print(f'wiadomosc: {msg}')
     s_nodeID = f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}'
     s_temperature_meas = f'0x{msg[4]}{msg[5]}'
     s_moisture_meas = f'0x{msg[6]}{msg[7]}'

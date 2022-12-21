@@ -29,7 +29,7 @@ def connectTest():
 
 #SEND AT COMMANDS
 def sendAT(command):
-    if not uart.inWaiting():
+    if uart.inWaiting():
         uart.write((command + '\r\n').encode('utf-8'))
         sleep(0.5)
         return readData()

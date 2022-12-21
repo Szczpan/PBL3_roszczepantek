@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import serial
 from time import time, sleep
 import sys
+from random import randrange
 
 uart = serial.Serial("/dev/ttyS0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=8, timeout=1)
 
@@ -48,16 +49,24 @@ def loraConf():
         print(f'Changing LoRa module mode to TEST: {last_response}')
     return 1
 
+def getSensorData():
+    temperatureMeas = randrange(20, 25, 0.1)
+    moistureMeas = randrange(20, 60, 0.5)
+    return [temperatureMeas, moistureMeas]
+
 NODE_ID = 9
 
 if __name__ == "__main__":
     if loraConf() == 0:
         print("Error occured: connecting error")
         exit()
+    sensor_data = getSensorData()
     hex_nodeID = hex(NODE_ID).lstrip("0x").zfill(4)
-    hex_temperatureMeas = '0A'
-    hex_moisureMeas = '0B'
-    msg=f'{hex_nodeID}{hex_temperatureMeas}{hex_moisureMeas}'
+    hex_temperatureMeas = hex(sensor_data[0]).lstrip("0x").zfill(2)
+    hex_moistureMeas = hex(sensor_data[1]).lstrip("0x").zfill(2)
+    #hex_temperatureMeas = '0A'
+    #hex_moistureMeas = '01'
+    msg=f'{hex_nodeID}{hex_temperatureMeas}{hex_moistureMeas}'
     print(msg)
     send_data_hex(msg)
     

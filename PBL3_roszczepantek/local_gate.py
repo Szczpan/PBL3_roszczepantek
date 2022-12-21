@@ -38,10 +38,14 @@ def sendAT(command):
 #SEND DATA IN HEX FORMAT
 def send_data_hex(hex_data):
     sendAT(f'AT+TEST=TXLRPKT, "{hex_data}"')
-    
+
+mode = 'default'
+
 #CAPTURE DATA
 def receiveData():
-    sendAT('AT+TEST=RXLRPKT')
+    if mode == default:
+        sendAT('AT+TEST=RXLRPKT')
+        mode = 'RXLRPKT'
     return readData()
 
 #CONFIG FUNCTION FOR MODULE

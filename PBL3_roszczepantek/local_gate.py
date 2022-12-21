@@ -46,7 +46,7 @@ def receiveData():
 
 #CONFIG FUNCTION FOR MODULE
 def loraConf():
-    if connectTest() != '+AT: OK\r\n': 
+    if connectTest() != '+AT: OK\r\n':
         return 0
     last_response = sendAT('AT+RESET')
     sleep(0.5)
@@ -137,7 +137,7 @@ if __name__ == "__main__":
         exit()
     while True:
         sensor_id_list = create_sensor_list()
-        
+        print("test")
         # if have something to send chceck if sensor id is in sensors attached to me
         sensor = get_lora_sensor()
         if sensor != 0:

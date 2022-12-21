@@ -150,7 +150,7 @@ if __name__ == "__main__":
         soil_avg = get_sensor_soil()
         valve_list = create_valve_list()
         print(soil_avg)
-        if int(soil_avg)*int(forecast_rain) > 150:
+        if soil_avg*int(forecast_rain) > 150:
             for valve in valve_list:
                 valve_obj = ValveNode(valve, True, 100)
                 update_valve(MY_ID, valve_obj)

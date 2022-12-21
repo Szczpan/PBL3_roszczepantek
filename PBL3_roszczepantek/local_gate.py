@@ -91,7 +91,7 @@ SERVER_IP = "http://10.140.123.3:8000/api-v1/devices"
 
 def create_sensor_list():
     data = requests.get(SERVER_IP)
-    data = json.loads(data.text)
+    data = json.dumps(data.text)
     sensor_list = []
     for device in data["devices"]:
         if MY_ID == device["main-id"]:

@@ -78,7 +78,7 @@ def sensorDataProcess (RAW_msg):
 #GET DATA FROM SENSOR NODE AND UPLOAD TO ITS CLASS
 def get_lora_sensor():
     last_response = receiveData()
-    if last_response != ' ':
+    if last_response != ' ' and last_response != '':
         sensor_data = sensorDataProcess(last_response)
         sensor = SensorNode(sensor_data[0], 0, sensor_data[2], sensor_data[1], 0)
         return sensor

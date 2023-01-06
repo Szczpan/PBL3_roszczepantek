@@ -127,7 +127,8 @@ def get_sensor_soil():
         if MY_ID == device["main-id"]:
             for sensor in device["sensor-nodes"]:
                 soil_list.append(sensor["soil-moisture"])
-
+    if len(soil_list) == 0:
+        return 0
     return sum(soil_list)/len(soil_list)
 
 

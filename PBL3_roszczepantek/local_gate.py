@@ -42,12 +42,13 @@ def send_data_hex(hex_data):
 #CAPTURE DATA
 def receiveData():
     sendAT('AT+TEST=RXLRPKT')
+    sleep(0.5)
     return readData()
 
 #CONFIG FUNCTION FOR MODULE
 def loraConf():
-    if connectTest() != '+AT: OK\r\n':
-        return 0
+    #if connectTest() != '+AT: OK\r\n':
+    #    return 0
     last_response = sendAT('AT+RESET')
     sleep(0.5)
     print(f'Reseting LoRa module to default: {last_response}')
@@ -63,6 +64,7 @@ def loraConf():
 def sensorDataProcess (RAW_msg):
     msg_index = RAW_msg.find('"') + 1
     msg = RAW_msg[msg_index:]
+    #print(f'wiadomosc: {msg}')
     s_nodeID = f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}'
     s_temperature_meas = f'0x{msg[4]}{msg[5]}'
     s_moisture_meas = f'0x{msg[6]}{msg[7]}'
@@ -77,6 +79,7 @@ def sensorDataProcess (RAW_msg):
 #GET DATA FROM SENSOR NODE AND UPLOAD TO ITS CLASS
 def get_lora_sensor():
     last_response = receiveData()
+    print(f'Odebrane dane: {last_response}')
     if last_response != ' ' and last_response != '':
         sensor_data = sensorDataProcess(last_response)
         sensor = SensorNode(sensor_data[0], 0, sensor_data[2], sensor_data[1], 0)
@@ -129,28 +132,25 @@ def get_sensor_soil():
     return int(sum(soil_list))/int(len(soil_list))
 
 
-
-
-
 if __name__ == "__main__":
     # if loraConf() == 0:
     #     print("Error occured: connecting error")
-    #     exit()
+        # exit()
+    loraConf()
     while True:
         sensor_id_list = create_sensor_list()
+        #print("test")
+        # if have something to send chceck if sensor id is in sensors attached to me
+        sensor = get_lora_sensor()
+        if sensor != 0:
+            print(f'wilgotnosc: {sensor.soil_moisture}')
+            print(f'temperatura: {sensor.air_temperature}')
 
-        # if have something to send check if sensor id is in sensors attached to me
-        # sensor = get_lora_sensor()
-        # if sensor != 0:
-        #     print(sensor.soil_moisture)
-
-        sensor = SensorNode(9, 10, 120, 20, 50)
-
-        forecast_rain = 2 # int(get_rain_sum())
+        forecast_rain = 2 # get_rain_sum()
         soil_avg = get_sensor_soil()
         valve_list = create_valve_list()
-        print(soil_avg)
-        if soil_avg*int(forecast_rain) > 150:
+
+        if soil_avg*forecast_rain > 150:
             for valve in valve_list:
                 valve_obj = ValveNode(valve, True, 100)
                 update_valve(MY_ID, valve_obj)
@@ -163,5 +163,5 @@ if __name__ == "__main__":
             # put to server if true
             if sensor.sensor_id in sensor_id_list:
                 update_sensor(MY_ID, sensor)
-        
+
         sleep(0.5)

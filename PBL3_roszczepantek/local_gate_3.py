@@ -144,11 +144,7 @@ if __name__ == "__main__":
         # if have something to send chceck if sensor id is in sensors attached to me
         sensor = get_lora_sensor()
         if sensor != 0:
-<<<<<<< HEAD
-            print(f'node: {sensor.sensor_id}')
-=======
             print(f'node id: {sensor.sensor_id}')
->>>>>>> 68754fb498ca0add148513d4ffa4fab8d9d07868
             print(f'wilgotnosc: {sensor.soil_moisture}')
             print(f'temperatura: {sensor.air_temperature}')
 
@@ -162,11 +158,8 @@ if __name__ == "__main__":
                 update_valve(MY_ID, valve_obj)
         else:
             for valve in valve_list:
-<<<<<<< HEAD
                 valve_obj = ValveNode(valve, False, 100)
-=======
                 valve_obj = ValveNode(valve, False, 0)
->>>>>>> 68754fb498ca0add148513d4ffa4fab8d9d07868
                 update_valve(MY_ID, valve_obj)
 
         if sensor != 0:

@@ -38,12 +38,14 @@ def sendAT(command):
 #SEND DATA IN HEX FORMAT
 def send_data_hex(hex_data):
     sendAT(f'AT+TEST=TXLRPKT, "{hex_data}"')
-    
+
+
 #CAPTURE DATA
 def receiveData():
     sendAT('AT+TEST=RXLRPKT')
     sleep(0.5)
     return readData()
+
 
 #CONFIG FUNCTION FOR MODULE
 def loraConf():
@@ -60,6 +62,7 @@ def loraConf():
         print(f'Changing LoRa module mode to TEST: {last_response}')
     return 1
 
+
 #PROCESS DATA FROM SENSOR NODE
 def sensorDataProcess (RAW_msg):
     msg_index = RAW_msg.find('"') + 1
@@ -74,8 +77,7 @@ def sensorDataProcess (RAW_msg):
     processed_data = [nodeID, temperature_meas, moisture_meas]
     return processed_data
     
-        
-    
+
 #GET DATA FROM SENSOR NODE AND UPLOAD TO ITS CLASS
 def get_lora_sensor():
     last_response = receiveData()
@@ -85,6 +87,7 @@ def get_lora_sensor():
         sensor = SensorNode(sensor_data[0], 0, sensor_data[2], sensor_data[1], 0)
         return sensor
     return 0
+
 
 #OPENS VALVE FOR CERTAIN TIME (for time = -1 closes it)
 def open_valve(nodeID, time):

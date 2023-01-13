@@ -202,4 +202,5 @@ if __name__ == "__main__":
             
         except KeyboardInterrupt:
             print('Program executed with keyboard interrupt')
+            exit()
         

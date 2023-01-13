@@ -134,11 +134,16 @@ def get_sensor_soil():
         return 0
 
     moisture_sum = 0
+    moisture_n = 0
     for moisture in soil_list:
         if moisture >= 0:
             moisture_sum += moisture
+            moisture_n += 1
 
-    return sum(soil_list)/len(soil_list)
+    if moisture_n == 0:
+        return 0
+
+    return moisture_sum/moisture_n
 
 
 if __name__ == "__main__":

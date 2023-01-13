@@ -49,7 +49,8 @@ def receiveData():
 
 #CONFIG FUNCTION FOR MODULE
 def loraConf():
-    if connectTest() != '+AT: OK\r\n':
+    readData()
+    if not ('+AT: OK\r\n' in connectTest()):
         return 0
     last_response = sendAT('AT+RESET')
     sleep(0.5)

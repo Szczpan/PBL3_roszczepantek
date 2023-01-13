@@ -154,47 +154,51 @@ if __name__ == "__main__":
     last_time = time()
     time_left = 0
     while True:
-        sensor_id_list = create_sensor_list()
+        try
+            sensor_id_list = create_sensor_list()
 
-        # if have something to send check if sensor id is in sensors attached to me
-        sensor = get_lora_sensor()
+            # if have something to send check if sensor id is in sensors attached to me
+            sensor = get_lora_sensor()
 
-        # print in terminal
-        if sensor != 0:
-            print(f'node id: {sensor.sensor_id}')
-            print(f'wilgotnosc: {sensor.soil_moisture}')
-            print(f'temperatura: {sensor.air_temperature}')
-            print('\n')
+            # print in terminal
+            if sensor != 0:
+                print(f'node id: {sensor.sensor_id}')
+                print(f'wilgotnosc: {sensor.soil_moisture}')
+                print(f'temperatura: {sensor.air_temperature}')
+                print('\n')
 
-            if sensor.sensor_id in sensor_id_list:
-                update_sensor(MY_ID, sensor)
-        
-        forecast_rain = get_rain_sum()
-        soil_avg = get_sensor_soil()
-        valve_list = create_valve_list()
+                if sensor.sensor_id in sensor_id_list:
+                    update_sensor(MY_ID, sensor)
+            
+            forecast_rain = get_rain_sum()
+            soil_avg = get_sensor_soil()
+            valve_list = create_valve_list()
 
-        if sensor != 0:
-            if soil_avg*forecast_rain < 200:
-                for valve in valve_list:
-                    valve_obj = ValveNode(valve, True, 100)
-                    time_left = 100
-                    update_valve(MY_ID, valve_obj)
+            if sensor != 0:
+                if soil_avg*forecast_rain < 200:
+                    for valve in valve_list:
+                        valve_obj = ValveNode(valve, True, 100)
+                        time_left = 100
+                        update_valve(MY_ID, valve_obj)
+                else:
+                    for valve in valve_list:
+                        valve_obj = ValveNode(valve, False, 0)
+                        time_left = 0
+                        update_valve(MY_ID, valve_obj)
+                last_time = time()
             else:
                 for valve in valve_list:
-                    valve_obj = ValveNode(valve, False, 0)
-                    time_left = 0
-                    update_valve(MY_ID, valve_obj)
-            last_time = time()
-        else:
-            for valve in valve_list:
-                time_left -= time() - last_time
-                if time_left > 0:
-                    valve_obj = ValveNode(valve, True, time_left)
-                    update_valve(MY_ID, valve_obj)
-                else:
-                    valve_obj = ValveNode(valve, False, 0)
-                    time_left = 0
-                    update_valve(MY_ID, valve_obj)
-                
-        sleep(0.5)
+                    time_left -= time() - last_time
+                    if time_left > 0:
+                        valve_obj = ValveNode(valve, True, time_left)
+                        update_valve(MY_ID, valve_obj)
+                    else:
+                        valve_obj = ValveNode(valve, False, 0)
+                        time_left = 0
+                        update_valve(MY_ID, valve_obj)
+                    
+            sleep(0.5)
+            
+        except KeyboardInterrupt:
+            print('Program executed with keyboard interrupt')
         

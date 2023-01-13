@@ -49,8 +49,8 @@ def receiveData():
 
 #CONFIG FUNCTION FOR MODULE
 def loraConf():
-    #if connectTest() != '+AT: OK\r\n':
-    #    return 0
+    if connectTest() != '+AT: OK\r\n':
+        return 0
     last_response = sendAT('AT+RESET')
     sleep(0.5)
     print(f'Reseting LoRa module to default: {last_response}')
@@ -147,20 +147,20 @@ def get_sensor_soil():
 
 
 if __name__ == "__main__":
-    # if loraConf() == 0:
-    #     print("Error occured: connecting error")
-        # exit()
+    if loraConf() == 0:
+        print("Error occured: connecting error")
+        exit()
     loraConf()
     while True:
         sensor_id_list = create_sensor_list()
-        #print("test")
+
         # if have something to send check if sensor id is in sensors attached to me
         sensor = get_lora_sensor()
         if sensor != 0:
             print(f'node id: {sensor.sensor_id}')
             print(f'wilgotnosc: {sensor.soil_moisture}')
             print(f'temperatura: {sensor.air_temperature}')
-            print()
+            print('\n')
 
         forecast_rain = get_rain_sum()
         soil_avg = get_sensor_soil()

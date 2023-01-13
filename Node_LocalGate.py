@@ -189,6 +189,7 @@ if __name__ == "__main__":
 
             for valve in valve_list:
                 time_left -= time() - last_time
+                print(str(time_left) + "\n")
                 if time_left > 0:
                     valve_obj = ValveNode(valve, True, time_left)
                     update_valve(MY_ID, valve_obj)

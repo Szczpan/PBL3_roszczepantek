@@ -127,9 +127,10 @@ def get_sensor_soil():
         if MY_ID == device["main-id"]:
             for sensor in device["sensor-nodes"]:
                 soil_list.append(sensor["soil-moisture"])
-
-
-    return int(sum(soil_list))/int(len(soil_list))
+    if len(soil_list) == 0:
+        return 0
+    
+    return sum(soil_list)/len(soil_list)
 
 
 if __name__ == "__main__":
@@ -143,14 +144,11 @@ if __name__ == "__main__":
         # if have something to send chceck if sensor id is in sensors attached to me
         sensor = get_lora_sensor()
         if sensor != 0:
+            print(f'node: {sensor.sensor_id}')
             print(f'wilgotnosc: {sensor.soil_moisture}')
             print(f'temperatura: {sensor.air_temperature}')
 
-<<<<<<< HEAD
         forecast_rain = 2 #get_rain_sum()
-=======
-        forecast_rain = 2 # get_rain_sum()
->>>>>>> df3bfc348db1bb2cb3a75d229c90df68b46e071f
         soil_avg = get_sensor_soil()
         valve_list = create_valve_list()
 
@@ -167,8 +165,4 @@ if __name__ == "__main__":
             # put to server if true
             if sensor.sensor_id in sensor_id_list:
                 update_sensor(MY_ID, sensor)
-<<<<<<< HEAD
-=======
-
->>>>>>> df3bfc348db1bb2cb3a75d229c90df68b46e071f
         sleep(0.5)

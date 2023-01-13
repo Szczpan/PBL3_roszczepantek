@@ -150,7 +150,7 @@ if __name__ == "__main__":
     if loraConf() == 0:
         print("Error occured: connecting error")
         exit()
-    loraConf()
+    
     while True:
         sensor_id_list = create_sensor_list()
 

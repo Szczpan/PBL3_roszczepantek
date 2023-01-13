@@ -70,4 +70,4 @@ if __name__ == "__main__":
         msg=f'{hex_nodeID}{hex_temperatureMeas}{hex_moistureMeas}'
         print(msg)
         send_data_hex(msg)
-        sleep(2)
+        sleep(0.5)

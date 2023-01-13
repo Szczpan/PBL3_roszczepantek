@@ -144,7 +144,7 @@ if __name__ == "__main__":
     while True:
         sensor_id_list = create_sensor_list()
         #print("test")
-        # if have something to send chceck if sensor id is in sensors attached to me
+        # if have something to send check if sensor id is in sensors attached to me
         sensor = get_lora_sensor()
         if sensor != 0:
             print(f'node id: {sensor.sensor_id}')
@@ -154,14 +154,13 @@ if __name__ == "__main__":
         forecast_rain = 2 #get_rain_sum()
         soil_avg = get_sensor_soil()
         valve_list = create_valve_list()
-
+        print(soil_avg)
         if soil_avg*forecast_rain > 150:
             for valve in valve_list:
                 valve_obj = ValveNode(valve, True, 100)
                 update_valve(MY_ID, valve_obj)
         else:
             for valve in valve_list:
-                valve_obj = ValveNode(valve, False, 100)
                 valve_obj = ValveNode(valve, False, 0)
                 update_valve(MY_ID, valve_obj)
 

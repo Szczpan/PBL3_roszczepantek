@@ -161,12 +161,12 @@ if __name__ == "__main__":
             print(f'wilgotnosc: {sensor.soil_moisture}')
             print(f'temperatura: {sensor.air_temperature}')
 
-        forecast_rain = 2 #get_rain_sum()
+        forecast_rain = get_rain_sum()
         soil_avg = get_sensor_soil()
         valve_list = create_valve_list()
         print(soil_avg)
 
-        if soil_avg*forecast_rain < 150:
+        if soil_avg*forecast_rain < 200:
             for valve in valve_list:
                 valve_obj = ValveNode(valve, True, 100)
                 update_valve(MY_ID, valve_obj)

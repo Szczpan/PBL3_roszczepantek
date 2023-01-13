@@ -152,13 +152,13 @@ if __name__ == "__main__":
         print("Error occured: connecting error")
         exit()
     last_time = time()
+    time_left = 0
     while True:
         sensor_id_list = create_sensor_list()
 
         # if have something to send check if sensor id is in sensors attached to me
         sensor = get_lora_sensor()
 
-        time_left = 0
         # print in terminal
         if sensor != 0:
             print(f'node id: {sensor.sensor_id}')

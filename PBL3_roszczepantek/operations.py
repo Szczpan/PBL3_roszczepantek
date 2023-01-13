@@ -21,9 +21,9 @@ class SensorNode:
 
 
 class ValveNode:
-    def __init__(self, valve_id, state, time_left):
+    def __init__(self, valve_id, is_open, time_left):
         self.valve_id = valve_id
-        self.state = state
+        self.is_open = is_open
         self.time_left = time_left
         self.timestamp = get_timestamp()
 
@@ -170,7 +170,7 @@ def addValve(main_id, valve_body):
             new_valve = ValveNode(valve_node_id, -1, -1)
             new_valve_dict = {
                 "valve-id": new_valve.valve_id,
-                "state": new_valve.state,
+                "is-open": new_valve.is_open,
                 "time-left": new_valve.time_left,
                 "timestamp": new_valve.timestamp
             }
@@ -329,8 +329,8 @@ def create_valve_dict(valve_body, old_valve_dict):
 
     new_valve_dict = old_valve_dict
 
-    if "state" in valve_body:
-        new_valve_dict["state"] = valve_body["state"]
+    if "is_open" in valve_body:
+        new_valve_dict["is_open"] = valve_body["is_open"]
 
     if "time-left" in valve_body:
         new_valve_dict["time-left"] = valve_body["time-left"]

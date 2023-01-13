@@ -37,6 +37,7 @@ def parse_weather(weather_dict):
         print(rain_sum)
     return int(rain_sum)
 
+
 def parse_location(json_location):
     location = Location(json_location["latitude"], json_location["longitude"])
     return location

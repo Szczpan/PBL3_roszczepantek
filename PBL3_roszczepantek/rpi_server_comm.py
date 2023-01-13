@@ -21,7 +21,7 @@ def update_valve(main_id, valve_node):
 def prepare_valve_json(valve_node):
     valve_json = {
         "valve-id": valve_node.valve_id,
-        "state": valve_node.state,
+        "is-open": valve_node.is_open,
         "time-left": valve_node.time_left
     }
     return valve_json

@@ -82,7 +82,7 @@ def sensorDataProcess (RAW_msg):
 def get_lora_sensor():
     last_response = receiveData()
     if last_response != ' ' and last_response != '':
-        print(f'Odebrane dane: \n{last_response}\n')
+        print(f'Odebrane dane: \n{last_response}')
         sensor_data = sensorDataProcess(last_response)
         sensor = SensorNode(sensor_data[0], 0, sensor_data[2], sensor_data[1], 0)
         return sensor

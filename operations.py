@@ -300,6 +300,8 @@ def updateValve(main_id, valve_id, valve_body):
     # import from json database
     data_dict = read_from_json("data.json")
 
+    print(valve_body)
+
     # iterate over all sensors in all main nodes to find given valve node
     for i, device in enumerate(data_dict["devices"]):
         if main_id == device["main-id"]:
@@ -329,8 +331,8 @@ def create_valve_dict(valve_body, old_valve_dict):
 
     new_valve_dict = old_valve_dict
 
-    if "is_open" in valve_body:
-        new_valve_dict["is_open"] = valve_body["is_open"]
+    if "is-open" in valve_body:
+        new_valve_dict["is-open"] = valve_body["is-open"]
 
     if "time-left" in valve_body:
         new_valve_dict["time-left"] = valve_body["time-left"]

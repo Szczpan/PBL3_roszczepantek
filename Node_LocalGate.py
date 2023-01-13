@@ -154,7 +154,7 @@ if __name__ == "__main__":
     last_time = time()
     time_left = 0
     while True:
-        try
+        try:
             sensor_id_list = create_sensor_list()
 
             # if have something to send check if sensor id is in sensors attached to me

@@ -71,3 +71,4 @@ if __name__ == "__main__":
         print(msg)
         send_data_hex(msg)
         sleep(0.5)
+        

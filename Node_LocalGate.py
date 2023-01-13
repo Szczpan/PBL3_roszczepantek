@@ -195,6 +195,7 @@ if __name__ == "__main__":
                     valve_obj = ValveNode(valve, False, 0)
                     time_left = 0
                     update_valve(MY_ID, valve_obj)
+                last_time = time()
                 
         sleep(0.5)
         

@@ -150,13 +150,14 @@ if __name__ == "__main__":
     if loraConf() == 0:
         print("Error occured: connecting error")
         exit()
-    
+    last_time = time()
     while True:
         sensor_id_list = create_sensor_list()
 
         # if have something to send check if sensor id is in sensors attached to me
         sensor = get_lora_sensor()
-        
+
+        time_left = 0
         # print in terminal
         if sensor != 0:
             print(f'node id: {sensor.sensor_id}')
@@ -170,15 +171,29 @@ if __name__ == "__main__":
         forecast_rain = get_rain_sum()
         soil_avg = get_sensor_soil()
         valve_list = create_valve_list()
-        
-        if soil_avg*forecast_rain < 200:
-            for valve in valve_list:
-                valve_obj = ValveNode(valve, True, 100)
-                update_valve(MY_ID, valve_obj)
+
+        if sensor != 0:
+            if soil_avg*forecast_rain < 200:
+                for valve in valve_list:
+                    valve_obj = ValveNode(valve, True, 100)
+                    time_left = 100
+                    update_valve(MY_ID, valve_obj)
+            else:
+                for valve in valve_list:
+                    valve_obj = ValveNode(valve, False, 0)
+                    time_left = 0
+                    update_valve(MY_ID, valve_obj)
+            last_time = time()
         else:
             for valve in valve_list:
-                valve_obj = ValveNode(valve, False, 0)
-                update_valve(MY_ID, valve_obj)
+                time_left -= time() - last_time
+                if time_left > 0:
+                    valve_obj = ValveNode(valve, True, time_left)
+                    update_valve(MY_ID, valve_obj)
+                else:
+                    valve_obj = ValveNode(valve, False, 0)
+                    time_left = 0
+                    update_valve(MY_ID, valve_obj)
                 
         sleep(0.5)
         

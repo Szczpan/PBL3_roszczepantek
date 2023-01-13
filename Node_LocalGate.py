@@ -186,17 +186,17 @@ if __name__ == "__main__":
                         time_left = 0
                         update_valve(MY_ID, valve_obj)
                 last_time = time()
-            else:
-                for valve in valve_list:
-                    time_left -= time() - last_time
-                    if time_left > 0:
-                        valve_obj = ValveNode(valve, True, time_left)
-                        update_valve(MY_ID, valve_obj)
-                    else:
-                        valve_obj = ValveNode(valve, False, 0)
-                        time_left = 0
-                        update_valve(MY_ID, valve_obj)
-                    last_time = time()
+
+            for valve in valve_list:
+                time_left -= time() - last_time
+                if time_left > 0:
+                    valve_obj = ValveNode(valve, True, time_left)
+                    update_valve(MY_ID, valve_obj)
+                else:
+                    valve_obj = ValveNode(valve, False, 0)
+                    time_left = 0
+                    update_valve(MY_ID, valve_obj)
+                last_time = time()
                     
             sleep(0.5)
             

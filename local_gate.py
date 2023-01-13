@@ -132,7 +132,12 @@ def get_sensor_soil():
                 soil_list.append(sensor["soil-moisture"])
     if len(soil_list) == 0:
         return 0
-    
+
+    moisture_sum = 0
+    for moisture in soil_list:
+        if moisture >= 0:
+            moisture_sum += moisture
+
     return sum(soil_list)/len(soil_list)
 
 
@@ -155,7 +160,8 @@ if __name__ == "__main__":
         soil_avg = get_sensor_soil()
         valve_list = create_valve_list()
         print(soil_avg)
-        if soil_avg*forecast_rain > 150:
+
+        if soil_avg*forecast_rain < 150:
             for valve in valve_list:
                 valve_obj = ValveNode(valve, True, 100)
                 update_valve(MY_ID, valve_obj)

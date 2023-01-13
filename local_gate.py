@@ -165,7 +165,7 @@ if __name__ == "__main__":
         forecast_rain = 2 #get_rain_sum()
         soil_avg = get_sensor_soil()
         valve_list = create_valve_list()
-        print(soil_avg)
+        
 
         if soil_avg*forecast_rain < 150:
             for valve in valve_list:

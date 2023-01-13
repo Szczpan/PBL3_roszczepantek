@@ -81,8 +81,8 @@ def sensorDataProcess (RAW_msg):
 #GET DATA FROM SENSOR NODE AND UPLOAD TO ITS CLASS
 def get_lora_sensor():
     last_response = receiveData()
-    print(f'Odebrane dane: {last_response}')
     if last_response != ' ' and last_response != '':
+        print(f'Odebrane dane: \n{last_response}')
         sensor_data = sensorDataProcess(last_response)
         sensor = SensorNode(sensor_data[0], 0, sensor_data[2], sensor_data[1], 0)
         return sensor
@@ -160,11 +160,12 @@ if __name__ == "__main__":
             print(f'node id: {sensor.sensor_id}')
             print(f'wilgotnosc: {sensor.soil_moisture}')
             print(f'temperatura: {sensor.air_temperature}')
+            print()
 
         forecast_rain = get_rain_sum()
         soil_avg = get_sensor_soil()
         valve_list = create_valve_list()
-        print(soil_avg)
+        
 
         if soil_avg*forecast_rain < 200:
             for valve in valve_list:

@@ -18,6 +18,25 @@ class SensorNode:
         self.air_temperature = air_temperature
         self.battery_level = battery_level
         self.timestamp = get_timestamp()
+        
+    def ___str___(self):
+        return f'{self.sensor_id}{self.air_humidity}{self.soil_moisture}{self.air_temperature}{self.battery_level}{self.timestamp}'
+    
+    def hex_str(self):
+        hex_node_ID = hex(self.sensor_id).lstrip("0x").zfill(4)
+        hex_air_temp = hex(self.air_temperature).lstrip("0x").zfill(2)
+        hex_air_hum = hex(self.air_humidity).lstrip("0x").zfill(2)
+        hex_soil_moist = hex(self.soil_moisture).lstrip("0x").zfill(2)
+        hex_battery_lev = hex(self.battery_level).lstrip("0x").zfill(2)
+        
+        return f'{hex_node_ID}{hex_air_temp}{hex_air_hum}{hex_soil_moist}{hex_battery_lev}'
+    
+    def print_data(self):
+        print(f'node id: {sensor.sensor_id}')
+        print(f'wilgotnosc powietrza: {sensor.air_humidity}')
+        print(f'wilgotnosc gleby: {sensor.soil_moisture}')
+        print(f'temperatura powietrza: {sensor.air_temperature}') 
+        print('\n')
 
 
 class ValveNode:
@@ -26,6 +45,17 @@ class ValveNode:
         self.is_open = is_open
         self.time_left = time_left
         self.timestamp = get_timestamp()
+
+    def __str__(self):
+        return f'{self.valve_id}{self.is_open}{self.time_left}{self.timestamp}'
+    
+    def hex_str(self):
+        hex_valve_id = hex(self.valve_id).lstrip("0x").zfill(4)
+        hex_is_open = hex(self.is_open).lstrip("0x").zfill(2)
+        hex_time_left = hex(self.time_left).lstrip("0x").zfill(2)
+        hex_timestamp = hex(self.timestamp).lstrip("0x").zfill(2)
+        
+        return f'{hex_valve_id}{hex_is_open}{hex_time_left}{hex_timestamp}'
 
 
 # function to add new node to database json file

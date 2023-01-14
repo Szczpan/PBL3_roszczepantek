@@ -58,7 +58,7 @@ class ValveNode:
     def hex_str(self):
         hex_valve_id = hex(self.valve_id).lstrip("0x").zfill(4)
         hex_is_open = hex(self.is_open).lstrip("0x").zfill(2)
-        hex_time_left = hex(self.time_left).lstrip("0x").zfill(2)
+        hex_time_left = hex(int(self.time_left)).lstrip("0x").zfill(2)
         #hex_timestamp = hex(self.timestamp).lstrip("0x").zfill(2)
         
         return f'{hex_valve_id}{hex_is_open}{hex_time_left}'

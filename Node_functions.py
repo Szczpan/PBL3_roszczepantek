@@ -119,7 +119,7 @@ def valveDataProcess (RAW_msg):
     valve = ValveNode(None, None, None)
     valve.valve_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}',16)
     valve.is_open = int(f'0x{msg[4]}{msg[5]}',16)
-    valve.time_left = int(f'0x{msg[5]}{msg[6]}',16)
+    valve.time_left = int(f'0x{msg[6]}{msg[7]}',16)
     return valve    
 
 

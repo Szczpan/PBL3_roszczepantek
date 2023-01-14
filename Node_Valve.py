@@ -17,7 +17,7 @@ if __name__ == "__main__":
         try:
             valve = getLora(VALVE_MODE, [], [VALVE_ID])
             
-            if valve != 0           
+            if valve != 0:         
                 print(valve)
                 if valve.time_left > 0:
                     GPIO.output(21, GPIO.HIGH)

@@ -26,13 +26,13 @@ if __name__ == "__main__":
 
             if nodes != None:
                 if nodes.SensorNode != None:
-                    nodes.SensorNode.print_data()
+                    (nodes.SensorNode).print_data()
 
                     if nodes.SensorNode.sensor_id in sensor_id_list:
                         update_sensor(MAIN_ID, nodes.SensorNode)
                 
                 if nodes.ValveNode != None:
-                    nodes.ValveNode.print_data()
+                    (nodes.ValveNode).print_data()
             
             forecast_rain = get_rain_sum()
             soil_avg = get_sensor_soil(MAIN_ID)

@@ -26,14 +26,13 @@ if __name__ == "__main__":
 
             if nodes != None:
                 if nodes.SensorNode != None:
-                    sensor = nodes.SensorNode
-                    sensor.print_data()
+                    nodes.SensorNode.print_data()
 
-                    if sensor.sensor_id in sensor_id_list:
-                        update_sensor(MAIN_ID, sensor)
+                    if nodes.SensorNode.sensor_id in sensor_id_list:
+                        update_sensor(MAIN_ID, nodes.SensorNode)
+                
                 if nodes.ValveNode != None:
-                    valve_trzebazmienicnazwe = nodes.ValveNode
-                    valve_trzebazmienicnazwe.print_data()
+                    nodes.ValveNode.print_data()
             
             forecast_rain = get_rain_sum()
             soil_avg = get_sensor_soil(MAIN_ID)
@@ -64,9 +63,9 @@ if __name__ == "__main__":
                     update_valve(MAIN_ID, valve_obj)
                 last_time = time()
 
-            valve = ValveNode(VALVE_ID, None, 0.1)
+            valve = ValveNode(VALVE_ID, False, 0.1)
             send_data_hex(valve.hex_str)
-            
+            print(valve.hex_str)
             sleep(0.5)
             
         except KeyboardInterrupt:

@@ -23,11 +23,10 @@ if __name__ == "__main__":
             valve_list = create_valve_list(MAIN_ID)
 
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_list)
-            sensor = nodes.SensorNode
-            valve_trzebazmienicnazwe = nodes.ValveNode
 
             # print in terminal
-            if sensor != None:
+            if nodes.SensorNode != None:
+                sensor = nodes.SensorNode
                 sensor.print_data()
 
                 if sensor.sensor_id in sensor_id_list:
@@ -36,7 +35,8 @@ if __name__ == "__main__":
             forecast_rain = get_rain_sum()
             soil_avg = get_sensor_soil(MAIN_ID)
 
-            if sensor != None:
+            if nodes.SensorNode != None:
+                sensor = nodes.SensorNode
                 if soil_avg*forecast_rain < 200:
                     for valve in valve_list:
                         valve_obj = ValveNode(valve, True, 100)

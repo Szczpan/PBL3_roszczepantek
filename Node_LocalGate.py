@@ -23,20 +23,19 @@ if __name__ == "__main__":
             sensor_id_list = create_sensor_list(MAIN_ID)
             valve_id_list = create_valve_list(MAIN_ID)
             
-            print(f'Lista sensorów: {sensor_id_list}')
-            print(f'Lista zaworów: {valve_id_list}')
+            # print(f'Lista sensorów: {sensor_id_list}')
+            # print(f'Lista zaworów: {valve_id_list}')
             
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_id_list)
 
-            #forecast_rain = get_rain_sum()
+            # forecast_rain = get_rain_sum()
             # soil_avg = get_sensor_soil(MAIN_ID)
             soil_avg = randrange(0, 400, 50)
             if nodes != None:
                 if nodes.SensorNode != None:
                     sensor = nodes.SensorNode
                     sensor.print_data()
-                    if sensor.sensor_id in sensor_id_list:
-                        update_sensor(MAIN_ID, sensor)
+                    update_sensor(MAIN_ID, sensor)
                         
                 if nodes.ValveNode != None:
                     valve = nodes.ValveNode
@@ -48,6 +47,7 @@ if __name__ == "__main__":
                     time_left = 100
                     valve_tmp = ValveNode(valve_id, True, time_left)
                     send_data_hex(valve_tmp.hex_str())
+                    print(valve_tmp.hex_str())
                     sleep(0.5)
                     
             sleep(0.5)

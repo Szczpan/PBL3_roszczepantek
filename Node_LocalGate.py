@@ -33,7 +33,7 @@ if __name__ == "__main__":
                         update_sensor(MAIN_ID, sensor)
                 if nodes.ValveNode != None:
                     valve_trzebazmienicnazwe = nodes.ValveNode
-                    valve_trzebazmienicnazwe.print_da
+                    valve_trzebazmienicnazwe.print_data()
             
             forecast_rain = get_rain_sum()
             soil_avg = get_sensor_soil(MAIN_ID)

@@ -23,7 +23,7 @@ if __name__ == "__main__":
             valve_id_list = create_valve_list(MAIN_ID)
             
             print(f'Lista sensorów: {sensor_id_list}')
-            print(f'Lista sensorów: {valve_id_list}')
+            print(f'Lista zaworów: {valve_id_list}')
             
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_id_list)
 
@@ -68,7 +68,7 @@ if __name__ == "__main__":
                     update_valve(MAIN_ID, valve_obj)
                 last_time = time()
 
-            valve = ValveNode(VALVE_ID, False, 1)
+            valve = ValveNode(VALVE_ID, False, 10)
             send_data_hex(valve.hex_str())
             print(valve.hex_str())
             sleep(0.5)

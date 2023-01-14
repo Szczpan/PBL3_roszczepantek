@@ -102,7 +102,7 @@ def getSensorData():
 def sensorDataProcess (RAW_msg):
     msg_index = RAW_msg.find('"') + 1
     msg = RAW_msg[msg_index:]
-    sensor = SensorNode()
+    sensor = SensorNode(None, None, None, None, None)
     sensor.sensor_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}',16)
     sensor.air_humidity = int(f'0x{msg[4]}{msg[5]}',16)
     sensor.soil_moisture = int(f'0x{msg[5]}{msg[6]}',16)
@@ -115,7 +115,7 @@ def sensorDataProcess (RAW_msg):
 def valveDataProcess (RAW_msg):
     msg_index = RAW_msg.find('"') + 1
     msg = RAW_msg[msg_index:]
-    valve = ValveNode()
+    valve = ValveNode(None, None, None)
     valve.valve_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}',16)
     valve.is_open = int(f'0x{msg[4]}{msg[5]}',16)
     valve.time_left = int(f'0x{msg[5]}{msg[6]}',16)

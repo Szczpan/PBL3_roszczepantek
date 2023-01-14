@@ -1,4 +1,4 @@
-from operations import SensorNode, ValveNode
+from operations import SensorNode, ValveNode, Nodes
 from time import time, sleep
 from rpi_server_comm import update_sensor, update_valve
 from get_weather import get_rain_sum
@@ -143,6 +143,7 @@ def getLoRaValve(RAW_msg):
 def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
     RAW_msg = receiveData()
     list_of_nodes = list_of_sensor_nodes + list_of_valve_nodes
+    nodes = Nodes(None, None)
     if RAW_msg != ' ' and RAW_msg != '' and checkNodeID(RAW_msg) in list_of_nodes:
         if mode == SENSOR_MODE:
             print(f'Odebrane dane: \n{RAW_msg}')
@@ -154,12 +155,10 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
             return valve
         elif mode == UNIVERSAL_MODE:
             if checkNodeID(RAW_msg) in list_of_valve_nodes:
-                valve = getLora(VALVE_MODE, VALVE_ID)
-                sensor = 0
+                nodes.ValveNode = getLora(VALVE_MODE, VALVE_ID)
             elif checkNodeID(RAW_msg) in list_of_sensor_nodes:
-                sensor = getLora(SENSOR_MODE, list_of_nodes)
-                valve = 0
-            return [sensor, valve]
+                nodes.SensorNode = getLora(SENSOR_MODE, list_of_nodes)
+            return nodes
     return 0
 
 

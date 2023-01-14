@@ -15,9 +15,10 @@ if __name__ == "__main__":
     
     while True:
         try:
-            valve = getLora(VALVE_MODE, [], [VALVE_ID])
+            rx_message = getLora(VALVE_MODE, [], [VALVE_ID])
             
-            if valve != 0:         
+            if rx_message != 0:         
+                valve = rx_message
                 print(valve)
                 if valve.time_left > 0:
                     GPIO.output(21, GPIO.HIGH)
@@ -27,9 +28,12 @@ if __name__ == "__main__":
                     GPIO.output(21, GPIO.LOW)
                     valve.is_open = False
                     send_data_hex(valve.hex_str)
-            message = valve.hex_str
-            send_data_hex(message)
-            print(message)
+                    
+            if valve != 0:
+                message = valve.hex_str
+                send_data_hex(message)
+                print(message)
+            
             sleep(0.1)
                 
         except KeyboardInterrupt:

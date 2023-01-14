@@ -166,7 +166,8 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
                 if node_id in list_of_valve_nodes:
                     nodes.ValveNode = getLora(VALVE_MODE, [], list_of_valve_nodes)
                 elif node_id in list_of_sensor_nodes:
-                    nodes.SensorNode = getLora(SENSOR_MODE, list_of_nodes, [])
+                    print(f'node_id jest w id sensorów')
+                    nodes.SensorNode = getLora(SENSOR_MODE, list_of_sensor_nodes, [])
                 return nodes
     return None
 

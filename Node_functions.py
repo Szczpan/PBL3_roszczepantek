@@ -13,6 +13,7 @@ import json
 SENSOR_MODE = 0
 VALVE_MODE = 1
 UNIVERSAL_MODE = 2
+END_MODE = -1
 
 VALVE_ID = 1
 SENSOR_ID = 9
@@ -149,26 +150,30 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
     print(f'Lista czujnikow: {list_of_sensor_nodes}')
     print(f'Lista zaworow: {list_of_valve_nodes}')
     print(f'Wybrany tryb to: {mode}')
+
     if RAW_msg != ' ' and RAW_msg != '':
         node_id = checkNodeID(RAW_msg)
         print(f"Sprawdzanie czy node {node_id} jest na liscie {list_of_nodes}")
         if node_id in list_of_nodes:
             print(f"ogólnie to jest na jakiejs liscie")
-            if mode == SENSOR_MODE and (node_id in list_of_sensor_nodes):
-                print(f'Odebrane dane: \n{RAW_msg}')
-                nodes.SensorNode = sensorDataProcess(RAW_msg)
-                return nodes
-            elif mode == VALVE_MODE and (node_id in list_of_valve_nodes):
-                print(f'Odebrane dane: \n{RAW_msg}')
-                nodes.ValveNode = valveDataProcess(RAW_msg)
-                return nodes
-            elif mode == UNIVERSAL_MODE:
-                if node_id in list_of_valve_nodes:
-                    nodes.ValveNode = getLora(VALVE_MODE, [], list_of_valve_nodes)
-                elif node_id in list_of_sensor_nodes:
-                    print(f'node_id jest w id sensorów')
-                    nodes.SensorNode = getLora(SENSOR_MODE, list_of_sensor_nodes, [])
-                return nodes
+            while mode != END_MODE:
+                if mode == SENSOR_MODE and (node_id in list_of_sensor_nodes):
+                    print(f'Odebrane dane: \n{RAW_msg}')
+                    nodes.SensorNode = sensorDataProcess(RAW_msg)
+                    return nodes
+                elif mode == VALVE_MODE and (node_id in list_of_valve_nodes):
+                    print(f'Odebrane dane: \n{RAW_msg}')
+                    nodes.ValveNode = valveDataProcess(RAW_msg)
+                    return nodes
+                elif mode == UNIVERSAL_MODE:
+                    if node_id in list_of_valve_nodes:
+                        nodes.ValveNode = getLora(VALVE_MODE, [], list_of_valve_nodes)
+                        mode = VALVE_MODE
+                    elif node_id in list_of_sensor_nodes:
+                        print(f'node_id jest w id sensorów')
+                        mode = SENSOR_MODE
+                    return nodes
+                mode = END_MODE
     return None
 
 

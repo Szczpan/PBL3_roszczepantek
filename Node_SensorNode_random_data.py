@@ -12,8 +12,9 @@ if __name__ == "__main__":
         try:
             sensor = getSensorData()
             sensor.sensor_id = SENSOR_ID
-            print(sensor.hex_str)
-            send_data_hex(sensor.hex_str)
+            message = sensor.hex_str
+            print(message)
+            send_data_hex(message)
             
             sleep(5)
             

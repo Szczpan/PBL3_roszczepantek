@@ -27,7 +27,9 @@ if __name__ == "__main__":
                     GPIO.output(21, GPIO.LOW)
                     valve.is_open = False
                     send_data_hex(valve.hex_str)
-            
+            message = valve.hex_str
+            send_data_hex(message)
+            print(message)
             sleep(0.1)
                 
         except KeyboardInterrupt:

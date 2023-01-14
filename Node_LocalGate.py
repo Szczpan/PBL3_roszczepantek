@@ -62,15 +62,14 @@ if __name__ == "__main__":
                 if time_left > 0:
                     valve_obj = ValveNode(valve, True, time_left)
                     update_valve(MAIN_ID, valve_obj)
+                    send_data_hex(valve_obj.hex_str())
                 else:
                     valve_obj = ValveNode(valve, False, 0)
                     time_left = 0
                     update_valve(MAIN_ID, valve_obj)
+                    send_data_hex(valve_obj.hex_str())
                 last_time = time()
 
-            valve = ValveNode(VALVE_ID, False, 10)
-            send_data_hex(valve.hex_str())
-            print(valve.hex_str())
             sleep(0.5)
             
         except KeyboardInterrupt:

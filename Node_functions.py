@@ -147,19 +147,16 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
     if RAW_msg != ' ' and RAW_msg != '' and checkNodeID(RAW_msg) in list_of_nodes:
         if mode == SENSOR_MODE:
             print(f'Odebrane dane: \n{RAW_msg}')
-            sensor = sensorDataProcess(RAW_msg)
-            return sensor
+            nodes.SensorNode = sensorDataProcess(RAW_msg)
         elif mode == VALVE_MODE:
             print(f'Odebrane dane: \n{RAW_msg}')
-            valve = valveDataProcess(RAW_msg)
-            return valve
+            nodes.ValveNode = valveDataProcess(RAW_msg)
         elif mode == UNIVERSAL_MODE:
             if checkNodeID(RAW_msg) in list_of_valve_nodes:
                 nodes.ValveNode = getLora(VALVE_MODE, VALVE_ID)
             elif checkNodeID(RAW_msg) in list_of_sensor_nodes:
                 nodes.SensorNode = getLora(SENSOR_MODE, list_of_nodes)
-            return nodes
-    return 0
+    return nodes
 
 
 def checkNodeID(RAW_msg):

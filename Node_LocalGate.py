@@ -21,7 +21,7 @@ if __name__ == "__main__":
         try:
             sensor_id_list = create_sensor_list(MAIN_ID)
             valve_list = create_valve_list(MAIN_ID)
-
+            print(sensor_id_list)
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_list)
 
             if nodes != None:

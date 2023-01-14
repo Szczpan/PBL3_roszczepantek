@@ -1,8 +1,9 @@
 from Node_functions import loraConf, send_data_hex, getLora, VALVE_ID, VALVE_MODE, VALVE_PIN
+from operations import ValveNode
 from time import sleep
 import RPi.GPIO as GPIO
 
-
+valve = ValveNode(VALVE_ID, False, 0)
 
 if __name__ == "__main__":
     if loraConf() == 0:

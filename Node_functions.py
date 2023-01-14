@@ -147,15 +147,15 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
     nodes = Nodes()
     nodes.SensorNode = None
     nodes.ValveNode = None
-    print(f'Lista czujnikow: {list_of_sensor_nodes}')
-    print(f'Lista zaworow: {list_of_valve_nodes}')
-    print(f'Wybrany tryb to: {mode}')
+    # print(f'Lista czujnikow: {list_of_sensor_nodes}')
+    # print(f'Lista zaworow: {list_of_valve_nodes}')
+    # print(f'Wybrany tryb to: {mode}')
 
     if RAW_msg != ' ' and RAW_msg != '':
         node_id = checkNodeID(RAW_msg)
-        print(f"Sprawdzanie czy node {node_id} jest na liscie {list_of_nodes}")
+        # print(f"Sprawdzanie czy node {node_id} jest na liscie {list_of_nodes}")
         if node_id in list_of_nodes:
-            print(f"ogólnie to jest na jakiejs liscie")
+            # print(f"ogólnie to jest na jakiejs liscie")
             while mode != END_MODE:
                 if mode == SENSOR_MODE and (node_id in list_of_sensor_nodes):
                     print(f'Odebrane dane: \n{RAW_msg}')
@@ -170,7 +170,6 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
                         nodes.ValveNode = getLora(VALVE_MODE, [], list_of_valve_nodes)
                         mode = VALVE_MODE
                     elif node_id in list_of_sensor_nodes:
-                        print(f'node_id jest w id sensorów')
                         mode = SENSOR_MODE
                     else: mode = END_MODE
     return None

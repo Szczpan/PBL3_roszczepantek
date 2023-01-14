@@ -5,7 +5,7 @@ from rpi_server_comm import update_sensor, update_valve
 from get_weather import get_rain_sum
 from random import randrange
 
-
+MY_ID = MAIN_ID
 
 if __name__ == "__main__":
     if loraConf() == 0:
@@ -20,8 +20,8 @@ if __name__ == "__main__":
     
     while True:
         try:
-            sensor_id_list = create_sensor_list(MAIN_ID)
-            valve_id_list = create_valve_list(MAIN_ID)
+            sensor_id_list = create_sensor_list(MY_ID)
+            valve_id_list = create_valve_list(MY_ID)
             
             # print(f'Lista sensorów: {sensor_id_list}')
             # print(f'Lista zaworów: {valve_id_list}')
@@ -29,20 +29,26 @@ if __name__ == "__main__":
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_id_list)
 
             # forecast_rain = get_rain_sum()
-            # soil_avg = get_sensor_soil(MAIN_ID)
+            # soil_avg = get_sensor_soil(MY_ID)
             soil_avg = randrange(0, 400, 50)
+            
             if nodes != None:
                 if nodes.SensorNode != None:
                     sensor = nodes.SensorNode
                     sensor.print_data()
-                    update_sensor(MAIN_ID, sensor)
+                    update_sensor(MY_ID, sensor)
                         
                 if nodes.ValveNode != None:
                     valve = nodes.ValveNode
+                    if valve.is_open == 1: valve.is_open = True
+                    elif valve.is_open == 0: valve.is_open = False 
                     valve.print_data()
-                    update_valve(MAIN_ID, valve)
+                    update_valve(MY_ID, valve)
             
-            if soil_avg < 200:
+            if soil_avg < 200: need_water = True
+            else: need_water = False
+            
+            if need_water:
                 for valve_id in valve_id_list:
                     time_left = 100
                     valve_tmp = ValveNode(valve_id, True, time_left)
@@ -56,31 +62,3 @@ if __name__ == "__main__":
             print('\nProgram executed with keyboard interrupt')
             exit()
             
-
-            # if nodes != None:
-            #     if nodes.SensorNode != None:
-            #         sensor = nodes.SensorNode
-            #         if soil_avg*forecast_rain < 200:
-            #             for valve in valve_id_list:
-            #                 valve_obj = ValveNode(valve, True, 100)
-            #                 time_left = 100
-            #                 update_valve(MAIN_ID, valve_obj)
-            #         else:
-            #             for valve in valve_id_list:
-            #                 valve_obj = ValveNode(valve, False, 0)
-            #                 time_left = 0
-            #                 update_valve(MAIN_ID, valve_obj)
-            #         last_time = time()
-
-            # for valve in valve_id_list:
-            #     time_left -= time() - last_time
-            #     if time_left > 0:
-            #         valve_obj = ValveNode(valve, , time_left)
-            #         update_valve(MAIN_ID, valve_obj)
-            #         send_data_hex(valve_obj.hex_str())
-            #     else:
-            #         valve_obj = ValveNode(valve, False, 0)
-            #         time_left = 0
-            #         update_valve(MAIN_ID, valve_obj)
-            #         send_data_hex(valve_obj.hex_str())
-            #     last_time = time()

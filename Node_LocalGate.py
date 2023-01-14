@@ -13,6 +13,8 @@ if __name__ == "__main__":
     
     last_time = time()
     time_left = 0
+    sensor = SensorNode(None, None, None, None, None)
+    valve_trzebazmienicnazwe = ValveNode(None, None, None)
     
     while True:
         try:
@@ -20,8 +22,8 @@ if __name__ == "__main__":
             valve_list = create_valve_list(MAIN_ID)
 
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_list)
-            sensor = nodes.SensorNode
-            valve_trzebazmienicnazwe = nodes.ValveNode
+            sensor = nodes.SensorNode()
+            valve_trzebazmienicnazwe = nodes.ValveNode()
 
             # print in terminal
             if sensor not in [0, None]:

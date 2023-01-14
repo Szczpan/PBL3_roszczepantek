@@ -24,7 +24,6 @@ if __name__ == "__main__":
 
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_list)
 
-            # print in terminal
             if nodes != None:
                 if nodes.SensorNode != None:
                     sensor = nodes.SensorNode
@@ -32,6 +31,9 @@ if __name__ == "__main__":
 
                     if sensor.sensor_id in sensor_id_list:
                         update_sensor(MAIN_ID, sensor)
+                if nodes.ValveNode != None:
+                    valve_trzebazmienicnazwe = nodes.ValveNode
+                    valve_trzebazmienicnazwe.print_da
             
             forecast_rain = get_rain_sum()
             soil_avg = get_sensor_soil(MAIN_ID)

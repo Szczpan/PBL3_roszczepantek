@@ -62,6 +62,12 @@ class ValveNode:
         #hex_timestamp = hex(self.timestamp).lstrip("0x").zfill(2)
         
         return f'{hex_valve_id}{hex_is_open}{hex_time_left}'
+    
+    def print_data(self):
+        print(f'node id: {self.valve_id}')
+        print(f'is open: {self.is_open}')
+        print(f'time_left: {self.time_left}')
+        print('\n')
 
 
 # function to add new node to database json file

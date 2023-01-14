@@ -30,7 +30,7 @@ if __name__ == "__main__":
                         valve.is_open = False
                         
             send_data_hex(valve.hex_str())
-            print(valve.hex_str)            
+            print(valve.hex_str())            
             sleep(0.5)
                 
         except KeyboardInterrupt:

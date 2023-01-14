@@ -16,16 +16,17 @@ if __name__ == "__main__":
     while True:
         try:
             valve = getLora(VALVE_MODE, [], [VALVE_ID])
-            print(valve)
-                        
-            if valve.time_left > 0:
-                GPIO.output(21, GPIO.HIGH)
-                valve.is_open = True
-                send_data_hex(valve.hex_str)
-            elif valve.time_left == 0:
-                GPIO.output(21, GPIO.LOW)
-                valve.is_open = False
-                send_data_hex(valve.hex_str)
+            
+            if valve != 0           
+                print(valve)
+                if valve.time_left > 0:
+                    GPIO.output(21, GPIO.HIGH)
+                    valve.is_open = True
+                    send_data_hex(valve.hex_str)
+                elif valve.time_left == 0:
+                    GPIO.output(21, GPIO.LOW)
+                    valve.is_open = False
+                    send_data_hex(valve.hex_str)
             
             sleep(0.1)
                 

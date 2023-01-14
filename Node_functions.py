@@ -155,8 +155,10 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
         elif mode == UNIVERSAL_MODE:
             if checkNodeID(RAW_msg) in list_of_valve_nodes:
                 valve = getLora(VALVE_MODE, VALVE_ID)
+                sensor = 0
             elif checkNodeID(RAW_msg) in list_of_sensor_nodes:
                 sensor = getLora(SENSOR_MODE, list_of_nodes)
+                valve = 0
             return [sensor, valve]
     return 0
 

@@ -143,7 +143,7 @@ def getLoRaValve(RAW_msg):
 def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
     RAW_msg = receiveData()
     list_of_nodes = list_of_sensor_nodes + list_of_valve_nodes
-    nodes = Nodes()
+    nodes = Nodes(None, None)
     if RAW_msg != ' ' and RAW_msg != '' and checkNodeID(RAW_msg) in list_of_nodes:
         if mode == SENSOR_MODE:
             print(f'Odebrane dane: \n{RAW_msg}')

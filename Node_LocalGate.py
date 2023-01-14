@@ -1,6 +1,6 @@
 from Node_functions import loraConf, create_sensor_list, get_sensor_soil, create_valve_list, send_data_hex, getLora, UNIVERSAL_MODE, MAIN_ID, VALVE_ID
 from time import sleep, time
-from operations import SensorNode, ValveNode
+from operations import SensorNode, ValveNode, Nodes
 from rpi_server_comm import update_sensor, update_valve
 from get_weather import get_rain_sum
 
@@ -15,6 +15,7 @@ if __name__ == "__main__":
     time_left = 0
     sensor = SensorNode(None, None, None, None, None)
     valve_trzebazmienicnazwe = ValveNode(None, None, None)
+    nodes = Nodes()
     
     while True:
         try:

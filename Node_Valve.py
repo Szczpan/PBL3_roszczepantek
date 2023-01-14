@@ -26,11 +26,11 @@ if __name__ == "__main__":
                     valve.print_data()
                     if valve.valve_id == MY_ID:
                         if valve.time_left > 0:
-                            GPIO.output(21, GPIO.HIGH)
+                            GPIO.output(4, GPIO.HIGH)
                             valve.is_open = True
                             time_left = valve.time_left
                         elif valve.time_left == 0:
-                            GPIO.output(21, GPIO.LOW)
+                            GPIO.output(4, GPIO.LOW)
                             valve.is_open = False
                             time_left = 0
             

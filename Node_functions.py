@@ -89,7 +89,7 @@ def loraConf():
 
 # Gets data from sensors
 def getSensorData():
-    sensor = SensorNode()
+    sensor = SensorNode(None, None, None, None, None)
     sensor.air_temperature = randrange(0, 255, 1)
     sensor.air_humidity = randrange(0, 255, 1)
     sensor.soil_moisture = randrange(0, 255, 1)

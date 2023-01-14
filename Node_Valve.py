@@ -20,6 +20,7 @@ if __name__ == "__main__":
             if rx_message != None:
                 if rx_message.ValveNode != None:
                     valve = rx_message.ValveNode
+                    valve.valve_id = VALVE_ID
                     print(valve)
                     if valve.time_left > 0:
                         GPIO.output(21, GPIO.HIGH)

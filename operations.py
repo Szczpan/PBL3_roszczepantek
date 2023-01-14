@@ -12,8 +12,8 @@ class MainDevice:
 
 class Nodes:
     def __init__(self):
-        self.SensorNode = SensorNode()
-        self.ValveNode = ValveNode()
+        self.SensorNode = SensorNode(None, None, None, None, None)
+        self.ValveNode = ValveNode(None, None, None)
 
 
 class SensorNode:

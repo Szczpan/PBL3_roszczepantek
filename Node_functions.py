@@ -148,6 +148,7 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
     nodes.ValveNode = None
     print(f'Lista czujnikow: {list_of_sensor_nodes}')
     print(f'Lista zaworow: {list_of_valve_nodes}')
+    print(f'Wybrany tryb to: {mode}')
     if RAW_msg != ' ' and RAW_msg != '':
         node_id = checkNodeID(RAW_msg)
         print(f"Sprawdzanie czy node {node_id} jest na liscie {list_of_nodes}")

@@ -41,6 +41,7 @@ if __name__ == "__main__":
                     time_left = 0
                     GPIO.output(21, GPIO.LOW)
                     valve.is_open = False
+            valve.time_left = int(time_left)
             
             send_data_hex(valve.hex_str())
             print(valve.hex_str())            

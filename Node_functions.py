@@ -148,8 +148,9 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
     nodes.ValveNode = None
     if RAW_msg != ' ' and RAW_msg != '':
         node_id = checkNodeID(RAW_msg)
-        print(f"Sprawdzanie czy node {node_id} jest na liscie")
+        print(f"Sprawdzanie czy node {node_id} jest na liscie {list_of_nodes}")
         if node_id in list_of_nodes:
+            print(f"ogólnie to jest na jakiejs liscie")
             if mode == SENSOR_MODE and (node_id in list_of_sensor_nodes):
                 print(f'Odebrane dane: \n{RAW_msg}')
                 nodes.SensorNode = sensorDataProcess(RAW_msg)

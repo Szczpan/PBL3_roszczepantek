@@ -1,4 +1,4 @@
-from Node_functions import loraConf, create_sensor_list, get_sensor_soil, create_valve_list, send_data_hex, getLora, UNIVERSAL_MODE, MAIN_ID
+from Node_functions import loraConf, create_sensor_list, get_sensor_soil, create_valve_list, send_data_hex, getLora, UNIVERSAL_MODE, MAIN_ID, VALVE_ID
 from time import sleep, time
 from operations import SensorNode, ValveNode
 from rpi_server_comm import update_sensor, update_valve
@@ -57,7 +57,7 @@ if __name__ == "__main__":
                     update_valve(MAIN_ID, valve_obj)
                 last_time = time()
 
-            valve = ValveNode(1, True, 0.1)
+            valve = ValveNode(VALVE_ID, None, 0.1)
             send_data_hex(valve.hex_str)
             
             sleep(0.5)

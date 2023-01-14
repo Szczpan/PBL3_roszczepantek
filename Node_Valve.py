@@ -17,24 +17,24 @@ if __name__ == "__main__":
         try:
             rx_message = getLora(VALVE_MODE, [], [VALVE_ID])
             
-            if rx_message.ValveNode != None:         
-                valve = rx_message.ValveNode
-                print(valve)
-                if valve.time_left > 0:
-                    GPIO.output(21, GPIO.HIGH)
-                    valve.is_open = True
-                    send_data_hex(valve.hex_str())
-                elif valve.time_left == 0:
-                    GPIO.output(21, GPIO.LOW)
-                    valve.is_open = False
-                    send_data_hex(valve.hex_str())
-                    
-            if valve != 0:
-                message = valve.hex_str()
-                send_data_hex(message)
-                print(message)
+            if rx_message != None:
+                if rx_message.ValveNode != None:
+                    valve = rx_message.ValveNode
+                    print(valve)
+                    if valve.time_left > 0:
+                        GPIO.output(21, GPIO.HIGH)
+                        valve.is_open = True
+                        send_data_hex(valve.hex_str())
+                    elif valve.time_left == 0:
+                        GPIO.output(21, GPIO.LOW)
+                        valve.is_open = False
+                        send_data_hex(valve.hex_str())
+                        
+            message = valve.hex_str()
+            send_data_hex(message)
+            print(message)
             
-            sleep(0.1)
+            sleep(0.5)
                 
         except KeyboardInterrupt:
             print('\nProgram executed with keyboard interrupt')

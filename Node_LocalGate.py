@@ -14,7 +14,7 @@ if __name__ == "__main__":
     last_time = time()
     time_left = 0
     sensor = SensorNode(None, None, None, None, None)
-    valve_trzebazmienicnazwe = ValveNode(None, None, None)
+    valve = ValveNode(None, None, None)
     nodes = Nodes()
     
     while True:
@@ -32,7 +32,9 @@ if __name__ == "__main__":
                         update_sensor(MAIN_ID, nodes.SensorNode)
                 
                 if nodes.ValveNode != None:
-                    (nodes.ValveNode).print_data()
+                    valve = nodes.ValveNode
+                    valve.valve_id = VALVE_ID
+                    valve.print_data()
             
             forecast_rain = get_rain_sum()
             soil_avg = get_sensor_soil(MAIN_ID)

@@ -64,8 +64,8 @@ if __name__ == "__main__":
                 last_time = time()
 
             valve = ValveNode(VALVE_ID, False, 0.1)
-            send_data_hex(valve.hex_str)
-            print(valve.hex_str)
+            send_data_hex(valve.hex_str())
+            print(valve.hex_str())
             sleep(0.5)
             
         except KeyboardInterrupt:

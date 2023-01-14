@@ -172,8 +172,7 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
                     elif node_id in list_of_sensor_nodes:
                         print(f'node_id jest w id sensorów')
                         mode = SENSOR_MODE
-                    return nodes
-                mode = END_MODE
+                    else: mode = END_MODE
     return None
 
 

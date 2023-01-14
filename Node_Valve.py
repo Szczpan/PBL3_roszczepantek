@@ -23,14 +23,14 @@ if __name__ == "__main__":
                 if valve.time_left > 0:
                     GPIO.output(21, GPIO.HIGH)
                     valve.is_open = True
-                    send_data_hex(valve.hex_str)
+                    send_data_hex(valve.hex_str())
                 elif valve.time_left == 0:
                     GPIO.output(21, GPIO.LOW)
                     valve.is_open = False
-                    send_data_hex(valve.hex_str)
+                    send_data_hex(valve.hex_str())
                     
             if valve != 0:
-                message = valve.hex_str
+                message = valve.hex_str()
                 send_data_hex(message)
                 print(message)
             

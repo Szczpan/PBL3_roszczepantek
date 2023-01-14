@@ -25,29 +25,31 @@ if __name__ == "__main__":
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_list)
 
             # print in terminal
-            if nodes.SensorNode != None:
-                sensor = nodes.SensorNode
-                sensor.print_data()
+            if nodes != None:
+                if nodes.SensorNode != None:
+                    sensor = nodes.SensorNode
+                    sensor.print_data()
 
-                if sensor.sensor_id in sensor_id_list:
-                    update_sensor(MAIN_ID, sensor)
+                    if sensor.sensor_id in sensor_id_list:
+                        update_sensor(MAIN_ID, sensor)
             
             forecast_rain = get_rain_sum()
             soil_avg = get_sensor_soil(MAIN_ID)
 
-            if nodes.SensorNode != None:
-                sensor = nodes.SensorNode
-                if soil_avg*forecast_rain < 200:
-                    for valve in valve_list:
-                        valve_obj = ValveNode(valve, True, 100)
-                        time_left = 100
-                        update_valve(MAIN_ID, valve_obj)
-                else:
-                    for valve in valve_list:
-                        valve_obj = ValveNode(valve, False, 0)
-                        time_left = 0
-                        update_valve(MAIN_ID, valve_obj)
-                last_time = time()
+            if nodes != None:
+                if nodes.SensorNode != None:
+                    sensor = nodes.SensorNode
+                    if soil_avg*forecast_rain < 200:
+                        for valve in valve_list:
+                            valve_obj = ValveNode(valve, True, 100)
+                            time_left = 100
+                            update_valve(MAIN_ID, valve_obj)
+                    else:
+                        for valve in valve_list:
+                            valve_obj = ValveNode(valve, False, 0)
+                            time_left = 0
+                            update_valve(MAIN_ID, valve_obj)
+                    last_time = time()
 
             for valve in valve_list:
                 time_left -= time() - last_time

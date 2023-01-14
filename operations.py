@@ -10,6 +10,12 @@ class MainDevice:
         self.valve_nodes = valve_nodes
 
 
+class Nodes:
+    def __init__(self):
+        self.SensorNode = SensorNode()
+        self.ValveNode = ValveNode()
+
+
 class SensorNode:
     def __init__(self, sensor_id, air_humidity, soil_moisture, air_temperature, battery_level):
         self.sensor_id = sensor_id
@@ -32,10 +38,10 @@ class SensorNode:
         return f'{hex_node_ID}{hex_air_temp}{hex_air_hum}{hex_soil_moist}{hex_battery_lev}'
     
     def print_data(self):
-        print(f'node id: {sensor.sensor_id}')
-        print(f'wilgotnosc powietrza: {sensor.air_humidity}')
-        print(f'wilgotnosc gleby: {sensor.soil_moisture}')
-        print(f'temperatura powietrza: {sensor.air_temperature}') 
+        print(f'node id: {self.sensor_id}')
+        print(f'wilgotnosc powietrza: {self.air_humidity}')
+        print(f'wilgotnosc gleby: {self.soil_moisture}')
+        print(f'temperatura powietrza: {self.air_temperature}') 
         print('\n')
 
 

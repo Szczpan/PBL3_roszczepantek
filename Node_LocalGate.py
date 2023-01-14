@@ -65,7 +65,7 @@ if __name__ == "__main__":
                     update_valve(MAIN_ID, valve_obj)
                 last_time = time()
 
-            valve = ValveNode(VALVE_ID, False, 0.1)
+            valve = ValveNode(VALVE_ID, False, 1)
             send_data_hex(valve.hex_str())
             print(valve.hex_str())
             sleep(0.5)

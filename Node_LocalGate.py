@@ -3,6 +3,7 @@ from time import sleep, time
 from operations import SensorNode, ValveNode, Nodes
 from rpi_server_comm import update_sensor, update_valve
 from get_weather import get_rain_sum
+from random import randrange
 
 
 
@@ -28,8 +29,8 @@ if __name__ == "__main__":
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_id_list)
 
             forecast_rain = get_rain_sum()
-            soil_avg = get_sensor_soil(MAIN_ID)
-            
+            # soil_avg = get_sensor_soil(MAIN_ID)
+            soil_avg = randrange(0, 400, 50)
             if nodes != None:
                 if nodes.SensorNode != None:
                     sensor = nodes.SensorNode

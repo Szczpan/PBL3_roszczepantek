@@ -20,9 +20,12 @@ if __name__ == "__main__":
     while True:
         try:
             sensor_id_list = create_sensor_list(MAIN_ID)
-            valve_list = create_valve_list(MAIN_ID)
-            print(sensor_id_list)
-            nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_list)
+            valve_id_list = create_valve_list(MAIN_ID)
+            
+            print(f'Lista sensorów: {sensor_id_list}')
+            print(f'Lista sensorów: {valve_id_list}')
+            
+            nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_id_list)
 
             if nodes != None:
                 if nodes.SensorNode != None:
@@ -43,18 +46,18 @@ if __name__ == "__main__":
                 if nodes.SensorNode != None:
                     sensor = nodes.SensorNode
                     if soil_avg*forecast_rain < 200:
-                        for valve in valve_list:
+                        for valve in valve_id_list:
                             valve_obj = ValveNode(valve, True, 100)
                             time_left = 100
                             update_valve(MAIN_ID, valve_obj)
                     else:
-                        for valve in valve_list:
+                        for valve in valve_id_list:
                             valve_obj = ValveNode(valve, False, 0)
                             time_left = 0
                             update_valve(MAIN_ID, valve_obj)
                     last_time = time()
 
-            for valve in valve_list:
+            for valve in valve_id_list:
                 time_left -= time() - last_time
                 if time_left > 0:
                     valve_obj = ValveNode(valve, True, time_left)

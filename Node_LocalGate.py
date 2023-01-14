@@ -28,7 +28,7 @@ if __name__ == "__main__":
             
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_id_list)
 
-            forecast_rain = get_rain_sum()
+            #forecast_rain = get_rain_sum()
             # soil_avg = get_sensor_soil(MAIN_ID)
             soil_avg = randrange(0, 400, 50)
             if nodes != None:
@@ -43,7 +43,7 @@ if __name__ == "__main__":
                     valve.print_data()
                     update_valve(MAIN_ID, valve)
             
-            if soil_avg*forecast_rain < 200:
+            if soil_avg < 200:
                 for valve_id in valve_id_list:
                     time_left = 100
                     valve_tmp = ValveNode(valve_id, True, time_left)

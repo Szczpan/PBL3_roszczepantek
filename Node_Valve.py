@@ -17,8 +17,8 @@ if __name__ == "__main__":
         try:
             rx_message = getLora(VALVE_MODE, [], [VALVE_ID])
             
-            if rx_message != 0:         
-                valve = rx_message
+            if rx_message.ValveNode != None:         
+                valve = rx_message.ValveNode
                 print(valve)
                 if valve.time_left > 0:
                     GPIO.output(21, GPIO.HIGH)

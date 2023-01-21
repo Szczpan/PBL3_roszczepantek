@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
             # forecast_rain = get_rain_sum()
             # soil_avg = get_sensor_soil(MY_ID)
-            soil_avg = randrange(0, 400, 50)
+            soil_avg = nodes.SensorNode.soil_moisture
             
             if nodes != None:
                 if nodes.SensorNode != None:
@@ -45,7 +45,7 @@ if __name__ == "__main__":
                     valve.print_data()
                     update_valve(MY_ID, valve)
             
-            if soil_avg < 200: need_water = True
+            if soil_avg < 100: need_water = True
             else: need_water = False
             
             if need_water:

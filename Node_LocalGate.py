@@ -56,6 +56,13 @@ if __name__ == "__main__":
                     send_data_hex(valve_tmp.hex_str())
                     print(valve_tmp.hex_str())
                     sleep(0.5)
+            else:
+                for valve_id in valve_id_list:
+                    time_left = 0
+                    valve_tmp = ValveNode(valve_id, False, time_left)
+                    send_data_hex(valve_tmp.hex_str())
+                    print(valve_tmp.hex_str())
+                    sleep(0.5)
                     
             sleep(0.5)
             

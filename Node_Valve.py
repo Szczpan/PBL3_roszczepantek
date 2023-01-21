@@ -39,7 +39,7 @@ if __name__ == "__main__":
                 last_time = time()
                 if time_left <= 0: 
                     time_left = 0
-                    GPIO.output(21, GPIO.LOW)
+                    GPIO.output(VALVE_PIN, GPIO.LOW)
                     valve.is_open = False
             valve.time_left = int(time_left)
             

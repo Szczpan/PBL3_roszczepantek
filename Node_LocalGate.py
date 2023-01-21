@@ -17,6 +17,7 @@ if __name__ == "__main__":
     sensor = SensorNode(None, None, None, None, None)
     valve = ValveNode(None, None, None)
     nodes = Nodes()
+    soil_avg = 0
     
     while True:
         try:
@@ -30,13 +31,13 @@ if __name__ == "__main__":
 
             # forecast_rain = get_rain_sum()
             # soil_avg = get_sensor_soil(MY_ID)
-            soil_avg = nodes.SensorNode.soil_moisture
             
             if nodes != None:
                 if nodes.SensorNode != None:
                     sensor = nodes.SensorNode
                     sensor.print_data()
                     update_sensor(MY_ID, sensor)
+                    soil_avg = sensor.soil_moisture
                         
                 if nodes.ValveNode != None:
                     valve = nodes.ValveNode

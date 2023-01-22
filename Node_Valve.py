@@ -51,6 +51,7 @@ if __name__ == "__main__":
             valve.time_left = int(time_left)
             
             send_data_hex(valve.hex_str())
+            sleep(3)
             print(valve.hex_str())
             tx_packets += 1
             
@@ -60,7 +61,6 @@ if __name__ == "__main__":
             print(f'{delta_time}')
             print(f'Odebrane pakiety valve: {rx_packets}')
             print(f'Nadane pakiety: {tx_packets}\n')            
-            sleep(0.5)
                 
         except KeyboardInterrupt:
             print('\nProgram executed with keyboard interrupt')

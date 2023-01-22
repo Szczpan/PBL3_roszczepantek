@@ -50,6 +50,7 @@ if __name__ == "__main__":
             
             send_data_hex(valve.hex_str())
             print(valve.hex_str())
+            tx_packets += 1
             print(f'Nadane pakiety: {tx_packets}\n')            
             sleep(0.5)
                 

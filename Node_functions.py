@@ -194,11 +194,11 @@ def checkNodeID(RAW_msg):
     node_list = []
     i = 0
     while '"' in tmp_msg: 
-        msg_index = tmp_msg.find('"', msg_index) + 1
-        if tmp_msg[msg_index] == 0:
+        msg_index = tmp_msg.find('"', msg_index, len(tmp_msg+1)) + 1
+        tmp_msg = tmp_msg[msg_index:]
+        if tmp_msg[0] == 0:
             node_id = int(f'0x{tmp_msg[0]}{tmp_msg[1]}{tmp_msg[2]}{tmp_msg[3]}',16)
             node_list.append(node_id)
-        tmp_msg = tmp_msg[msg_index:]
     return node_list
 
 

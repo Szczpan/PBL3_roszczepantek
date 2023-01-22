@@ -33,7 +33,6 @@ uart = serial.Serial("/dev/ttyS0", baudrate=9600, parity=serial.PARITY_NONE, sto
 def sendAT(command):
     if not uart.inWaiting():
         uart.write((command + '\r\n').encode('utf-8'))
-        sleep(0.5)
         return readData()
     return 0
 

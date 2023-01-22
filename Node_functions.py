@@ -152,37 +152,54 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
     # print(f'Lista czujnikow: {list_of_sensor_nodes}')
     # print(f'Lista zaworow: {list_of_valve_nodes}')
     # print(f'Wybrany tryb to: {mode}')
-
+    node_id = 0
     if RAW_msg != ' ' and RAW_msg != '':
         print(f'Długość odebranej wiadomosci: {len(RAW_msg)}')
-        node_id = checkNodeID(RAW_msg)
+        node_id_list = checkNodeID(RAW_msg)
+        
         # print(f"Sprawdzanie czy node {node_id} jest na liscie {list_of_nodes}")
-        if node_id in list_of_nodes:
-            # print(f"ogólnie to jest na jakiejs liscie")
-            while mode != END_MODE:
-                if mode == SENSOR_MODE and (node_id in list_of_sensor_nodes):
-                    print(f'Odebrane dane: \n{RAW_msg}')
-                    nodes.SensorNode = sensorDataProcess(RAW_msg)
-                    return nodes
-                elif mode == VALVE_MODE and (node_id in list_of_valve_nodes):
-                    print(f'Odebrane dane: \n{RAW_msg}')
-                    nodes.ValveNode = valveDataProcess(RAW_msg)
-                    return nodes
-                elif mode == UNIVERSAL_MODE:
-                    if node_id in list_of_valve_nodes:
-                        nodes.ValveNode = getLora(VALVE_MODE, [], list_of_valve_nodes)
-                        mode = VALVE_MODE
-                    elif node_id in list_of_sensor_nodes:
-                        mode = SENSOR_MODE
-                    else: mode = END_MODE
-    return None
+        for node_id in node_id_list:
+            if node_id in list_of_nodes:
+                
+                # print(f"ogólnie to jest na jakiejs liscie")
+                while mode != END_MODE:
+                    if mode == SENSOR_MODE and (node_id in list_of_sensor_nodes):
+                        print(f'Dane do przetworzenia: \n{RAW_msg}')
+                        nodes.SensorNode = sensorDataProcess(RAW_msg)
+                        #return nodes
+                    
+                    elif mode == VALVE_MODE and (node_id in list_of_valve_nodes):
+                        print(f'Dane do przetworzenia: \n{RAW_msg}')
+                        nodes.ValveNode = valveDataProcess(RAW_msg)
+                        #return nodes
+                    
+                    elif mode == UNIVERSAL_MODE:
+                        if node_id in list_of_valve_nodes:
+                            nodes.ValveNode = getLora(VALVE_MODE, [], list_of_valve_nodes)
+                            mode = VALVE_MODE
+                        elif node_id in list_of_sensor_nodes:
+                            mode = SENSOR_MODE
+                        else: mode = END_MODE
+    
+    if nodes.SensorNode != None or nodes.ValveNode != None:
+        return nodes
+    else: 
+        return None
 
 
 def checkNodeID(RAW_msg):
-    msg_index = RAW_msg.find('"') + 1
-    msg = RAW_msg[msg_index:]
-    node_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}',16)
-    return node_id
+    node_id = -1
+    msg_index = 0
+    tmp_msg = RAW_msg
+    node_list = []
+    i = 0
+    while '"' in tmp_msg: 
+        msg_index = tmp_msg.find('"', msg_index) + 1
+        if tmp_msg[msg_index] != 'n':
+            node_id = int(f'0x{tmp_msg[0]}{tmp_msg[1]}{tmp_msg[2]}{tmp_msg[3]}',16)
+            node_list.append(node_id)
+        tmp_msg = tmp_msg[msg_index:]
+    return node_list
 
 
 

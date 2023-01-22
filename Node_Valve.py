@@ -15,6 +15,9 @@ if __name__ == "__main__":
         
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(VALVE_PIN, GPIO.OUT)
+    
+    rx_packets = 0
+    tx_packets = 0
 
     while True:
         try:
@@ -24,6 +27,8 @@ if __name__ == "__main__":
                 if nodes.ValveNode != None:
                     valve = nodes.ValveNode
                     valve.print_data()
+                    rx_packets += 1
+                    print(f'Odebrane pakiety valve: {rx_packets}\n')
                     if valve.valve_id == MY_ID:
                         if valve.time_left > 0:
                             GPIO.output(VALVE_PIN, GPIO.HIGH)
@@ -44,7 +49,8 @@ if __name__ == "__main__":
             valve.time_left = int(time_left)
             
             send_data_hex(valve.hex_str())
-            print(valve.hex_str())            
+            print(valve.hex_str())
+            print(f'Nadane pakiety: {tx_packets}\n')            
             sleep(0.5)
                 
         except KeyboardInterrupt:

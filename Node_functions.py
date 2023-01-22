@@ -21,6 +21,8 @@ MAIN_ID = 10
 
 VALVE_PIN = 4
 
+SENSOR_SEND_PACKETS = 10
+
 ###    UART COMMUNICATION    ####
 
 # Setup for UART

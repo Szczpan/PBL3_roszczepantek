@@ -59,6 +59,7 @@ def send_data_hex(hex_data):
 # Capture data from LoRa
 def receiveData():
     sendAT('AT+TEST=RXLRPKT')
+    sleep(1)
     return readData()
 
 

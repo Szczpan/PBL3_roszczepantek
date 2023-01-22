@@ -19,6 +19,9 @@ if __name__ == "__main__":
     rx_packets = 0
     tx_packets = 0
 
+    time_stamp = time()
+    delta_time = 0
+    
     while True:
         try:
             nodes = getLora(VALVE_MODE, [], [MY_ID])
@@ -50,7 +53,12 @@ if __name__ == "__main__":
             send_data_hex(valve.hex_str())
             print(valve.hex_str())
             tx_packets += 1
-            print(f'Odebrane pakiety valve: {rx_packets}\n')
+            
+            delta_time = time() - time_stamp
+            time_stamp = time()
+            
+            print(f'{delta_time}')
+            print(f'Odebrane pakiety valve: {rx_packets}')
             print(f'Nadane pakiety: {tx_packets}\n')            
             sleep(0.5)
                 

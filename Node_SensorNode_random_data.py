@@ -1,5 +1,5 @@
 from Node_functions import loraConf, getSensorData, send_data_hex, SENSOR_ID, SENSOR_SEND_PACKETS
-from time import sleep
+from time import time, sleep
 from random import randrange
 
 MY_ID = SENSOR_ID
@@ -10,6 +10,8 @@ if __name__ == "__main__":
         exit()
         
     tx_packets = 0
+    time_stamp = time()
+    delta_time = 0
     
     while True:
         try:
@@ -19,8 +21,10 @@ if __name__ == "__main__":
             print(sensor.hex_str())
             send_data_hex(sensor.hex_str())
             tx_packets += 1
-            print(f'Nadane pakiety: {tx_packets}\n')
+            print(f'{delta_time}: Nadane pakiety: {tx_packets}\n')
                 #sleep(randrange(0.5, 2, 0.1))
+            delta_time = time() - time_stamp
+            time_stamp = time()
             sleep(0.5)
             
             #sleep(100)

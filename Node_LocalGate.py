@@ -23,6 +23,9 @@ if __name__ == "__main__":
     rx_valve_packets = 0
     tx_valve_packets = 0
     
+    time_stamp = time()
+    delta_time = 0
+    
     while True:
         try:
             sensor_id_list = create_sensor_list(MY_ID)
@@ -73,8 +76,13 @@ if __name__ == "__main__":
                     tx_valve_packets += 1
                     #sleep(randrange(0.5, 1, 0.1))
                     sleep(0.5)
-            print(f'Odebrane pakiety sensor: {rx_sensor_packets}\n')
-            print(f'Odebrane pakiety valve: {rx_valve_packets}\n')
+                    
+            delta_time = time() - time_stamp
+            time_stamp = time()
+            
+            print(f'{delta_time}')
+            print(f'Odebrane pakiety sensor: {rx_sensor_packets}')
+            print(f'Odebrane pakiety valve: {rx_valve_packets}')
             print(f'Nadane pakiety valve: {tx_valve_packets}\n')
             sleep(0.5)
             

@@ -156,7 +156,7 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
     if RAW_msg != ' ' and RAW_msg != '':
         print(f'Długość odebranej wiadomosci: {len(RAW_msg)}')
         node_id_list = checkNodeID(RAW_msg)
-        
+        print(node_id_list)
         # print(f"Sprawdzanie czy node {node_id} jest na liscie {list_of_nodes}")
         for node_id in node_id_list:
             if node_id in list_of_nodes:

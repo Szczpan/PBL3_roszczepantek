@@ -42,7 +42,7 @@ def readData():
     received_data = ''
     while uart.inWaiting():
         received_data += (uart.read(uart.inWaiting())).decode('utf-8')
-        sleep(0.3)
+        sleep(0.4)
     return received_data
 
 

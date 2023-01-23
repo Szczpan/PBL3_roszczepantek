@@ -6,7 +6,7 @@ from operations import SensorNode, ValveNode
 from rpi_server_comm import update_sensor, update_valve
 import requests
 import json
-from get_weather import get_rain_sum
+from get_weather import get_rain_sum, get_location
 
 
 uart = serial.Serial("/dev/ttyS0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=8, timeout=1)
@@ -153,6 +153,7 @@ if __name__ == "__main__":
         exit()
     last_time = time()
     time_left = 0
+    location_response = get_location("230eeb5cf5b045babc05ac6984d432a4")
     while True:
         try:
             sensor_id_list = create_sensor_list()
@@ -170,7 +171,7 @@ if __name__ == "__main__":
                 if sensor.sensor_id in sensor_id_list:
                     update_sensor(MY_ID, sensor)
             
-            forecast_rain = get_rain_sum()
+            forecast_rain = get_rain_sum(location_response)
             soil_avg = get_sensor_soil()
             valve_list = create_valve_list()
 

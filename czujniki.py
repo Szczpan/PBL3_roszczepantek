@@ -16,13 +16,11 @@ try:
 	while True:
 		result = instance.read()
 		moisure=GPIO.input(16)
-		someshit=GPIO.input(26)
 		#if result.is_valid():
 		print("Last valid input: " + str(datetime.datetime.now()))
 		print("Temperature: %-3.1f C" % result.temperature)
 		print("Humidity: %-3.1f %%" % result.humidity)
 		print("Moisure: %-3.1f %%" % moisure)
-		print("someshit: %-3.1f %%" % someshit)
 		time.sleep(6)
 except KeyboardInterrupt:
 	print("Cleanup")

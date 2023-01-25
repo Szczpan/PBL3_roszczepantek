@@ -33,17 +33,17 @@ try:
 		#print(moistureRaw)
 		moisture=float(moistureRaw)*0.1875/3.3*100
 		print(moisture)
-		#if result.is_valid():
-		print("Last valid input: " + str(datetime.datetime.now()))
-		print("Temperature: %-3.1f C" % result.temperature)
-		print("Humidity: %-3.1f %%" % result.humidity)
-		print("Moisture: %-3.1f %%" % moisture)
-		time.sleep(6)
-		if moisture < wateringMin:
-			GPIO.output(23,1)
-			print("podlewam")
-			time.sleep(4)
-			GPIO.output(23,0)
+		if result.is_valid():
+			print("Last valid input: " + str(datetime.datetime.now()))
+			print("Temperature: %-3.1f C" % result.temperature)
+			print("Humidity: %-3.1f %%" % result.humidity)
+			print("Moisture: %-3.1f %%" % moisture)
+			time.sleep(6)
+			if moisture < wateringMin:
+				GPIO.output(23,1)
+				print("podlewam")
+				time.sleep(4)
+				GPIO.output(23,0)
 
 
 except KeyboardInterrupt:

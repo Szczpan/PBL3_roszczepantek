@@ -14,22 +14,22 @@ if __name__ == "__main__":
     if loraConf() == 0:
         print("Error occured: connecting error")
         exit()
-    
+
     last_time = time()
     time_left = 0
-    
+
     sensor = SensorNode(None, None, None, None, None)
     valve = ValveNode(None, None, None)
     nodes = Nodes()
     soil_avg = 0
-    
+
     rx_sensor_packets = 0
     rx_valve_packets = 0
     tx_valve_packets = 0
-    
+
     time_stamp = time()
     delta_time = 0
-    
+
 
     location_response = get_location("230eeb5cf5b045babc05ac6984d432a4")
 
@@ -37,34 +37,36 @@ if __name__ == "__main__":
         try:
             sensor_id_list = create_sensor_list(MY_ID)
             valve_id_list = create_valve_list(MY_ID)
-            
+
             # print(f'Lista sensorów: {sensor_id_list}')
             # print(f'Lista zaworów: {valve_id_list}')
-            
+
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_id_list)
 
             forecast_rain = get_rain_sum(location_response)
             soil_avg = get_sensor_soil(MY_ID)
-            
-            if nodes != None:
-                if nodes.SensorNode != None:
+
+            if nodes is not None:
+                if nodes.SensorNode is not None:
                     sensor = nodes.SensorNode
                     sensor.print_data()
                     update_sensor(MY_ID, sensor)
                     soil_avg = sensor.soil_moisture
                     rx_sensor_packets += 1
-                        
-                if nodes.ValveNode != None:
+
+                if nodes.ValveNode is not None:
                     valve = nodes.ValveNode
                     if valve.is_open == 1: valve.is_open = True
-                    elif valve.is_open == 0: valve.is_open = False 
+                    elif valve.is_open == 0: valve.is_open = False
                     valve.print_data()
                     update_valve(MY_ID, valve)
                     rx_valve_packets += 1
-            
-            if soil_avg < 100: need_water = True
-            else: need_water = False
-            
+
+            if soil_avg < 100:
+                need_water = True
+            else:
+                need_water = False
+
             if need_water:
                 for valve_id in valve_id_list:
                     time_left = 100
@@ -83,17 +85,16 @@ if __name__ == "__main__":
                     tx_valve_packets += 1
                     #sleep(randrange(0.5, 1, 0.1))
                     sleep(0.5)
-                    
+
             delta_time = time() - time_stamp
             time_stamp = time()
-            
+
             print(f'{delta_time}')
             print(f'Odebrane pakiety sensor: {rx_sensor_packets}')
             print(f'Odebrane pakiety valve: {rx_valve_packets}')
             print(f'Nadane pakiety valve: {tx_valve_packets}\n')
             sleep(0.5)
-            
+
         except KeyboardInterrupt:
             print('\nProgram executed with keyboard interrupt')
             exit()
-            

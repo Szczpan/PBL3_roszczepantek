@@ -106,11 +106,11 @@ def getSensorData():
 def sensorDataProcess (msg):
     # msg_index = RAW_msg.find('"') + 1
     sensor = SensorNode(None, None, None, None, None)
-    sensor.sensor_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}',16)
-    sensor.air_humidity = int(f'0x{msg[4]}{msg[5]}',16)
-    sensor.soil_moisture = int(f'0x{msg[6]}{msg[7]}',16)
-    sensor.air_temperature = int(f'0x{msg[8]}{msg[9]}',16)
-    sensor.battery_level = int(f'0x{msg[10]}{msg[11]}',16)
+    sensor.sensor_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}', 16)
+    sensor.air_humidity = int(f'0x{msg[4]}{msg[5]}', 16)
+    sensor.soil_moisture = int(f'0x{msg[6]}{msg[7]}', 16)
+    sensor.air_temperature = int(f'0x{msg[8]}{msg[9]}', 16)
+    sensor.battery_level = int(f'0x{msg[10]}{msg[11]}', 16)
     return sensor
 
 
@@ -157,11 +157,11 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
         for node in node_list:
             node_id = int("0x" + node[:4], 16)
             if node_id in list_of_nodes:
-                if node_id in list_of_valve_nodes:
+                if node_id in list_of_sensor_nodes:
                     # nodes.ValveNode = getLora(VALVE_MODE, [], list_of_valve_nodes)
                     print(f'Odebrane dane: \n{node}')
                     nodes.SensorNode = sensorDataProcess(node)
-                elif node_id in list_of_sensor_nodes:
+                elif node_id in list_of_valve_nodes:
                     print(f'Odebrane dane: \n{node}')
                     nodes.ValveNode = valveDataProcess(node)
         return nodes

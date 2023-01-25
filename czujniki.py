@@ -3,6 +3,7 @@ import dht11
 import time
 import os
 import datetime
+import subprocess
 
 # initialize GPIO
 GPIO.setwarnings(True)
@@ -20,7 +21,8 @@ try:
 	while True:
 		result = instance.read()
 		wateringMin=250+100*(result.temperature-15)/6
-		moistureRaw=os.system("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw")
+		os.system("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw")
+		moistureRaw=subprocess.call()
 		print(moistureRaw)
 		moisture=float(moistureRaw)*0.1875/3.3*100
 		print(moisture)

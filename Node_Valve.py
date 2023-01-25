@@ -1,6 +1,7 @@
 from Node_functions import loraConf, send_data_hex, getLora, VALVE_ID, VALVE_MODE, VALVE_PIN
 from operations import ValveNode
 from time import time, sleep
+from random import randrange
 import RPi.GPIO as GPIO
 
 MY_ID = VALVE_ID
@@ -51,7 +52,7 @@ if __name__ == "__main__":
             valve.time_left = int(time_left)
             
             send_data_hex(valve.hex_str())
-            sleep(3)
+            sleep(randrange())
             print(valve.hex_str())
             tx_packets += 1
             

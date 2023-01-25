@@ -108,9 +108,9 @@ def sensorDataProcess (RAW_msg):
     sensor = SensorNode(None, None, None, None, None)
     sensor.sensor_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}',16)
     sensor.air_humidity = int(f'0x{msg[4]}{msg[5]}',16)
-    sensor.soil_moisture = int(f'0x{msg[5]}{msg[6]}',16)
-    sensor.air_temperature = int(f'0x{msg[6]}{msg[7]}',16)
-    sensor.battery_level = int(f'0x{msg[8]}{msg[9]}',16)
+    sensor.soil_moisture = int(f'0x{msg[6]}{msg[7]}',16)
+    sensor.air_temperature = int(f'0x{msg[8]}{msg[9]}',16)
+    sensor.battery_level = int(f'0x{msg[10]}{msg[11]}',16)
     return sensor
 
 

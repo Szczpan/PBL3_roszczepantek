@@ -22,7 +22,7 @@ try:
 		wateringMin=250+100*(result.temperature-15)/6
 		moistureRaw=os.system("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw")
 		print(moistureRaw)
-		moisture=int(moistureRaw)*0.1875/3.3*100
+		moisture=float(moistureRaw)*0.1875/3.3*100
 		print(moisture)
 		#if result.is_valid():
 		print("Last valid input: " + str(datetime.datetime.now()))

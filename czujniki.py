@@ -6,6 +6,7 @@ import datetime
 import subprocess
 import sys
 import shlex
+import string
 
 # initialize GPIO
 GPIO.setwarnings(True)

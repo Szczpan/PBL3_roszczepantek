@@ -43,7 +43,7 @@ if __name__ == "__main__":
             
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_id_list)
 
-            forecast_rain = get_rain_sum()
+            forecast_rain = get_rain_sum(location_response)
             soil_avg = get_sensor_soil(MY_ID)
             
             if nodes != None:

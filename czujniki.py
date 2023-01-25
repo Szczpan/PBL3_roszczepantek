@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import dht11
 import time
+import os
 import datetime
 
 # initialize GPIO
@@ -19,15 +20,17 @@ try:
 	while True:
 		result = instance.read()
 		wateringMin=250+100*(result.temperature-15)/6
-		moisure=GPIO.input(16)
+		moistureRaw=os.system("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw")
+		moisture=min(0, moistureRaw*0.1875/3.3*100)
 		#if result.is_valid():
 		print("Last valid input: " + str(datetime.datetime.now()))
 		print("Temperature: %-3.1f C" % result.temperature)
 		print("Humidity: %-3.1f %%" % result.humidity)
-		print("Moisure: %-3.1f %%" % moisure/10)
+		print("Moisure: %-3.1f %%" % moisture)
 		time.sleep(6)
-		if moisure < wateringMin:
+		if moisture < wateringMin:
 			GPIO.output(23,1)
+			print("podlewam")
 
 
 except KeyboardInterrupt:

@@ -23,7 +23,7 @@ instance = dht11.DHT11(pin=26)
 try:
 	while True:
 		result = instance.read()
-		wateringMin=250+100*(result.temperature-15)/6
+		wateringMin=min(250, 250+100*(result.temperature-15)/6)
 		#os.system("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw")
 		process = subprocess.Popen(shlex.split("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw"), stdout=subprocess.PIPE)
 		moistureRaw=process.stdout.readline()

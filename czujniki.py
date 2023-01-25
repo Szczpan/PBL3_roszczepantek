@@ -28,7 +28,8 @@ try:
 		process = subprocess.Popen(shlex.split("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw"), stdout=subprocess.PIPE)
 		moistureRaw=process.stdout.readline()
 		print(moistureRaw)
-		moistureRaw = re.findall("b'(\d*)\\n'", str(moistureRaw, "utf-8"))
+		#moistureRaw = re.findall("b'(\d*)\\n'", str(moistureRaw, "utf-8"))
+		moistureRaw=moistureRaw[2:-2]
 		print(moistureRaw)
 		moisture=float(moistureRaw)*0.1875/3.3*100
 		print(moisture)

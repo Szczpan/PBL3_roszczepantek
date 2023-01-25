@@ -4,6 +4,7 @@ import time
 import os
 import datetime
 import subprocess
+import sys
 
 # initialize GPIO
 GPIO.setwarnings(True)
@@ -22,7 +23,7 @@ try:
 		result = instance.read()
 		wateringMin=250+100*(result.temperature-15)/6
 		os.system("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw")
-		moistureRaw=subprocess.call()
+		moistureRaw=subprocess.Popen([sys.executable, 'home/pi/Documents/Project/Subprocess/Beep2.py'], shell = True)
 		print(moistureRaw)
 		moisture=float(moistureRaw)*0.1875/3.3*100
 		print(moisture)

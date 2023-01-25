@@ -23,8 +23,8 @@ try:
 	while True:
 		result = instance.read()
 		wateringMin=250+100*(result.temperature-15)/6
-		os.system("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw")
-		process = subprocess.Popen(shlex.split(command), stdout=subprocess.PIPE)
+		#os.system("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw")
+		process = subprocess.Popen(shlex.split("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw"), stdout=subprocess.PIPE)
 		moistureRaw=process.stdout.readline()
 		print(moistureRaw)
 		moisture=float(moistureRaw)*0.1875/3.3*100

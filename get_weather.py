@@ -42,8 +42,8 @@ def parse_location(json_location):
     return location
 
 
-def get_rain_sum():
-    location_response = get_location("230eeb5cf5b045babc05ac6984d432a4")
+def get_rain_sum(location_response):
+    # location_response = get_location("230eeb5cf5b045babc05ac6984d432a4")
     lat_lon = parse_location(location_response)
     weather = get_weather(lat_lon.lat, lat_lon.lon, 2, "debfa5e4207976ffb8d58a3ea30c607e")
     return parse_weather(weather)

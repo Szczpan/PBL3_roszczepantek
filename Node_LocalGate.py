@@ -2,8 +2,11 @@ from Node_functions import loraConf, create_sensor_list, get_sensor_soil, create
 from time import sleep, time
 from operations import SensorNode, ValveNode, Nodes
 from rpi_server_comm import update_sensor, update_valve
-from get_weather import get_rain_sum
 from random import randrange
+import requests
+import json
+from get_weather import get_rain_sum, get_location
+
 
 MY_ID = MAIN_ID
 
@@ -14,6 +17,7 @@ if __name__ == "__main__":
     
     last_time = time()
     time_left = 0
+    
     sensor = SensorNode(None, None, None, None, None)
     valve = ValveNode(None, None, None)
     nodes = Nodes()
@@ -26,6 +30,9 @@ if __name__ == "__main__":
     time_stamp = time()
     delta_time = 0
     
+
+    location_response = get_location("230eeb5cf5b045babc05ac6984d432a4")
+
     while True:
         try:
             sensor_id_list = create_sensor_list(MY_ID)
@@ -36,8 +43,8 @@ if __name__ == "__main__":
             
             nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_id_list)
 
-            # forecast_rain = get_rain_sum()
-            # soil_avg = get_sensor_soil(MY_ID)
+            forecast_rain = get_rain_sum()
+            soil_avg = get_sensor_soil(MY_ID)
             
             if nodes != None:
                 if nodes.SensorNode != None:

@@ -20,8 +20,8 @@ try:
 	while True:
 		result = instance.read()
 		wateringMin=250+100*(result.temperature-15)/6
-		moistureRaw=os.system("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw")
-		moisture=min(0, moistureRaw*0.1875/3.3*100)
+		moistureRaw=int(os.system("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw"))
+		moisture=max(0, moistureRaw*0.1875/3.3*100)
 		#if result.is_valid():
 		print("Last valid input: " + str(datetime.datetime.now()))
 		print("Temperature: %-3.1f C" % result.temperature)
@@ -31,8 +31,9 @@ try:
 		if moisture < wateringMin:
 			GPIO.output(23,1)
 			print("podlewam")
+			time.sleep(4)
+			GPIO.output(23,0)
 
 
 except KeyboardInterrupt:
-	print("Cleanup")
-	GPIO.cleanup()
+        print("Cleanup")

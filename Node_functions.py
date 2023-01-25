@@ -9,6 +9,7 @@ import sys
 import os
 import requests
 import json
+import re
 
 SENSOR_MODE = 0
 VALVE_MODE = 1
@@ -102,9 +103,8 @@ def getSensorData():
 
 
 # Processes data from sensor node
-def sensorDataProcess (RAW_msg):
-    msg_index = RAW_msg.find('"') + 1
-    msg = RAW_msg[msg_index:]
+def sensorDataProcess (msg):
+    # msg_index = RAW_msg.find('"') + 1
     sensor = SensorNode(None, None, None, None, None)
     sensor.sensor_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}',16)
     sensor.air_humidity = int(f'0x{msg[4]}{msg[5]}',16)
@@ -115,13 +115,11 @@ def sensorDataProcess (RAW_msg):
 
 
 # Processes valve data
-def valveDataProcess (RAW_msg):
-    msg_index = RAW_msg.find('"') + 1
-    msg = RAW_msg[msg_index:]
+def valveDataProcess (msg):
     valve = ValveNode(None, None, None)
-    valve.valve_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}',16)
-    valve.is_open = int(f'0x{msg[4]}{msg[5]}',16)
-    valve.time_left = int(f'0x{msg[6]}{msg[7]}',16)
+    valve.valve_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}', 16)
+    valve.is_open = int(f'0x{msg[4]}{msg[5]}', 16)
+    valve.time_left = int(f'0x{msg[6]}{msg[7]}', 16)
     return valve    
 
 
@@ -154,34 +152,28 @@ def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
     # print(f'Wybrany tryb to: {mode}')
 
     if RAW_msg != ' ' and RAW_msg != '':
-        node_id = checkNodeID(RAW_msg)
+        node_list = checkNodeID(RAW_msg)
         # print(f"Sprawdzanie czy node {node_id} jest na liscie {list_of_nodes}")
-        if node_id in list_of_nodes:
-            # print(f"ogólnie to jest na jakiejs liscie")
-            while mode != END_MODE:
-                if mode == SENSOR_MODE and (node_id in list_of_sensor_nodes):
-                    print(f'Odebrane dane: \n{RAW_msg}')
-                    nodes.SensorNode = sensorDataProcess(RAW_msg)
-                    return nodes
-                elif mode == VALVE_MODE and (node_id in list_of_valve_nodes):
-                    print(f'Odebrane dane: \n{RAW_msg}')
-                    nodes.ValveNode = valveDataProcess(RAW_msg)
-                    return nodes
-                elif mode == UNIVERSAL_MODE:
-                    if node_id in list_of_valve_nodes:
-                        # nodes.ValveNode = getLora(VALVE_MODE, [], list_of_valve_nodes)
-                        mode = VALVE_MODE
-                    elif node_id in list_of_sensor_nodes:
-                        mode = SENSOR_MODE
-                    else: mode = END_MODE
+        for node in node_list:
+            node_id = int("0x" + node[:4], 16)
+            if node_id in list_of_nodes:
+                if node_id in list_of_valve_nodes:
+                    # nodes.ValveNode = getLora(VALVE_MODE, [], list_of_valve_nodes)
+                    print(f'Odebrane dane: \n{node}')
+                    nodes.SensorNode = sensorDataProcess(node)
+                elif node_id in list_of_sensor_nodes:
+                    print(f'Odebrane dane: \n{node}')
+                    nodes.ValveNode = valveDataProcess(node)
+        return nodes
     return None
 
 
 def checkNodeID(RAW_msg):
-    msg_index = RAW_msg.find('"') + 1
-    msg = RAW_msg[msg_index:]
-    node_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}',16)
-    return node_id
+    # msg_index = RAW_msg.find('"') + 1
+    # msg = RAW_msg[msg_index:]
+    # node_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}', 16)
+    node_list = re.findall('RX "(.*)"', RAW_msg)
+    return node_list
 
 
 

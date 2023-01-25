@@ -31,7 +31,7 @@ try:
 		# moistureRaw = re.findall("b'(\d*)\\n'", str(moistureRaw, "utf-8"))
 		# moistureRaw=moistureRaw[2:-2]
 		#print(moistureRaw)
-		moisture=float(moistureRaw)*0.1875/3.3*100
+		moisture=float(moistureRaw)/17670*100
 		print(moisture)
 		if result.is_valid():
 			print("Last valid input: " + str(datetime.datetime.now()))

@@ -30,10 +30,10 @@ class SensorNode:
     
     def hex_str(self):
         hex_node_ID = hex(self.sensor_id).lstrip("0x").zfill(4)
-        hex_air_temp = hex(int(self.air_temperature)).lstrip("0x").zfill(2)
-        hex_air_hum = hex(int(self.air_humidity)).lstrip("0x").zfill(2)
-        hex_soil_moist = hex(int(self.soil_moisture)).lstrip("0x").zfill(2)
-        hex_battery_lev = hex(int(self.battery_level)).lstrip("0x").zfill(2)
+        hex_air_temp = hex(int(f'{self.air_temperature}')).lstrip("0x").zfill(2)
+        hex_air_hum = hex(int(f'{self.air_humidity}')).lstrip("0x").zfill(2)
+        hex_soil_moist = hex(int(f'{self.soil_moisture}')).lstrip("0x").zfill(2)
+        hex_battery_lev = hex(int(f'{self.battery_level}')).lstrip("0x").zfill(2)
         
         return f'{hex_node_ID}{hex_air_temp}{hex_air_hum}{hex_soil_moist}{hex_battery_lev}'
     

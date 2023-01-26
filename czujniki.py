@@ -38,7 +38,6 @@ def meas():
 			moisture=float(moistureRaw)/17670*100
 			#print(moisture)
 			if result.is_valid():
-				temp=0
 				print("Last valid input: " + str(datetime.datetime.now()))
 				print("Temperature: %-3.1f C" % result.temperature)
 				print("Humidity: %-3.1f %%" % result.humidity)
@@ -49,6 +48,7 @@ def meas():
 					print("podlewam")
 					time.sleep(4)
 					GPIO.output(23,0)
+				temp=0
 
 
 	except KeyboardInterrupt:

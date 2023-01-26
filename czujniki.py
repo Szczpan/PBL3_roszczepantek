@@ -17,12 +17,13 @@ def meas():
 	GPIO.setup(23, GPIO.OUT)
 
 	wateringMin=10
+	temp=1
 
 	# read data using pin 37 (GPIO26)
 	instance = dht11.DHT11(pin=26)
 
 	try:
-		while True:
+		while temp:
 			result = instance.read()
 			wateringMin=min(25, 25+10*(result.temperature-15)/6)
 			#os.system("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw")
@@ -40,6 +41,7 @@ def meas():
 				print("Humidity: %-3.1f %%" % result.humidity)
 				print("Moisture: %-3.1f %%" % moisture)
 				time.sleep(6)
+				temp=0
 				if moisture < wateringMin:
 					GPIO.output(23,1)
 					print("podlewam")

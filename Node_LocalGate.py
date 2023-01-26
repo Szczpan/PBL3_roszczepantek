@@ -1,11 +1,11 @@
-from Node_functions import loraConf, create_sensor_list, get_sensor_soil, create_valve_list, send_data_hex, getLora, UNIVERSAL_MODE, MAIN_ID, VALVE_ID
+from Node_functions import loraConf, create_sensor_list, get_sensor_soil, create_valve_list, send_data_hex, getLora, MAIN_ID, VALVE_ID
 from time import sleep, time
 from operations import SensorNode, ValveNode, Nodes
 from rpi_server_comm import update_sensor, update_valve
 from random import randrange
 import requests
 import json
-from get_weather import get_rain_sum, get_location
+from get_weather import get_rain_sum, get_location, LOCATION_API_KEY
 
 
 MY_ID = MAIN_ID
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     delta_time = 0
 
 
-    location_response = get_location("230eeb5cf5b045babc05ac6984d432a4")
+    location_response = get_location(LOCATION_API_KEY)
 
     while True:
         try:

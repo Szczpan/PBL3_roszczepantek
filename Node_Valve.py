@@ -1,4 +1,4 @@
-from Node_functions import loraConf, send_data_hex, getLora, VALVE_ID, VALVE_MODE, VALVE_PIN
+from Node_functions import loraConf, send_data_hex, getLora, VALVE_ID, VALVE_PIN
 from operations import ValveNode
 from time import time, sleep
 from random import randrange

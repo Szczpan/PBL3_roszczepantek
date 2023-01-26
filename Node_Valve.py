@@ -64,5 +64,5 @@ if __name__ == "__main__":
             print(f'Nadane pakiety: {tx_packets}\n')            
                 
         except KeyboardInterrupt:
-            print('\nProgram executed with keyboard interrupt')
+            print('\nProgram killed with keyboard interrupt')
             exit()

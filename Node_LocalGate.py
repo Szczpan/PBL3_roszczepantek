@@ -96,5 +96,5 @@ if __name__ == "__main__":
             sleep(0.5)
 
         except KeyboardInterrupt:
-            print('\nProgram executed with keyboard interrupt')
+            print('\nProgram killed with keyboard interrupt')
             exit()

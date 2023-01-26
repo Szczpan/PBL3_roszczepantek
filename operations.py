@@ -38,6 +38,7 @@ class SensorNode:
         return f'{hex_node_ID}{hex_air_temp}{hex_air_hum}{hex_soil_moist}{hex_battery_lev}'
     
     def print_data(self):
+        print(f'Last valid input: {str(datetime.now())}')
         print(f'node id: {self.sensor_id}')
         print(f'wilgotnosc powietrza: {self.air_humidity}')
         print(f'wilgotnosc gleby: {self.soil_moisture}')
@@ -64,6 +65,7 @@ class ValveNode:
         return f'{hex_valve_id}{hex_is_open}{hex_time_left}'
     
     def print_data(self):
+        print(f'Last valid input: {str(datetime.now())}')
         print(f'node id: {self.valve_id}')
         print(f'is open: {self.is_open}')
         print(f'time_left: {self.time_left}')

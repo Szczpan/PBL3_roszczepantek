@@ -241,19 +241,12 @@ def checkNodeID(RAW_msg):
 SERVER_IP = "http://10.140.123.3:8000/api-v1/devices"
 
 def create_sensor_list(node_id):
-    print('xD')
     data = requests.get(SERVER_IP)
-    print('xD1')
     data = json.loads(data.text)
-    print('xD2')
     sensor_list = []
-    print('xD3')
     for device in data["devices"]:
-        print('xD4')
         if node_id == device["main-id"]:
-            print('xD5')
             for sensor in device["sensor-nodes"]:
-                print('xD6')
                 sensor_list.append(sensor["sensor-id"])
     
     return sensor_list

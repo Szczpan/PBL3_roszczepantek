@@ -48,7 +48,7 @@ if __name__ == "__main__":
                     print(f'Łączna ilość nadanych pakietów: {tx_packets}\n')
                     
                     # Rests with random time to minimalise interference with other nodes
-                    sleep(randrange(0, 2, 0.1))
+                    sleep(randrange(0, 200, 1)/100)
             
             sleep(10)
             

@@ -61,7 +61,7 @@ if __name__ == "__main__":
                     update_valve(MY_ID, valve)
                     rx_valve_packets += 1
 
-            if soil_avg < 100:
+            if soil_avg < 25:
                 need_water = True
             else:
                 need_water = False

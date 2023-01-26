@@ -52,7 +52,7 @@ if __name__ == "__main__":
             valve.time_left = int(time_left)
             
             send_data_hex(valve.hex_str())
-            sleep(randrange())
+            # sleep(randrange())
             print(valve.hex_str())
             tx_packets += 1
             

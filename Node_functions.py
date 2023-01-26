@@ -121,7 +121,7 @@ def getSensorData(dht_11_pin, moist_sensor_pin):
     if battery_meas is None: return None
     
     # saves data to SensorNode object
-    sensor = SensorNode(None, dht_11_meas.humidity, moist_meas, dht_11_meas.temperature, battery_meas)
+    sensor = SensorNode(None, dht_11_meas.te, moist_meas, dht_11_meas.temperature, battery_meas)
 
     # prints saved data
     sensor.print_data()
@@ -178,9 +178,9 @@ def sensorDataProcess (msg):
     # msg_index = RAW_msg.find('"') + 1
     sensor = SensorNode(None, None, None, None, None)
     sensor.sensor_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}', 16)
-    sensor.air_humidity = int(f'0x{msg[4]}{msg[5]}', 16)
-    sensor.soil_moisture = int(f'0x{msg[6]}{msg[7]}', 16)
-    sensor.air_temperature = int(f'0x{msg[8]}{msg[9]}', 16)
+    sensor.air_temperature = int(f'0x{msg[4]}{msg[5]}', 16)
+    sensor.air_humidity = int(f'0x{msg[6]}{msg[7]}', 16)
+    sensor.soil_moisture = int(f'0x{msg[8]}{msg[9]}', 16)
     sensor.battery_level = int(f'0x{msg[10]}{msg[11]}', 16)
     return sensor
 

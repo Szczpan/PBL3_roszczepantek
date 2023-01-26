@@ -212,3 +212,10 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,pycharm,linux,macos,windows
+/.idea/deployment.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/PBL3_roszczepantek.iml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/vcs.xml
+/gui_test.py

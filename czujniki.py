@@ -8,20 +8,23 @@ import sys
 import shlex
 import re
 
-# initialize GPIO
-GPIO.setwarnings(True)
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(26, GPIO.IN)
-GPIO.setup(16, GPIO.IN)
-GPIO.setup(23, GPIO.OUT)
 
-wateringMin=10
 
-# read data using pin 37 (GPIO26)
-instance = dht11.DHT11(pin=26)
+def meas():
+	# initialize GPIO
+	GPIO.setwarnings(True)
+	GPIO.setmode(GPIO.BCM)
+	GPIO.setup(26, GPIO.IN)
+	GPIO.setup(16, GPIO.IN)
+	GPIO.setup(23, GPIO.OUT)
 
-try:
-	while True:
+	wateringMin=10
+
+	# read data using pin 37 (GPIO26)
+	instance = dht11.DHT11(pin=26)
+
+	try:
+		#while True:
 		result = instance.read()
 		wateringMin=min(25, 25+10*(result.temperature-15)/6)
 		#os.system("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw")
@@ -30,7 +33,7 @@ try:
 		#print(moistureRaw)
 		# moistureRaw = re.findall("b'(\d*)\\n'", str(moistureRaw, "utf-8"))
 		# moistureRaw=moistureRaw[2:-2]
-		#print(moistureRaw)
+		# print(moistureRaw)
 		moisture=float(moistureRaw)/17670*100
 		#print(moisture)
 		if result.is_valid():
@@ -46,5 +49,5 @@ try:
 				GPIO.output(23,0)
 
 
-except KeyboardInterrupt:
-        print("Cleanup")
+	except KeyboardInterrupt:
+			print("Cleanup")

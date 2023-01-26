@@ -1,12 +1,8 @@
 from operations import SensorNode, ValveNode, Nodes
-from time import time, sleep
-from rpi_server_comm import update_sensor, update_valve
-from get_weather import get_rain_sum
+from time import sleep
 from random import randrange
 import RPi.GPIO as GPIO
 import serial
-import sys
-import os
 import requests
 import json
 import re
@@ -14,6 +10,11 @@ import dht11
 from subprocess import Popen, PIPE
 from shlex import split
 
+tx_sensor_packets = 0
+rx_sensor_packets = 0
+
+tx_valve_packets = 0
+rx_valve_packets = 0
 
 HIGH = 1
 LOW = 0
@@ -155,9 +156,14 @@ def read_DHT_11(dht_pin):
 
 
 # Calculates need for water (returns True / False)
-# def water_need_calc(measure):
-# 	wateringMin=10
-#     wateringMin = max(25, 25 + 10 * (measure.temperature - 15) / 6)
+def water_need_calc(air_temperature, soil_moisture, forecast):
+    need_water = None
+    moistureMin = max(25, 25 + 10 * (air_temperature - 15) / 6)
+    if (soil_moisture * forecast) < moistureMin:
+        need_water = True
+    else:
+        need_water = False
+    return need_water
     
 
 # Controls valve    

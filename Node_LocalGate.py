@@ -1,4 +1,4 @@
-from Node_functions import loraConf, create_sensor_list, get_sensor_soil, create_valve_list, send_data_hex, getLora, MAIN_ID, VALVE_ID
+from Node_functions import loraConf, create_sensor_list, get_sensor_soil, create_valve_list, send_data_hex, getLora, water_need_calc, MAIN_ID, VALVE_ID
 from time import sleep, time
 from operations import SensorNode, ValveNode, Nodes
 from rpi_server_comm import update_sensor, update_valve
@@ -22,6 +22,7 @@ if __name__ == "__main__":
     valve = ValveNode(None, None, None)
     nodes = Nodes()
     soil_avg = 0
+    air_temp = 0
 
     rx_sensor_packets = 0
     rx_valve_packets = 0
@@ -50,7 +51,8 @@ if __name__ == "__main__":
                     sensor = nodes.SensorNode
                     sensor.print_data()
                     update_sensor(MY_ID, sensor)
-                    soil_avg = sensor.soil_moisture
+                    # soil_avg = sensor.soil_moisture
+                    air_temp = sensor.air_temperature
                     rx_sensor_packets += 1
 
                 if nodes.ValveNode is not None:
@@ -61,10 +63,12 @@ if __name__ == "__main__":
                     update_valve(MY_ID, valve)
                     rx_valve_packets += 1
 
-            if soil_avg < 25:
-                need_water = True
-            else:
-                need_water = False
+            # if soil_avg * forecast_rain < 50:
+            #     need_water = True
+            # else:
+            #     need_water = False
+            
+            need_water = water_need_calc(air_temp, soil_avg, forecast_rain)
 
             if need_water:
                 for valve_id in valve_id_list:

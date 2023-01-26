@@ -26,7 +26,7 @@ def get_location(api_key):
 
 def parse_weather(weather_dict):
     day_info = {}
-    rain_sum = 0
+    rain_sum = 1
     for day in weather_dict["list"]:
         # print(day["temp"])
         # print(day["humidity"])

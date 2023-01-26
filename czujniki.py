@@ -1,53 +1,62 @@
 import RPi.GPIO as GPIO
 import dht11
-import time
-import os
-import datetime
-<<<<<<< HEAD
+from subprocess import Popen, PIPE
+from shlex import split
 from operations import SensorNode
-=======
-import subprocess
-import sys
-import shlex
-import re
->>>>>>> d316210d7d0f027dbdcde123ea88041f1b602a59
 
-def meas():
-	# initialize GPIO
-	GPIO.setwarnings(True)
-	GPIO.setmode(GPIO.BCM)
-	GPIO.setup(26, GPIO.IN)
-	GPIO.setup(16, GPIO.IN)
-	GPIO.setup(23, GPIO.OUT)
+HIGH = 1
+LOW = 0
 
-	wateringMin=10
-	temp=1
+def sensor_meas(dht_11_pin, moist_sensor_pin):
+ 	# read data from DHT 11 sensor
+	dht_11_meas = read_DHT_11(dht_11_meas)
 
-	# read data using pin 37 (GPIO26)
-	instance = dht11.DHT11(pin=26)
-
-	try:
-		while temp:
-			result = instance.read()
-			wateringMin=min(25, 25+10*(result.temperature-15)/6)
-			process = subprocess.Popen(shlex.split("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw"), stdout=subprocess.PIPE)
-			moistureRaw=process.stdout.readline()
-			moisture=float(moistureRaw)/17670*100
-			if result.is_valid():
-				print("Last valid input: " + str(datetime.datetime.now()))
-				print("Temperature: %-3.1f C" % result.temperature)
-				print("Humidity: %-3.1f %%" % result.humidity)
-				print("Moisture: %-3.1f %%" % moisture)
-				# time.sleep(6)
-				temp=0
-				# if moisture < wateringMin:
-				# 	GPIO.output(23,1)
-				# 	print("podlewam")
-				# 	time.sleep(4)
-				# 	GPIO.output(23,0)
+	# read data from DFRobot Moisture Sensor v2
+	moist_meas = read_moisture(moist_sensor_pin)
+	
+	# saves data to SensorNode object
+	measure = SensorNode(None, dht_11_meas.humidity, moist_meas, dht_11_meas.temperature, None)
+	
+	# prints saved data
+	measure.print_data()
+ 	
+	return(measure)
 
 
-	except KeyboardInterrupt:
-			print("Cleanup")
+# reads data from DFRobot Moisture V2 Sensor
+def read_moisture(pin):
+    process = Popen(split("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw"), stdout = PIPE)
+    moistureRaw = process.stdout.readline()
+    moisture = float(moistureRaw) / 17670 * 100
+    return moisture
 
-meas()
+
+# reads data from DHT 11 sensor
+def read_DHT_11(dht_pin):
+	instance = dht11.DHT11(dht_pin)
+	
+	for i in range(20):
+		result = instance.read()
+		if result.is_valid():
+			return result
+
+	return None
+
+
+# Calculates need for water (returns True / False)
+# def water_need_calc(measure):
+# 	wateringMin=10
+#     wateringMin = max(25, 25 + 10 * (measure.temperature - 15) / 6)
+    
+
+# Controls valve    
+def control_valve(valve_pin, state):
+	if state == True: 
+		GPIO.output(valve_pin, HIGH)
+		return True
+
+	if state == False: 
+		GPIO.output(valve_pin, LOW)
+		return False
+
+	return None

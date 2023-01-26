@@ -1,4 +1,4 @@
-from Node_functions import loraConf, send_data_hex, getLora, VALVE_ID, VALVE_MODE, VALVE_PIN
+from Node_functions import loraConf, send_data_hex, getLora, VALVE_ID, VALVE_PIN
 from operations import ValveNode
 from time import time, sleep
 from random import randrange
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     
     while True:
         try:
-            nodes = getLora(VALVE_MODE, [], [MY_ID])
+            nodes = getLora([], [MY_ID])
             
             if nodes != None:
                 if nodes.ValveNode != None:
@@ -64,5 +64,5 @@ if __name__ == "__main__":
             print(f'Nadane pakiety: {tx_packets}\n')            
                 
         except KeyboardInterrupt:
-            print('\nProgram executed with keyboard interrupt')
+            print('\nProgram killed with keyboard interrupt')
             exit()

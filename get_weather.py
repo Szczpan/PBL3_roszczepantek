@@ -1,6 +1,8 @@
 import requests
 import json
 
+LOCATION_API_KEY    = "230eeb5cf5b045babc05ac6984d432a4"
+WEATHER_API_KEY     = "debfa5e4207976ffb8d58a3ea30c607e"
 
 class Location:
     def __init__(self, lat, lon):

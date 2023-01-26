@@ -10,19 +10,24 @@ import os
 import requests
 import json
 import re
+import dht11
+from subprocess import Popen, PIPE
+from shlex import split
 
-SENSOR_MODE = 0
-VALVE_MODE = 1
-UNIVERSAL_MODE = 2
-END_MODE = -1
+
+HIGH = 1
+LOW = 0
 
 VALVE_ID = 1
 SENSOR_ID = 9
 MAIN_ID = 10
 
-VALVE_PIN = 4
+VALVE_PIN = 23
+DHT11_SENSOR_PIN = 26
+MOIST_SENSOR_PIN = 16
 
 SENSOR_SEND_PACKETS = 10
+
 
 ###    UART COMMUNICATION    ####
 
@@ -50,7 +55,6 @@ def readData():
 
 
 ###    LORA MODULE    ###    
-
 
 # Sends LoRa message in hex
 def send_data_hex(hex_data):
@@ -91,8 +95,8 @@ def loraConf():
 
 ###    DATA PROCESSING    ###
 
-# Gets data from sensors
-def getSensorData():
+# Gets random data from sensors
+def getSensorData_random():
     sensor = SensorNode(None, None, None, None, None)
     sensor.air_temperature = randrange(0, 255, 1)
     sensor.air_humidity = randrange(0, 255, 1)
@@ -102,14 +106,81 @@ def getSensorData():
     return sensor
 
 
+# Gets data from sensors
+def getSensorData(dht_11_pin, moist_sensor_pin):
+    # reads data from DHT 11 sensor
+    dht_11_meas = read_DHT_11(dht_11_pin)
+    if dht_11_meas is None: return None
+
+    # reads data from DFRobot Moisture Sensor v2
+    moist_meas = read_moisture(moist_sensor_pin)
+    if moist_meas is None: return None
+    
+    # reads battery level data
+    battery_meas = read_battery_lev()
+    if battery_meas is None: return None
+    
+    # saves data to SensorNode object
+    sensor = SensorNode(None, dht_11_meas.humidity, moist_meas, dht_11_meas.temperature, battery_meas)
+
+    # prints saved data
+    sensor.print_data()
+
+    return(sensor)
+
+
+# Reads battery level
+def read_battery_lev():
+    return randrange(95, 100, 1)
+
+
+# Reads data from DFRobot Moisture V2 Sensor
+def read_moisture(pin):
+    process = Popen(split("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw"), stdout = PIPE)
+    moistureRaw = process.stdout.readline()
+    moisture = float(moistureRaw) / 17670 * 100
+    return moisture
+
+
+# Reads data from DHT 11 sensor
+def read_DHT_11(dht_pin):
+	instance = dht11.DHT11(dht_pin)
+	
+	for i in range(20):
+		result = instance.read()
+		if result.is_valid():
+			return result
+
+	return None
+
+
+# Calculates need for water (returns True / False)
+# def water_need_calc(measure):
+# 	wateringMin=10
+#     wateringMin = max(25, 25 + 10 * (measure.temperature - 15) / 6)
+    
+
+# Controls valve    
+def control_valve(valve_pin, state):
+	if state == True: 
+		GPIO.output(valve_pin, HIGH)
+		return True
+
+	if state == False: 
+		GPIO.output(valve_pin, LOW)
+		return False
+
+	return None
+
+
 # Processes data from sensor node
 def sensorDataProcess (msg):
     # msg_index = RAW_msg.find('"') + 1
     sensor = SensorNode(None, None, None, None, None)
     sensor.sensor_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}', 16)
-    sensor.air_humidity = int(f'0x{msg[4]}{msg[5]}', 16)
-    sensor.soil_moisture = int(f'0x{msg[6]}{msg[7]}', 16)
-    sensor.air_temperature = int(f'0x{msg[8]}{msg[9]}', 16)
+    sensor.air_temperature = int(f'0x{msg[4]}{msg[5]}', 16)
+    sensor.air_humidity = int(f'0x{msg[6]}{msg[7]}', 16)
+    sensor.soil_moisture = int(f'0x{msg[8]}{msg[9]}', 16)
     sensor.battery_level = int(f'0x{msg[10]}{msg[11]}', 16)
     return sensor
 
@@ -141,7 +212,7 @@ def getLoRaValve(RAW_msg):
 
 
 # Captures LoRa data from choosen nodes and saves it to choosen mode (0 - sensor class; 1 - valve class, 2 - both)
-def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
+def getLora(list_of_sensor_nodes, list_of_valve_nodes):
     RAW_msg = receiveData()
     list_of_nodes = list_of_sensor_nodes + list_of_valve_nodes
     nodes = Nodes()

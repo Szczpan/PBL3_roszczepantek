@@ -121,7 +121,7 @@ def getSensorData(dht_11_pin, moist_sensor_pin):
     if battery_meas is None: return None
     
     # saves data to SensorNode object
-    sensor = SensorNode(None, dht_11_meas.te, moist_meas, dht_11_meas.temperature, battery_meas)
+    sensor = SensorNode(None, dht_11_meas.humidity, moist_meas, dht_11_meas.temperature, battery_meas)
 
     # prints saved data
     sensor.print_data()

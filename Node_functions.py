@@ -131,7 +131,7 @@ def getSensorData(dht_11_pin, moist_sensor_pin):
 
 # Reads battery level
 def read_battery_lev():
-    return randrange(95, 100, 0.1)
+    return randrange(95, 100, 1)
 
 
 # Reads data from DFRobot Moisture V2 Sensor

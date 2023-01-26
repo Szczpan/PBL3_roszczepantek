@@ -34,7 +34,7 @@ def meas():
 				print("Temperature: %-3.1f C" % result.temperature)
 				print("Humidity: %-3.1f %%" % result.humidity)
 				print("Moisture: %-3.1f %%" % moisture)
-				time.sleep(6)
+				# time.sleep(6)
 				temp=0
 				# if moisture < wateringMin:
 				# 	GPIO.output(23,1)

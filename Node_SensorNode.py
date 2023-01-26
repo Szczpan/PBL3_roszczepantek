@@ -34,19 +34,21 @@ if __name__ == "__main__":
                 
                 # Gets data from sensor and saves it to 
                 sensor = getSensorData(DHT11_SENSOR_PIN, MOIST_SENSOR_PIN)
-                sensor.sensor_id = MY_ID
                 
-                # Sends data in hex using LoRa
-                send_data_hex(sensor.hex_str())
-                tx_packets += 1
-                
-                # Prints actual status
-                print(f'Czas od ostatniego wysłania: {delta_time}')
-                print(f'Ostatnio wysłany pakiet: {sensor.hex_str()}')
-                print(f'Łączna ilość nadanych pakietów: {tx_packets}\n')
-                
-                # Rests with random time to minimalise interference with other nodes
-                sleep(randrange(0, 2, 0.1))
+                if sensor is not None:
+                    sensor.sensor_id = MY_ID
+                    
+                    # Sends data in hex using LoRa
+                    send_data_hex(sensor.hex_str())
+                    tx_packets += 1
+                    
+                    # Prints actual status
+                    print(f'Czas od ostatniego wysłania: {delta_time}')
+                    print(f'Ostatnio wysłany pakiet: {sensor.hex_str()}')
+                    print(f'Łączna ilość nadanych pakietów: {tx_packets}\n')
+                    
+                    # Rests with random time to minimalise interference with other nodes
+                    sleep(randrange(0, 2, 0.1))
             
             sleep(10)
             

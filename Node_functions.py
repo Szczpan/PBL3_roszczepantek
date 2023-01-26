@@ -108,19 +108,21 @@ def getSensorData_random():
 
 # Gets data from sensors
 def getSensorData(dht_11_pin, moist_sensor_pin):
- 	# read data from DHT 11 sensor
-	dht_11_meas = read_DHT_11(dht_11_pin)
+    # read data from DHT 11 sensor
+    dht_11_meas = read_DHT_11(dht_11_pin)
+    if dht_11_meas is None: return None
 
-	# read data from DFRobot Moisture Sensor v2
-	moist_meas = read_moisture(moist_sensor_pin)
-	
-	# saves data to SensorNode object
-	sensor = SensorNode(None, dht_11_meas.humidity, moist_meas, dht_11_meas.temperature, None)
-	
-	# prints saved data
-	sensor.print_data()
- 	
-	return(sensor)
+    # read data from DFRobot Moisture Sensor v2
+    moist_meas = read_moisture(moist_sensor_pin)
+    if moist_meas is None: return None
+    
+    # saves data to SensorNode object
+    sensor = SensorNode(None, dht_11_meas.humidity, moist_meas, dht_11_meas.temperature, None)
+
+    # prints saved data
+    sensor.print_data()
+
+    return(sensor)
 
 
 # Reads data from DFRobot Moisture V2 Sensor

@@ -19,9 +19,9 @@ rx_valve_packets = 0
 HIGH = 1
 LOW = 0
 
-VALVE_ID = 1
-SENSOR_ID = 9
-MAIN_ID = 10
+MAIN_ID = 1
+VALVE_ID = 2
+SENSOR_ID = 3
 
 VALVE_PIN = 23
 DHT11_SENSOR_PIN = 26

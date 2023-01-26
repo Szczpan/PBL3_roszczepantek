@@ -41,7 +41,7 @@ if __name__ == "__main__":
             # print(f'Lista sensorów: {sensor_id_list}')
             # print(f'Lista zaworów: {valve_id_list}')
 
-            nodes = getLora(UNIVERSAL_MODE, sensor_id_list, valve_id_list)
+            nodes = getLora(sensor_id_list, valve_id_list)
 
             forecast_rain = get_rain_sum(location_response)
             soil_avg = get_sensor_soil(MY_ID)

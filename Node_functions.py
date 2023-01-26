@@ -201,7 +201,7 @@ def getLoRaValve(RAW_msg):
 
 
 # Captures LoRa data from choosen nodes and saves it to choosen mode (0 - sensor class; 1 - valve class, 2 - both)
-def getLora(mode, list_of_sensor_nodes, list_of_valve_nodes):
+def getLora(list_of_sensor_nodes, list_of_valve_nodes):
     RAW_msg = receiveData()
     list_of_nodes = list_of_sensor_nodes + list_of_valve_nodes
     nodes = Nodes()

@@ -25,7 +25,7 @@ if __name__ == "__main__":
     
     while True:
         try:
-            nodes = getLora(VALVE_MODE, [], [MY_ID])
+            nodes = getLora([], [MY_ID])
             
             if nodes != None:
                 if nodes.ValveNode != None:

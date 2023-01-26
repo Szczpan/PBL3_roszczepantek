@@ -30,9 +30,9 @@ if __name__ == "__main__":
     time_stamp = time()
     delta_time = 0
 
-
+    print('xDD')
     location_response = get_location(LOCATION_API_KEY)
-
+    print('xD')
     while True:
         try:
             sensor_id_list = create_sensor_list(MY_ID)

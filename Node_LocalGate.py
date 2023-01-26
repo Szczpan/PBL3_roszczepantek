@@ -38,8 +38,8 @@ if __name__ == "__main__":
             sensor_id_list = create_sensor_list(MY_ID)
             valve_id_list = create_valve_list(MY_ID)
 
-            # print(f'Lista sensorów: {sensor_id_list}')
-            # print(f'Lista zaworów: {valve_id_list}')
+            print(f'Lista sensorów: {sensor_id_list}')
+            print(f'Lista zaworów: {valve_id_list}')
 
             nodes = getLora(sensor_id_list, valve_id_list)
 

@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import dht11
 import time
 import datetime
+from operations import SensorNode
 
 # initialize GPIO
 GPIO.setwarnings(True)

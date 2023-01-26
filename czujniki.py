@@ -8,8 +8,6 @@ import sys
 import shlex
 import re
 
-
-
 def meas():
 	# initialize GPIO
 	GPIO.setwarnings(True)
@@ -51,3 +49,5 @@ def meas():
 
 	except KeyboardInterrupt:
 			print("Cleanup")
+
+meas()

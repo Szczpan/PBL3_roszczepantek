@@ -36,7 +36,8 @@ SENSOR_SEND_PACKETS = 10
 uart = serial.Serial("/dev/ttyS0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=8, timeout=1)
 
 
-# Sends AT commands with UART and returns received answers
+# Sends AT commands with UART 
+# Returns received answers
 def sendAT(command):
     if not uart.inWaiting():
         uart.write((command + '\r\n').encode('utf-8'))
@@ -45,7 +46,7 @@ def sendAT(command):
     return 0
 
 
-# Reads data from UART
+# Returns received data from UART
 def readData():
     received_data = ''
     while uart.inWaiting():
@@ -62,7 +63,7 @@ def send_data_hex(hex_data):
     sendAT(f'AT+TEST=TXLRPKT, "{hex_data}"')
    
 
-# Capture data from LoRa
+# Returns captured data from LoRa
 def receiveData():
     sendAT('AT+TEST=RXLRPKT')
     sleep(5)
@@ -70,6 +71,7 @@ def receiveData():
 
 
 # Tests connection with LoRa module
+# Returns response of 'AT' command
 def connectTest():
     response = sendAT('AT')
     print(f'Lora E5 connection status: {response}')
@@ -77,6 +79,7 @@ def connectTest():
 
 
 # Config for LoRa mdoule
+# Returns 0 if LoRa module isnt connected and 1 if config went succesfully
 def loraConf():
     readData()
     if not ('+AT: OK\r\n' in connectTest()):
@@ -96,7 +99,7 @@ def loraConf():
 
 ###    DATA PROCESSING    ###
 
-# Gets random data from sensors
+# Returns random data for SensorNode class
 def getSensorData_random():
     sensor = SensorNode(None, None, None, None, None)
     sensor.air_temperature = randrange(0, 255, 1)
@@ -107,7 +110,7 @@ def getSensorData_random():
     return sensor
 
 
-# Gets data from sensors
+# Returns data from sensors
 def getSensorData(dht_11_pin, moist_sensor_pin):
     # reads data from DHT 11 sensor
     dht_11_meas = read_DHT_11(dht_11_pin)
@@ -130,12 +133,12 @@ def getSensorData(dht_11_pin, moist_sensor_pin):
     return(sensor)
 
 
-# Reads battery level
+# Returns random battery level
 def read_battery_lev():
     return randrange(95, 100, 1)
 
 
-# Reads data from DFRobot Moisture V2 Sensor
+# Returns data from DFRobot Moisture V2 Sensor
 def read_moisture(pin):
     process = Popen(split("cat /sys/bus/iio/devices/iio\:device0/in_voltage0-voltage1_raw"), stdout = PIPE)
     moistureRaw = process.stdout.readline()
@@ -143,7 +146,7 @@ def read_moisture(pin):
     return moisture
 
 
-# Reads data from DHT 11 sensor
+# Returns data from DHT 11 sensor
 def read_DHT_11(dht_pin):
 	instance = dht11.DHT11(dht_pin)
 	
@@ -155,9 +158,11 @@ def read_DHT_11(dht_pin):
 	return None
 
 
-# Calculates need for water (returns True / False)
+# Calculates need for water 
+# Returns True (need watering)/ False (doesnt need watering)
 def water_need_calc(air_temperature, soil_moisture, forecast):
     need_water = None
+    
     moistureMin = max(25, 25 + 10 * (air_temperature - 15) / 6)
     if (soil_moisture * forecast) < moistureMin:
         need_water = True
@@ -166,7 +171,8 @@ def water_need_calc(air_temperature, soil_moisture, forecast):
     return need_water
     
 
-# Controls valve    
+# Controls valve
+# Returns the state of the valve    
 def control_valve(valve_pin, state):
 	if state == True: 
 		GPIO.output(valve_pin, HIGH)
@@ -179,7 +185,8 @@ def control_valve(valve_pin, state):
 	return None
 
 
-# Processes data from sensor node
+# Processes LoRa message from sensor node
+# Returns sensor node data as SensorNode class
 def sensorDataProcess (msg):
     # msg_index = RAW_msg.find('"') + 1
     sensor = SensorNode(None, None, None, None, None)
@@ -191,7 +198,8 @@ def sensorDataProcess (msg):
     return sensor
 
 
-# Processes valve data
+# Processes LoRa message from valve node
+# Returns valve node data as ValveNode class
 def valveDataProcess (msg):
     valve = ValveNode(None, None, None)
     valve.valve_id = int(f'0x{msg[0]}{msg[1]}{msg[2]}{msg[3]}', 16)
@@ -200,7 +208,7 @@ def valveDataProcess (msg):
     return valve    
 
 
-# Captures data from sensor node and uploads it to its class
+# Returns captured data from sensor node as SensorNode class object
 def getLoRaSensor(RAW_msg):
     #message = receiveData()
     if RAW_msg != ' ' and RAW_msg != '':
@@ -209,6 +217,8 @@ def getLoRaSensor(RAW_msg):
         return sensor
     return 0
 
+
+# Captures data from valve node and returns it as ValveNode class object
 def getLoRaValve(RAW_msg):
     if RAW_msg != ' ' and RAW_msg != '':
         print(f'Odebrane dane: \n{RAW_msg}')
@@ -217,7 +227,7 @@ def getLoRaValve(RAW_msg):
     return 0
 
 
-# Captures LoRa data from choosen nodes and saves it to choosen mode (0 - sensor class; 1 - valve class, 2 - both)
+# Returns current (last captured) data from all of nodes as Node class
 def getLora(list_of_sensor_nodes, list_of_valve_nodes):
     RAW_msg = receiveData()
     list_of_nodes = list_of_sensor_nodes + list_of_valve_nodes
@@ -245,6 +255,7 @@ def getLora(list_of_sensor_nodes, list_of_valve_nodes):
     return None
 
 
+# Returns node IDs from RAW_msg
 def checkNodeID(RAW_msg):
     # msg_index = RAW_msg.find('"') + 1
     # msg = RAW_msg[msg_index:]
@@ -257,6 +268,8 @@ def checkNodeID(RAW_msg):
 ###    SERVER COMMUNICATION    ###
 SERVER_IP = "http://10.140.123.3:8000/api-v1/devices"
 
+
+# Creates a list of sensor nodes
 def create_sensor_list(node_id):
     data = requests.get(SERVER_IP)
     data = json.loads(data.text)
@@ -269,6 +282,7 @@ def create_sensor_list(node_id):
     return sensor_list
 
 
+# Creates a list of valve nodes
 def create_valve_list(node_id):
     data = requests.get(SERVER_IP)
     data = json.loads(data.text)
@@ -281,6 +295,7 @@ def create_valve_list(node_id):
     return valve_list
 
 
+# Gets a soil moisture value from server
 def get_sensor_soil(node_id):
     data = requests.get(SERVER_IP)
     data = json.loads(data.text)

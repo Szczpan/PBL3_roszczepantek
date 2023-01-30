@@ -28,7 +28,7 @@ def get_location(api_key):
 
 def parse_weather(weather_dict):
     day_info = {}
-    rain_sum = 1
+    rain_sum = 0
     for day in weather_dict["list"]:
         # print(day["temp"])
         # print(day["humidity"])
@@ -47,7 +47,7 @@ def parse_location(json_location):
 def get_rain_sum(location_response):
     # location_response = get_location("230eeb5cf5b045babc05ac6984d432a4")
     lat_lon = parse_location(location_response)
-    weather = get_weather(lat_lon.lat, lat_lon.lon, 2, "debfa5e4207976ffb8d58a3ea30c607e")
+    weather = get_weather(lat_lon.lat, lat_lon.lon, 2, WEATHER_API_KEY)
     return parse_weather(weather)
 
 

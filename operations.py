@@ -3,6 +3,7 @@ from flask import abort
 from datetime import datetime
 
 
+# Class for server
 class MainDevice:
     def __init__(self, main_id, sensor_nodes, valve_nodes):
         self.main_id = main_id
@@ -10,12 +11,14 @@ class MainDevice:
         self.valve_nodes = valve_nodes
 
 
+# Class for all of the nodes
 class Nodes:
     def __init__(self):
         self.SensorNode = SensorNode(None, None, None, None, None)
         self.ValveNode = ValveNode(None, None, None)
 
 
+# Class for sensr nodes
 class SensorNode:
     def __init__(self, sensor_id, air_humidity, soil_moisture, air_temperature, battery_level):
         self.sensor_id = sensor_id
@@ -46,6 +49,7 @@ class SensorNode:
         print('\n')
 
 
+# Class for valve nodes
 class ValveNode:
     def __init__(self, valve_id, is_open, time_left):
         self.valve_id = valve_id
@@ -317,6 +321,7 @@ def updateSensor(main_id, sensor_id, sensor_body):
     abort(404, f"Sensor node with ID {sensor_id} not found in main node with ID {main_id}")
 
 
+# Creates dictonary for sensor
 def create_sensor_dict(sensor_body, old_sensor_dict):
     if "sensor-id" not in sensor_body:
         return {}
@@ -369,6 +374,7 @@ def updateValve(main_id, valve_id, valve_body):
     abort(404, f"Valve node with ID {valve_id} not found in main node with ID {main_id}")
 
 
+# Creates dictonary for valve
 def create_valve_dict(valve_body, old_valve_dict):
     if 'valve-id' not in valve_body:
         return {}
@@ -386,10 +392,12 @@ def create_valve_dict(valve_body, old_valve_dict):
     return new_valve_dict
 
 
+# Gets actual timestamp
 def get_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
+# Reads data from json
 def read_from_json(file):
     with open(file, 'r') as f:
         return json.loads(f.read())
